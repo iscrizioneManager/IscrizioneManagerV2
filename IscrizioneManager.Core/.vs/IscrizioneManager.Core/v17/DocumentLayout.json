@@ -1,0 +1,579 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\pages\\inserisciiscrizione.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\wwwroot\\css\\inserisciiscrizione.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\pages\\moduloiscrizioneview.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\wwwroot\\css\\moduloiscrizioneview.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\wwwroot\\css\\home.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\services\\moduloiscrizioneviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\dtos\\annoscolasticoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\dtos\\annoscolasticoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\pages\\loadingview.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\services\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\controllers\\iscrizionecompletacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\controllers\\iscrizionecompletacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\controllers\\iscrittilistacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\controllers\\iscrittilistacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\dtos\\moduloiscrizione\\moduloiscrizionedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\dtos\\moduloiscrizione\\moduloiscrizionedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\pages\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\wwwroot\\css\\loadingview.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\models\\modalitapagamentovalues.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\models\\modalitapagamentovalues.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\models\\formatoiscrizionevalues.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\models\\formatoiscrizionevalues.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\dtos\\moduloiscrizione\\consensodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\dtos\\moduloiscrizione\\consensodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\items\\tagliaitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\items\\tagliaitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\items\\settimanaitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\items\\settimanaitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\items\\sessoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\items\\sessoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\services\\clientholder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\services\\clientholder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\services\\localstorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\services\\localstorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\services\\googlesheetservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\services\\googlesheetservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\wwwroot\\css\\login.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6E9640E7-6C12-4AFE-BB34-1B72DA6A2D7C}|..\\IscrizioneManager.Web\\IscrizioneManager.Web.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.web\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\utils\\postgrestextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\utils\\postgrestextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\controllers\\squadrabambinocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\controllers\\squadrabambinocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|c:\\users\\miche\\documents\\michele\\iscrizionemanagerv2\\iscrizionemanager.core\\iscrizionemanager.core\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{077BBEFA-1F98-4D37-B909-8946E6EBCADA}|IscrizioneManager.Core\\IscrizioneManager.Core.csproj|solutionrelative:iscrizionemanager.core\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 185,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "InserisciIscrizione.css",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\InserisciIscrizione.css",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\wwwroot\\css\\InserisciIscrizione.css",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\InserisciIscrizione.css",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\wwwroot\\css\\InserisciIscrizione.css",
+              "ViewState": "AgIAAAIAAAAAAAAAAAD4vzkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-02-17T21:21:45.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Home.razor",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Pages\\Home.razor",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\Home.razor",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Pages\\Home.razor",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACIAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-17T20:24:01.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AnnoScolasticoItem.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Dtos\\AnnoScolasticoItem.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Dtos\\AnnoScolasticoItem.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Dtos\\AnnoScolasticoItem.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Dtos\\AnnoScolasticoItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T20:06:36.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ModuloIscrizioneDto.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Dtos\\ModuloIscrizione\\ModuloIscrizioneDto.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Dtos\\ModuloIscrizione\\ModuloIscrizioneDto.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Dtos\\ModuloIscrizione\\ModuloIscrizioneDto.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Dtos\\ModuloIscrizione\\ModuloIscrizioneDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAqwBMAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T18:19:17.615Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "FormatoIscrizioneValues.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Models\\FormatoIscrizioneValues.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Models\\FormatoIscrizioneValues.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Models\\FormatoIscrizioneValues.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Models\\FormatoIscrizioneValues.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T19:05:57.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ModalitaPagamentoValues.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Models\\ModalitaPagamentoValues.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Models\\ModalitaPagamentoValues.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Models\\ModalitaPagamentoValues.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Models\\ModalitaPagamentoValues.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T19:03:50.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ModuloIscrizioneViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Services\\ModuloIscrizioneViewModel.cs",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Services\\ModuloIscrizioneViewModel.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Services\\ModuloIscrizioneViewModel.cs",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Services\\ModuloIscrizioneViewModel.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAADwv0EAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T18:58:45.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "InserisciIscrizione.razor",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\InserisciIscrizione.razor",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Pages\\InserisciIscrizione.razor",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\InserisciIscrizione.razor",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Pages\\InserisciIscrizione.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-14T18:24:44.62Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ConsensoDto.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Dtos\\ModuloIscrizione\\ConsensoDto.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Dtos\\ModuloIscrizione\\ConsensoDto.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Dtos\\ModuloIscrizione\\ConsensoDto.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Dtos\\ModuloIscrizione\\ConsensoDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T18:21:24.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "TagliaItem.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Items\\TagliaItem.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Items\\TagliaItem.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Items\\TagliaItem.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Items\\TagliaItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T18:21:01.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "SettimanaItem.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Items\\SettimanaItem.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Items\\SettimanaItem.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Items\\SettimanaItem.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Items\\SettimanaItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T18:20:34.761Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ModuloIscrizioneView.razor",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\ModuloIscrizioneView.razor",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Pages\\ModuloIscrizioneView.razor",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\ModuloIscrizioneView.razor",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Pages\\ModuloIscrizioneView.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-14T18:13:29.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Home.css",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\Home.css",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\wwwroot\\css\\Home.css",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\Home.css",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\wwwroot\\css\\Home.css",
+              "ViewState": "AgIAAAoAAAAAAAAAAADwvy0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-02-14T11:02:03.626Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Services\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Services\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Services\\LoginViewModel.cs",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Services\\LoginViewModel.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAApwFIAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T09:48:35.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\index.html",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\wwwroot\\index.html",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\index.html",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\wwwroot\\index.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-02-14T09:46:36.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Login.css",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\Login.css",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\wwwroot\\css\\Login.css",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\Login.css",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\wwwroot\\css\\Login.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-02-14T09:44:41.149Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "LoadingView.css",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\LoadingView.css",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\wwwroot\\css\\LoadingView.css",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\LoadingView.css",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\wwwroot\\css\\LoadingView.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-02-14T09:44:11.934Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LoadingView.razor",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\LoadingView.razor",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Pages\\LoadingView.razor",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\LoadingView.razor",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Pages\\LoadingView.razor",
+              "ViewState": "AgIAAB4AAAAAAAAAAAApwC8AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-14T09:43:24.692Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Login.razor",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\Login.razor",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Pages\\Login.razor",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\Login.razor",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Pages\\Login.razor",
+              "ViewState": "AgIAABEAAAAAAAAAAAAowEYAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-14T09:41:10.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Index.razor",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\Index.razor",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Pages\\Index.razor",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Pages\\Index.razor",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Pages\\Index.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-14T09:40:35.849Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "LocalStorageService.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Services\\LocalStorageService.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Services\\LocalStorageService.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Services\\LocalStorageService.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Services\\LocalStorageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T09:38:23.01Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "App.razor",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\App.razor",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\App.razor",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\App.razor",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\App.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-13T19:43:39.065Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Program.cs",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\Program.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\Program.cs",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\Program.cs",
+              "ViewState": "AgIAAAAAAAAANDMzMzPbvw0AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:42:34.291Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "app.css",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\app.css",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\wwwroot\\css\\app.css",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\app.css",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\wwwroot\\css\\app.css",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAACIAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-02-13T19:40:50.034Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "PostgrestExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Utils\\PostgrestExtensions.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Utils\\PostgrestExtensions.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Utils\\PostgrestExtensions.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Utils\\PostgrestExtensions.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAmwAoAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:34:10.036Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "SessoItem.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Items\\SessoItem.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Items\\SessoItem.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Items\\SessoItem.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Items\\SessoItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:29:34.878Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IscrizioneCompletaController.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Controllers\\IscrizioneCompletaController.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Controllers\\IscrizioneCompletaController.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Controllers\\IscrizioneCompletaController.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Controllers\\IscrizioneCompletaController.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAowGUAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:27:51.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IscrittiListaController.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Controllers\\IscrittiListaController.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Controllers\\IscrittiListaController.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Controllers\\IscrittiListaController.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Controllers\\IscrittiListaController.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAUwAwAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:27:31.993Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ClientHolder.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Services\\ClientHolder.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Services\\ClientHolder.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Services\\ClientHolder.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Services\\ClientHolder.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAmwBEAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:26:59.08Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "SquadraBambinoController.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Controllers\\SquadraBambinoController.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Controllers\\SquadraBambinoController.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Controllers\\SquadraBambinoController.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Controllers\\SquadraBambinoController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAmwB0AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:16:27.592Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Controllers\\LoginController.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Controllers\\LoginController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:16:26.713Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "GoogleSheetService.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Services\\GoogleSheetService.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Services\\GoogleSheetService.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Services\\GoogleSheetService.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Services\\GoogleSheetService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:13:04.906Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Class1.cs",
+              "RelativeDocumentMoniker": "IscrizioneManager.Core\\Class1.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Core\\IscrizioneManager.Core\\Class1.cs",
+              "RelativeToolTip": "IscrizioneManager.Core\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T19:11:39.55Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 203,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ModuloIscrizioneView.css",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\ModuloIscrizioneView.css",
+              "RelativeDocumentMoniker": "..\\IscrizioneManager.Web\\wwwroot\\css\\ModuloIscrizioneView.css",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\ModuloIscrizioneView.css",
+              "RelativeToolTip": "..\\IscrizioneManager.Web\\wwwroot\\css\\ModuloIscrizioneView.css",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAIwMUAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-02-17T19:39:14.274Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

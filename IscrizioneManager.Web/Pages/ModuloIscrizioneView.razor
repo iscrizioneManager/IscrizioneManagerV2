@@ -1,0 +1,390 @@
+﻿@using IscrizioneManager.Core.Models
+@using IscrizioneManager.Web.Services
+@using IscrizioniManager.Items
+@using IscrizioniManager.Models
+@using Microsoft.AspNetCore.Components.Forms
+<link href="css/ModuloIscrizioneView.css" rel="stylesheet" />
+
+<EditForm Model="FormModel" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <LoadingView @ref="LoadingOverlay" />
+
+    <div class="form-container @(IsLoading ? "hidden" : "")">
+
+        <!-- ================= ANAGRAFICA ================= -->
+        <div class="row-flex">
+            <div class="field small">
+                <label>Cognome*</label>
+                <InputText @bind-Value="FormModel.Cognome" class="form-control" />
+            </div>
+
+            <div class="field small">
+                <label>Nome*</label>
+                <InputText @bind-Value="FormModel.Nome" class="form-control" />
+            </div>
+
+            <div class="field small">
+                <label>Data di nascita*</label>
+                <InputDate @bind-Value="FormModel.DataNascita" class="form-control" />
+            </div>
+
+            <div class="field small">
+                <label>Genere*</label>
+                <InputSelect @bind-Value="FormModel.Genere" class="form-control">
+                    <option value="">Seleziona</option>
+                    <option value="1">M</option>
+                    <option value="2">F</option>
+                </InputSelect>
+            </div>
+        </div>
+
+        <div class="row-flex mt">
+            <div class="field medium">
+                <label>Luogo di nascita</label>
+                <InputText @bind-Value="FormModel.LuogoNascita" class="form-control" />
+            </div>
+
+            <div class="field large">
+                <label>Indirizzo di residenza</label>
+                <InputText @bind-Value="FormModel.IndirizzoResidenza" class="form-control" />
+            </div>
+
+            <div class="field medium">
+                <label>Comune di residenza</label>
+                <InputText @bind-Value="FormModel.ComuneResidenza" class="form-control" />
+            </div>
+        </div>
+
+        <!-- ================= GENITORI ================= -->
+        <div class="section mt">
+            <label>Genitori</label>
+            <button type="button" class="mb btn-add-genitore" style="display:@(FormModel.Genitori.Count >= 2 ? "none" : "inline-block")" @onclick="AddGenitore">
+                Aggiungi Genitore
+            </button>
+
+            @if (FormModel.Genitori != null)
+            {
+                @foreach (var genitore in FormModel.Genitori)
+                {
+                    <div class="genitore-card">
+                        <div class="field small center">
+                            <InputText @bind-Value="genitore.Cognome" placeholder="Cognome" class="form-control" />
+                        </div>
+
+                        <div class="field small center">
+                            <InputText @bind-Value="genitore.Nome" placeholder="Nome" class="form-control" />
+                        </div>
+
+                        <div class="field small center">
+                            <InputText @bind-Value="genitore.Telefono" placeholder="Telefono" class="form-control" />
+                        </div>
+
+                        <div class="field small center">
+                            <InputSelect @bind-Value="genitore.Sesso" class="form-control">
+                                <option value="">Seleziona</option>
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                            </InputSelect>
+                        </div>
+
+                        <button type="button" class="icon-button" @onclick="@(() => ApriPopup(genitore))" title="Cerca genitore">
+                            <img src="images/icona_cerca.svg" class="cerca-img" />
+                        </button>
+
+                        <button type="button" class="btn-remove" @onclick="@(() => RemoveGenitore(FormModel.Genitori.IndexOf(genitore)))">
+                            Rimuovi
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- ================= ISCRIZIONE E NOTE ================= -->
+        <div class="row-flex mt">
+            <div class="field medium">
+                <label>Anno scolastico</label>
+                <InputSelect @bind-Value="FormModel.AnnoScolastico" class="form-control">
+                    <option value="">Seleziona</option>
+                    @foreach (var anno in AnniScolastici)
+                    {
+                        <option value="@anno.Value">@anno.Description</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <div class="row-flex mt">
+            <div class="field large">
+                <label>Note</label>
+                <InputTextArea @bind-Value="FormModel.Note" rows="3" class="form-control" />
+            </div>
+        </div>
+
+        <!-- ================= SETTIMANE ================= -->
+        @if (FormModel.Settimane != null)
+        {
+            <div class="section mt">
+                <label>Settimane</label>
+                @foreach (var settimana in FormModel.Settimane)
+                {
+                    <div class="row-flex align-center">
+                        <InputCheckbox @bind-Value="settimana.IsSelected" />
+                        <span>@settimana.Desc</span>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- ================= TAGLIA ================= -->
+        @if (Taglie != null)
+        {
+            <div class="row-flex mt">
+                <div class="field medium">
+                    <label>Taglia</label>
+                    <InputSelect @bind-Value="FormModel.Taglia" class="form-control">
+                        <option value="">Seleziona</option>
+                        @foreach (var taglia in Taglie)
+                        {
+                            <option value="@taglia.Id">@taglia.Descrizione</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+        }
+
+        <!-- ================= SCHEDA SANITARIA ================= -->
+        <div class="row-flex mt">
+            <div class="field large">
+                <label>Allergie/Intolleranze</label>
+                <InputTextArea @bind-Value="FormModel.AllergieIntolleranze" class="form-control" rows="2" />
+            </div>
+        </div>
+
+        <div class="row-flex mt">
+            <div class="field large">
+                <label>Patologie/Terapie</label>
+                <InputTextArea @bind-Value="FormModel.PatologieTerapie" class="form-control" rows="2" />
+            </div>
+        </div>
+
+        <!-- ================= CONSENSI ================= -->
+        @if (FormModel.ConsensiDisponibili != null)
+        {
+            <div class="section mt">
+                <label>Consensi</label>
+                @foreach (var consenso in FormModel.ConsensiDisponibili)
+                {
+                    <div class="row-flex align-center">
+                        <InputCheckbox @bind-Value="consenso.IsSelected" />
+                        <span>@consenso.Descrizione</span>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- ================= PAGAMENTO E FLAGS ================= -->
+        <div class="row-flex mt wrap">
+            <div class="field medium">
+                <label>Formato iscrizione</label>
+                <InputSelect @bind-Value="FormModel.FormatoIscrizioneSelezionato">
+                    <option value="">Seleziona</option>
+                    @foreach (var formato in FormatoIscrizioneItems)
+                    {
+                        <option value="@formato.Id">@formato.Desc</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="field medium">
+                <label>Modalità pagamento</label>
+                <InputSelect @bind-Value="FormModel.ModalitaPagamentoSelezionata">
+                    <option value="">Seleziona</option>
+                    @foreach (var modalita in ModalitaPagamentoItems)
+                    {
+                        <option value="@modalita.Id">@modalita.Desc</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <div class="row-flex mt align-center">
+            <InputCheckbox @bind-Value="FormModel.DaIscrivereAlNoi" />
+            <span>Da iscrivere al NOI</span>
+        </div>
+
+        <div class="row-flex mt align-center">
+            <InputCheckbox @bind-Value="FormModel.ScontoFratelli" />
+            <span>Sconto fratelli</span>
+        </div>
+
+        <!-- ================= SUBMIT ================= -->
+        <div class="mt salva-iscrizione-button">
+            <button type="submit" class="btn-submit">
+                Salva Iscrizione
+            </button>
+        </div>
+
+    </div>
+</EditForm>
+@if (IsPopupAperto)
+{
+    <div class="popup-overlay">
+        <div class="popup">
+
+            <button @onclick="ChiudiPopup" class="popup-close">×</button>
+
+            <h3>Seleziona un genitore</h3>
+
+            @if (IsLoadingGenitori)
+            {
+                <div class="popup-loader">
+                    <div class="loader"></div>
+                </div>
+            }
+            else
+            {
+                <input type="text" placeholder="Cerca per nome o cognome"
+                       @bind="SearchText"
+                       class="popup-search" />
+
+                <div style="height:350px; overflow:auto;">
+                    @foreach (var g in GenitoriFiltrati)
+                    {
+                        <div @onclick="() => SelezionaGenitore(g)" class="rigaGenitorePopup">
+                            <strong>@g.Cognome</strong> @g.Nome
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private LoadingView? LoadingOverlay;
+    private bool IsLoading = true;
+    [Parameter]
+    public ModuloIscrizioneDto FormModel { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<ModuloIscrizioneDto> OnSubmitCallback { get; set; }
+
+    [Inject]
+    public ModuloIscrizioneViewModel ViewModel { get; set; } = new();
+
+    private List<Settimana>? Settimane = new List<Settimana>();
+    private List<Taglia>? Taglie = new List<Taglia>();
+    private List<ConsensoDto>? ConsensiDisponibili = new List<ConsensoDto>();
+
+    private List<AnnoScolasticoItem> AnniScolastici =
+    Enum.GetValues(typeof(AnnoScolastico))
+          .Cast<AnnoScolastico>()
+          .Select(e => new AnnoScolasticoItem((int)e)).ToList();
+
+    private List<ModalitaPagamentoItem> ModalitaPagamentoItems = Enum.GetValues(typeof(ModalitaPagamentoValues))
+          .Cast<ModalitaPagamentoValues>()
+          .Select(e => new ModalitaPagamentoItem() { Id = (int)e, Desc = e.ToString() }).ToList();
+
+    private List<FormatoIscrizioneItem> FormatoIscrizioneItems = Enum.GetValues(typeof(FormatoIscrizioneValues))
+        .Cast<FormatoIscrizioneValues>()
+        .Select(e => new FormatoIscrizioneItem() { Id = (int)e, Desc = e.ToString() }).ToList();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        IsLoading = true;
+        StateHasChanged();
+
+        LoadingOverlay?.Start();
+
+        Settimane = await ViewModel.GetSettimaneAsync();
+        Taglie = await ViewModel.GetTaglieAsync();
+        ConsensiDisponibili = await ViewModel.GetConsensiAsync();
+        FormModel.ConsensiDisponibili = ConsensiDisponibili;
+
+        FormModel.Settimane = Settimane.Select(s => new Settimana
+            {
+                Id = s.Id,
+                Desc = s.Desc,
+                CostoBase = s.CostoBase,
+                CostoIntero = s.CostoIntero,
+                DataInizio = s.DataInizio,
+                DataFine = s.DataFine,
+                IsSelected = false
+            }).ToList();
+
+        LoadingOverlay?.Stop();
+        IsLoading = false;
+
+        StateHasChanged();
+    }
+
+    private void AddGenitore()
+    {
+        FormModel.Genitori.Add(new GenitoreDto());
+    }
+
+    private void RemoveGenitore(int index)
+    {
+        FormModel.Genitori.RemoveAt(index);
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (OnSubmitCallback.HasDelegate)
+        {
+            await OnSubmitCallback.InvokeAsync(FormModel);
+        }
+    }
+
+    private bool IsPopupAperto = false;
+    private bool IsLoadingGenitori = false;
+    private string SearchText = "";
+    private List<GenitoreDto> Genitori = new(); // Lista completa dei genitori
+    private List<GenitoreDto> GenitoriFiltrati =>
+        string.IsNullOrWhiteSpace(SearchText)
+            ? Genitori
+            : Genitori.Where(g => g.Nome.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
+                                || g.Cognome.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
+
+    private GenitoreDto? genitoreCorrente;
+
+    private async void ApriPopup(GenitoreDto genitore)
+    {
+        genitoreCorrente = genitore;
+        IsPopupAperto = true;
+        IsLoadingGenitori = true;
+
+        // Chiamata asincrona per caricare i genitori
+        Genitori = await ViewModel.GetGenitoriListAsync();
+
+        IsLoadingGenitori = false;
+        StateHasChanged();
+    }
+
+    private void ChiudiPopup()
+    {
+        IsPopupAperto = false;
+        SearchText = "";
+        Genitori.Clear();
+    }
+
+    private void SelezionaGenitore(GenitoreDto genitore)
+    {
+        if (genitoreCorrente != null)
+        {
+            genitoreCorrente.IdGenitore = genitore.IdGenitore;
+            genitoreCorrente.Nome = genitore.Nome;
+            genitoreCorrente.Cognome = genitore.Cognome;
+            genitoreCorrente.Telefono = genitore.Telefono;
+            genitoreCorrente.Existing = true;
+            genitoreCorrente.Sesso = genitore.Sesso;
+        }
+        IsPopupAperto = false;
+        SearchText = "";
+        Genitori.Clear();
+    }
+}

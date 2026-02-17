@@ -1,0 +1,135 @@
+﻿@page "/home"
+@using IscrizioneManager.Core.Services
+@using IscrizioneManager.Web.Services
+@using IscrizioniManager.Controllers
+@using IscrizioniManager.Core.Services
+@using IscrizioniManager.Models
+@using System.Reflection
+@inject NavigationManager Navigation
+@inject LocalStorageService Storage
+@inject LoginController LoginController
+@inject IJSRuntime JS
+
+<link href="css/Home.css" rel="stylesheet" />
+
+<LoadingView @ref="LoadingOverlay" />
+
+<div class="home-container" style="display:@(IsLoading ? "none" : null)">
+    <div class="role-label">
+        Accesso effettuato come: <strong>@RoleText</strong>
+    </div>
+
+    <button class="main-button" @onclick="InserisciIscrizione_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
+        Nuova iscrizione
+    </button>
+
+    <button class="main-button" @onclick="ListaIscritti_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
+        Lista iscritti
+    </button>
+
+    <button class="main-button green" @onclick="ApriGoogleSheets_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
+        Apri in Fogli Google
+    </button>
+
+    <button class="main-button logout" @onclick="Logout_Clicked">
+        Logout
+    </button>
+</div>
+
+@code {
+    private LoadingView? LoadingOverlay;
+    private bool IsLoading = true;
+
+    private string RoleText = "";
+    private bool ShowAdminButtons = false;
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     IsLoading = true;
+    //     LoadingOverlay?.Start();
+    //     StateHasChanged();
+
+    //     // Simula caricamento dei dati dal client
+    //     var client = ClientHolder.Client;
+    //     var isAdmin = client._roleId == RoleValues.Admin;
+
+    //     if (client._roleId != null)
+    //     {
+    //         var field = client._roleId.GetType().GetField(client._roleId.Value.ToString());
+    //         var attribute = field?.GetCustomAttribute<System.ComponentModel.DescriptionAttribute>();
+    //         RoleText = attribute?.Description ?? "";
+    //     }
+
+    //     ShowAdminButtons = isAdmin;
+
+    //     LoadingOverlay?.Stop();
+    //     IsLoading = false;
+    //     StateHasChanged();
+    // }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        IsLoading = true;
+        StateHasChanged();
+
+        LoadingOverlay?.Start();
+
+        var client = ClientHolder.Client;
+        var isAdmin = client._roleId == RoleValues.Admin;
+
+        if (client._roleId != null)
+        {
+            var field = client._roleId.GetType().GetField(client._roleId.Value.ToString());
+            var attribute = field?.GetCustomAttribute<System.ComponentModel.DescriptionAttribute>();
+            RoleText = attribute?.Description ?? "";
+        }
+
+        ShowAdminButtons = isAdmin;
+
+        LoadingOverlay?.Stop();
+        IsLoading = false;
+
+        StateHasChanged();
+    }
+
+
+    private async Task Logout_Clicked()
+    {
+        await Storage.RemoveItem("jwtToken");
+        await Storage.RemoveItem("refreshToken");
+        await Storage.RemoveItem("eventId");
+        await Storage.RemoveItem("roleId");
+
+        ClientHolder.Reset();
+        Navigation.NavigateTo("/login", true);
+    }
+
+    private void InserisciIscrizione_Clicked()
+    {
+        Navigation.NavigateTo("/inserisciIscrizione");
+    }
+
+    private void ListaIscritti_Clicked()
+    {
+        Navigation.NavigateTo("/iscritti");
+    }
+
+    private async Task ApriGoogleSheets_Clicked()
+    {
+        // Funzione che chiede all'utente il link via prompt JS
+        Func<Task<string?>> askUserFunc = async () =>
+        {
+            return await JS.InvokeAsync<string?>("prompt", "Inserisci il link del foglio Google da utilizzare:", "");
+        };
+
+        var sheetUrl = await GoogleSheetService.GetOrCreateSheetAsync(askUserFunc);
+
+        if (!string.IsNullOrEmpty(sheetUrl))
+        {
+            await JS.InvokeVoidAsync("open", sheetUrl, "_blank");
+        }
+    }
+}

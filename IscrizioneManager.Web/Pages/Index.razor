@@ -1,0 +1,29 @@
+﻿@page "/"
+@using IscrizioneManager.Core.Services
+@inject LocalStorageService Storage
+@inject NavigationManager Navigation
+
+<h3>Caricamento...</h3>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await Storage.GetItem("jwtToken");
+        var refresh = await Storage.GetItem("refreshToken");
+        var eventId = await Storage.GetItem("eventId");
+        var roleId = await Storage.GetItem("roleId");
+
+        if (!string.IsNullOrEmpty(token) &&
+            !string.IsNullOrEmpty(refresh) &&
+            !string.IsNullOrEmpty(eventId) &&
+            !string.IsNullOrEmpty(roleId))
+        {
+            Navigation.NavigateTo("/home");
+        }
+        else
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+}

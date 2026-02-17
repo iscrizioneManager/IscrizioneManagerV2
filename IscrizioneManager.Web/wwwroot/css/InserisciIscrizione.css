@@ -1,0 +1,57 @@
+﻿/* ================== HEADER ISCRIZIONE ================== */
+.header-iscrizione {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 2%; /* margini laterali come prima */
+    margin-bottom: 15px; /* margine inferiore originale */
+}
+
+    .header-iscrizione h2 {
+        margin: 0;
+        font-size: 2rem; /* dimensione desktop */
+        font-weight: 600;
+    }
+
+.btn-chiudi {
+    background: none;
+    border: none;
+    font-size: 3rem; /* dimensione desktop originale */
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+    .btn-chiudi:hover {
+        color: darkred;
+    }
+
+/* ================== RESPONSIVE ================== */
+@media (max-width: 768px) {
+    .header-iscrizione h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn-chiudi {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-iscrizione {
+        flex-direction: row; /* manteniamo titolo e × sulla stessa riga */
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 2%;
+        margin-bottom: 15px;
+    }
+
+        .header-iscrizione h2 {
+            font-size: 1.25rem;
+        }
+
+    .btn-chiudi {
+        font-size: 1.75rem;
+    }
+}

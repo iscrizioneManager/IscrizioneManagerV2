@@ -1,0 +1,77 @@
+﻿@page "/login"
+@using IscrizioneManager.Core.Services
+@using IscrizioneManager.Web.Services
+@using IscrizioniManager.Controllers
+@inject LocalStorageService Storage
+@inject NavigationManager Navigation
+@inject LoginController LoginController
+
+<link href="css/Login.css" rel="stylesheet" />
+
+<LoadingView @ref="LoadingOverlay" />
+
+<div class="login-container" style="display:@(IsLoading ? "none" : null)">
+    <label>Ruolo</label>
+    <select @bind="VM.SelectedRoleValue">
+        @foreach(var r in VM.Roles)
+        {
+            <option value="@((int)r.Value)">@r.DisplayName</option>
+        }
+    </select>
+
+    <label>Evento</label>
+    <select @bind="VM.SelectedEventValue">
+        @foreach(var e in VM.EventList)
+        {
+            <option value="@e.Id">@e.DisplayName</option>
+        }
+    </select>
+
+    <label>Password</label>
+    <input type="password" @bind="VM.Password" />
+
+    <button @onclick="DoLogin">Login</button>
+
+    @if(!string.IsNullOrEmpty(VM.ErrorMessage)){
+        <p class="error">@VM.ErrorMessage</p>
+    }
+
+</div>
+
+@code {
+    private LoadingView? LoadingOverlay;
+    private LoginViewModel VM;
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        VM = new LoginViewModel(LoginController, Storage);
+
+        // Mostra overlay
+        IsLoading = true;
+        StateHasChanged();
+
+        await VM.LoadEventiAsync();
+
+        // Nascondi overlay
+        LoadingOverlay.Stop();
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task DoLogin()
+    {
+        IsLoading = true;
+        LoadingOverlay.Start();
+        StateHasChanged();
+
+        var success = await VM.LoginAsync();
+
+        LoadingOverlay.Stop();
+        IsLoading = false;
+        StateHasChanged();
+
+        if (success)
+            Navigation.NavigateTo("/home");
+    }
+}

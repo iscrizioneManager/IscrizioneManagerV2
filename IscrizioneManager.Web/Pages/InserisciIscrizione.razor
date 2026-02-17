@@ -1,0 +1,25 @@
+﻿@page "/inserisciIscrizione"
+<link href="css/InserisciIscrizione.css" rel="stylesheet" />
+<div class="header-iscrizione">
+    <h2>Nuova Iscrizione</h2>
+    <button class="btn-chiudi" @onclick="TornaIndietro" title="Chiudi">×</button>
+</div>
+<ModuloIscrizioneView FormModel="newIscrizione" OnSubmitCallback="SalvaIscrizione" />
+
+@code {
+    private ModuloIscrizioneDto newIscrizione = new();
+    [Inject]
+    private NavigationManager Navigation { get; set; } = default!;
+
+    private Task SalvaIscrizione(ModuloIscrizioneDto model)
+    {
+        Console.WriteLine($"Salvata iscrizione: {model.Nome} {model.Cognome}");
+        // Qui logica di salvataggio reale
+        return Task.CompletedTask;
+    }
+
+    private void TornaIndietro()
+    {
+        Navigation.NavigateTo("/", true); // "/" è la home, oppure puoi cambiare con la pagina precedente
+    }
+}
