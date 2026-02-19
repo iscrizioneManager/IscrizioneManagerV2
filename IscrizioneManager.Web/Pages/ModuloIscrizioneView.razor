@@ -10,56 +10,55 @@
     <ValidationSummary />
     <LoadingView @ref="LoadingOverlay" />
 
-    <div class="form-container @(IsLoading ? "hidden" : "")">
+    <fieldset disabled="@IsReadOnly" class="no-border form-container @(IsLoading ? "hidden" : "")">
+            <!-- ================= ANAGRAFICA ================= -->
+            <div class="row-flex">
+                <div class="field small">
+                    <label>Cognome*</label>
+                    <InputText @bind-Value="FormModel.Cognome" class="form-control" />
+                </div>
 
-        <!-- ================= ANAGRAFICA ================= -->
-        <div class="row-flex">
-            <div class="field small">
-                <label>Cognome*</label>
-                <InputText @bind-Value="FormModel.Cognome" class="form-control" />
+                <div class="field small">
+                    <label>Nome*</label>
+                    <InputText @bind-Value="FormModel.Nome" class="form-control" />
+                </div>
+
+                <div class="field small">
+                    <label>Data di nascita*</label>
+                    <InputDate @bind-Value="FormModel.DataNascita" class="form-control" />
+                </div>
+
+                <div class="field small">
+                    <label>Genere*</label>
+                    <InputSelect @bind-Value="FormModel.Genere" class="form-control">
+                        <option value="">Seleziona</option>
+                        <option value="1">M</option>
+                        <option value="2">F</option>
+                    </InputSelect>
+                </div>
             </div>
 
-            <div class="field small">
-                <label>Nome*</label>
-                <InputText @bind-Value="FormModel.Nome" class="form-control" />
-            </div>
+            <div class="row-flex mt">
+                <div class="field medium">
+                    <label>Luogo di nascita</label>
+                    <InputText @bind-Value="FormModel.LuogoNascita" class="form-control" />
+                </div>
 
-            <div class="field small">
-                <label>Data di nascita*</label>
-                <InputDate @bind-Value="FormModel.DataNascita" class="form-control" />
-            </div>
+                <div class="field large">
+                    <label>Indirizzo di residenza</label>
+                    <InputText @bind-Value="FormModel.IndirizzoResidenza" class="form-control" />
+                </div>
 
-            <div class="field small">
-                <label>Genere*</label>
-                <InputSelect @bind-Value="FormModel.Genere" class="form-control">
-                    <option value="">Seleziona</option>
-                    <option value="1">M</option>
-                    <option value="2">F</option>
-                </InputSelect>
+                <div class="field medium">
+                    <label>Comune di residenza</label>
+                    <InputText @bind-Value="FormModel.ComuneResidenza" class="form-control" />
+                </div>
             </div>
-        </div>
-
-        <div class="row-flex mt">
-            <div class="field medium">
-                <label>Luogo di nascita</label>
-                <InputText @bind-Value="FormModel.LuogoNascita" class="form-control" />
-            </div>
-
-            <div class="field large">
-                <label>Indirizzo di residenza</label>
-                <InputText @bind-Value="FormModel.IndirizzoResidenza" class="form-control" />
-            </div>
-
-            <div class="field medium">
-                <label>Comune di residenza</label>
-                <InputText @bind-Value="FormModel.ComuneResidenza" class="form-control" />
-            </div>
-        </div>
 
         <!-- ================= GENITORI ================= -->
         <div class="section mt">
             <label>Genitori</label>
-            <button type="button" class="mb btn-add-genitore" style="display:@(FormModel.Genitori.Count >= 2 ? "none" : "inline-block")" @onclick="AddGenitore">
+            <button type="button" class="mb btn-add-genitore @(IsReadOnly ? "hidden" : "")" style="@(FormModel.Genitori.Count >= 2 ? "none" : "inline-block")" @onclick="AddGenitore">
                 Aggiungi Genitore
             </button>
 
@@ -88,11 +87,11 @@
                             </InputSelect>
                         </div>
 
-                        <button type="button" class="icon-button" @onclick="@(() => ApriPopup(genitore))" title="Cerca genitore">
+                        <button type="button" class="icon-button @(IsReadOnly ? "hidden" : "")" @onclick="@(() => ApriPopup(genitore))" title="Cerca genitore">
                             <img src="images/icona_cerca.svg" class="cerca-img" />
                         </button>
 
-                        <button type="button" class="btn-remove" @onclick="@(() => RemoveGenitore(FormModel.Genitori.IndexOf(genitore)))">
+                        <button type="button" class="btn-remove @(IsReadOnly ? "hidden" : "")" @onclick="@(() => RemoveGenitore(FormModel.Genitori.IndexOf(genitore)))">
                             Rimuovi
                         </button>
                     </div>
@@ -220,12 +219,12 @@
 
         <!-- ================= SUBMIT ================= -->
         <div class="mt salva-iscrizione-button">
-            <button type="submit" class="btn-submit">
+            <button type="submit" class="btn-submit @(IsReadOnly ? "hidden" : "")">
                 Salva Iscrizione
             </button>
         </div>
 
-    </div>
+    </fieldset>
 </EditForm>
 @if (IsPopupAperto)
 {
@@ -273,6 +272,7 @@
     [Inject]
     public ModuloIscrizioneViewModel ViewModel { get; set; } = new();
 
+    private bool IsReadOnly = false;
     private List<Settimana>? Settimane = new List<Settimana>();
     private List<Taglia>? Taglie = new List<Taglia>();
     private List<ConsensoDto>? ConsensiDisponibili = new List<ConsensoDto>();
@@ -289,10 +289,12 @@
     private List<FormatoIscrizioneItem> FormatoIscrizioneItems = Enum.GetValues(typeof(FormatoIscrizioneValues))
         .Cast<FormatoIscrizioneValues>()
         .Select(e => new FormatoIscrizioneItem() { Id = (int)e, Desc = e.ToString() }).ToList();
+    private bool datiCaricati = false;
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
+        if (!firstRender || datiCaricati)
             return;
 
         IsLoading = true;
@@ -303,19 +305,28 @@
         Settimane = await ViewModel.GetSettimaneAsync();
         Taglie = await ViewModel.GetTaglieAsync();
         ConsensiDisponibili = await ViewModel.GetConsensiAsync();
-        FormModel.ConsensiDisponibili = ConsensiDisponibili;
 
-        FormModel.Settimane = Settimane.Select(s => new Settimana
-            {
-                Id = s.Id,
-                Desc = s.Desc,
-                CostoBase = s.CostoBase,
-                CostoIntero = s.CostoIntero,
-                DataInizio = s.DataInizio,
-                DataFine = s.DataFine,
-                IsSelected = false
-            }).ToList();
+        // Se i dati del FormModel arrivano da fuori (iscrizioneDaModificare), non sovrascriverli
+        if (FormModel.Settimane == null || !FormModel.Settimane.Any())
+        {
+            FormModel.Settimane = Settimane.Select(s => new Settimana
+                {
+                    Id = s.Id,
+                    Desc = s.Desc,
+                    CostoBase = s.CostoBase,
+                    CostoIntero = s.CostoIntero,
+                    DataInizio = s.DataInizio,
+                    DataFine = s.DataFine,
+                    IsSelected = false
+                }).ToList();
+        }
 
+        if (FormModel.ConsensiDisponibili == null)
+            FormModel.ConsensiDisponibili = ConsensiDisponibili;
+
+        IsReadOnly = FormModel.IdIscrizione != null;
+
+        datiCaricati = true;
         LoadingOverlay?.Stop();
         IsLoading = false;
 

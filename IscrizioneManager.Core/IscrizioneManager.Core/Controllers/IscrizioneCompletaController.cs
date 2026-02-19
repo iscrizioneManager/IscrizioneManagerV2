@@ -371,7 +371,7 @@ public class IscrizioneCompletaController
     return true;
   }
 
-  public async Task<ModuloIscrizioneDto> GetAsync(int idBambino)
+  public static async Task<ModuloIscrizioneDto> GetAsync(int idBambino)
   {
     // --- Bambino
     var bambinoList = await ClientHolder.Client
@@ -434,10 +434,13 @@ public class IscrizioneCompletaController
         .Where(x => x.IdIscrizione == iscrizione.Id)
         .Get();
 
+    var ids = settimaneList.Models
+    .Select(s => s.IdSettimana)
+    .ToList();
+
     var settimane = await ClientHolder.Client
         .GetAll<Settimana>()
-        .Select("*")
-        .Where(x => settimaneList.Models.Select(s => Math.Abs(s.IdSettimana)).Contains(x.Id))
+        .Filter("id_settimana", Supabase.Postgrest.Constants.Operator.In, ids)
         .Get();
 
     // --- Taglia

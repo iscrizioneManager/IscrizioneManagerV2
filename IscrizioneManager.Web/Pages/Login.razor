@@ -10,33 +10,35 @@
 
 <LoadingView @ref="LoadingOverlay" />
 
-<div class="login-container" style="display:@(IsLoading ? "none" : null)">
-    <label>Ruolo</label>
-    <select @bind="VM.SelectedRoleValue">
-        @foreach(var r in VM.Roles)
+<EditForm Model="VM" OnValidSubmit="DoLogin">
+    <div class="login-container" style="display:@(IsLoading ? "none" : null)">
+        <label>Ruolo</label>
+        <select @bind="VM.SelectedRoleValue">
+            @foreach (var r in VM.Roles)
+            {
+                <option value="@((int)r.Value)">@r.DisplayName</option>
+            }
+        </select>
+
+        <label>Evento</label>
+        <select @bind="VM.SelectedEventValue">
+            @foreach (var e in VM.EventList)
+            {
+                <option value="@e.Id">@e.DisplayName</option>
+            }
+        </select>
+
+        <label>Password</label>
+        <input type="password" @bind="VM.Password" />
+
+        <button type="submit">Login</button>
+
+        @if (!string.IsNullOrEmpty(VM.ErrorMessage))
         {
-            <option value="@((int)r.Value)">@r.DisplayName</option>
+            <p class="error">@VM.ErrorMessage</p>
         }
-    </select>
-
-    <label>Evento</label>
-    <select @bind="VM.SelectedEventValue">
-        @foreach(var e in VM.EventList)
-        {
-            <option value="@e.Id">@e.DisplayName</option>
-        }
-    </select>
-
-    <label>Password</label>
-    <input type="password" @bind="VM.Password" />
-
-    <button @onclick="DoLogin">Login</button>
-
-    @if(!string.IsNullOrEmpty(VM.ErrorMessage)){
-        <p class="error">@VM.ErrorMessage</p>
-    }
-
-</div>
+    </div>
+</EditForm>
 
 @code {
     private LoadingView? LoadingOverlay;

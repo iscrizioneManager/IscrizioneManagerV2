@@ -1,0 +1,251 @@
+﻿@page "/iscritti"
+@using IscrizioneManager.Core.Dtos
+@using IscrizioniManager.Controllers
+@using IscrizioniManager.Models
+<link href="css/IscrittiLista.css" rel="stylesheet" />
+
+<LoadingView @ref="LoadingOverlay" />
+
+<div class="iscritti-container @(IsLoading ? "loading" : null)">
+    <h3 class="iscritti-title">Iscritti</h3>
+
+    <div class="table-wrapper">
+        <table class="iscritti-table">
+            <thead>
+                <tr class="header-row">
+                    <th @onclick="OrdinaCognome">@HeaderCognome</th>
+                    <th @onclick="OrdinaNome">@HeaderNome</th>
+                    <th @onclick="OrdinaDataNascita">@HeaderDataNascita</th>
+                    <th @onclick="OrdinaAnno">@HeaderAnno</th>
+                    <th @onclick="OrdinaPagato">@HeaderPagato</th>
+                </tr>
+                <tr class="filter-row">
+                    <th><InputText @bind-Value="_filtroCognome" placeholder="Filtra Cognome" class="form-control" @oninput="ApplicaFiltroOrdinamento" /></th>
+                    <th><InputText @bind-Value="_filtroNome" placeholder="Filtra Nome" class="form-control" @oninput="ApplicaFiltroOrdinamento" /></th>
+                    <th><InputText @bind-Value="_filtroDataNascita" placeholder="Filtra Data" class="form-control" @oninput="ApplicaFiltroOrdinamento" /></th>
+                    <th>
+                        <InputSelect @bind-Value="_filtroAnno" class="form-control" @onchange="ApplicaFiltroOrdinamento">
+                            @foreach (var anno in AnniScolastici)
+                            {
+                                <option value="@anno.Value">@anno.Description</option>
+                            }
+
+                        </InputSelect>
+                    </th>
+                    <th>
+                        <InputSelect @bind-Value="_filtroPagato" class="form-control" @onchange="ApplicaFiltroOrdinamento">
+                            @foreach (var p in FiltriPagati)
+                            {
+                                <option value="@p.Value">@p.Desc</option>
+                            }
+                        </InputSelect>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!IsLoading)
+                {
+                    @foreach (var item in Iscritti)
+                    {
+                        <tr @onclick="@(() => OnIscrittoSelected(item))" class="data-row">
+                            <td>@item.BCognome</td>
+                            <td>@item.BNome</td>
+                            <td>@item.DataNascitaDesc</td>
+                            <td>@item.AnnoDesc</td>
+                            <td>
+                                <InputCheckbox @bind-Value="item.Pagato" @oninput="@((ChangeEventArgs e) => OnPagatoChanged(item, e))" />
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (IsBusy)
+    {
+        <div class="loader">
+            <span class="spinner-border" role="status"></span>
+        </div>
+    }
+</div>
+@if (IsPopupAperto)
+{
+    <div class="modal-overlay" @onclick="ChiudiPopup">
+        <div class="modal-content" @onclick:stopPropagation>
+            @if (IsPopupLoading)
+            {
+                <div class="popup-loader">
+                    <LoadingView @ref="PopupLoadingOverlay" />
+                </div>
+            }
+            else
+            {
+                <button class="modal-close" @onclick="ChiudiPopup">×</button>
+                <ModuloIscrizioneView FormModel="iscrizioneDaModificare"
+                                      OnSubmitCallback="SalvaIscrizione" />
+            }
+        </div>
+    </div>
+}
+
+
+
+@code {
+    private LoadingView? LoadingOverlay;
+    private LoadingView? PopupLoadingOverlay;
+    private bool IsLoading = true;
+    private bool IsBusy = false;
+
+    private void OrdinaCognome() => OrdinaPer("Cognome");
+    private void OrdinaNome() => OrdinaPer("Nome");
+    private void OrdinaDataNascita() => OrdinaPer("DataNascita");
+    private void OrdinaAnno() => OrdinaPer("Anno");
+    private void OrdinaPagato() => OrdinaPer("Pagato");
+
+    private List<VIscrizioneCompleta> _tuttiGliIscritti = new();
+    private List<VIscrizioneCompleta> Iscritti = new();
+
+    // Filtri
+    private string _filtroCognome;
+    private string _filtroNome;
+    private string _filtroDataNascita;
+    private AnnoScolasticoItem _filtroAnno;
+    private FiltroPagatoItem _filtroPagato;
+
+    // Ordinamento
+    private string _ordinePer = "Cognome";
+    private bool _ordineAsc = true;
+
+    // Header
+    private string HeaderCognome => _ordinePer == "Cognome" ? "Cognome " + (_ordineAsc ? "↑" : "↓") : "Cognome";
+    private string HeaderNome => _ordinePer == "Nome" ? "Nome " + (_ordineAsc ? "↑" : "↓") : "Nome";
+    private string HeaderDataNascita => _ordinePer == "DataNascita" ? "Data di nascita " + (_ordineAsc ? "↑" : "↓") : "Data di nascita";
+    private string HeaderAnno => _ordinePer == "Anno" ? "Anno " + (_ordineAsc ? "↑" : "↓") : "Anno";
+    private string HeaderPagato => _ordinePer == "Pagato" ? "Pagato " + (_ordineAsc ? "↑" : "↓") : "Pagato";
+
+    // Picker
+    private List<AnnoScolasticoItem> AnniScolastici = new();
+    private List<FiltroPagatoItem> FiltriPagati = new()
+    {
+        new FiltroPagatoItem(null, "Tutti"),
+        new FiltroPagatoItem(true, "Si"),
+        new FiltroPagatoItem(false, "No")
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        LoadingOverlay?.Start();
+        IsLoading = true;
+
+        AnniScolastici = new List<AnnoScolasticoItem> { new AnnoScolasticoItem(null, "Tutti") };
+        AnniScolastici.AddRange(Enum.GetValues(typeof(AnnoScolastico)).Cast<AnnoScolastico>().Select(a => new AnnoScolasticoItem((int)a)));
+
+        _filtroAnno = AnniScolastici.First();
+        _filtroPagato = FiltriPagati.First();
+
+        await CaricaIscrittiAsync();
+
+        IsLoading = false;
+        LoadingOverlay?.Stop();
+    }
+
+    private async Task CaricaIscrittiAsync()
+    {
+        IsBusy = true;
+
+        _tuttiGliIscritti = await IscrittiListaController.LoadIscrittiAsync();
+
+        ApplicaFiltroOrdinamento();
+
+        IsBusy = false;
+    }
+
+    private void ApplicaFiltroOrdinamento()
+    {
+        IEnumerable<VIscrizioneCompleta> query = _tuttiGliIscritti;
+
+        if (!string.IsNullOrWhiteSpace(_filtroCognome))
+            query = query.Where(x => x.BCognome.Contains(_filtroCognome, StringComparison.OrdinalIgnoreCase));
+
+        if (!string.IsNullOrWhiteSpace(_filtroNome))
+            query = query.Where(x => x.BNome.Contains(_filtroNome, StringComparison.OrdinalIgnoreCase));
+
+        if (!string.IsNullOrWhiteSpace(_filtroDataNascita))
+            query = query.Where(x => x.DataNascitaDesc.Contains(_filtroDataNascita));
+
+        if (_filtroAnno?.Value != null)
+            query = query.Where(x => x.Anno == (int)_filtroAnno.Value);
+
+        if (_filtroPagato?.Value != null)
+            query = query.Where(x => x.Pagato == _filtroPagato.Value);
+
+        query = (_ordinePer, _ordineAsc) switch
+        {
+            ("Nome", true) => query.OrderBy(x => x.BNome),
+            ("Nome", false) => query.OrderByDescending(x => x.BNome),
+            ("DataNascita", true) => query.OrderBy(x => x.DataNascita),
+            ("DataNascita", false) => query.OrderByDescending(x => x.DataNascita),
+            ("Anno", true) => query.OrderBy(x => x.Anno),
+            ("Anno", false) => query.OrderByDescending(x => x.Anno),
+            ("Pagato", true) => query.OrderBy(x => x.Pagato),
+            ("Pagato", false) => query.OrderByDescending(x => x.Pagato),
+            (_, true) => query.OrderBy(x => x.BCognome),
+            _ => query.OrderByDescending(x => x.BCognome)
+        };
+
+        Iscritti = query.ToList();
+    }
+
+    private void OrdinaPer(string colonna)
+    {
+        if (_ordinePer == colonna) _ordineAsc = !_ordineAsc;
+        else
+        {
+            _ordinePer = colonna;
+            _ordineAsc = true;
+        }
+
+        ApplicaFiltroOrdinamento();
+    }
+
+    private async Task OnPagatoChanged(VIscrizioneCompleta item, ChangeEventArgs e)
+    {
+        item.Pagato = (bool)e.Value;
+        await IscrittiListaController.AggiornaPagatoAsync(item);
+    }
+
+    private bool IsPopupAperto = false;
+    private bool IsPopupLoading = true;
+    private ModuloIscrizioneDto iscrizioneDaModificare = new();
+    private async Task OnIscrittoSelected(VIscrizioneCompleta item)
+    {
+        IsPopupAperto = true;
+        IsPopupLoading = true;
+        PopupLoadingOverlay?.Start();
+
+        StateHasChanged(); // forza il render immediato del popup
+
+        iscrizioneDaModificare = await IscrizioneCompletaController.GetAsync(item.IdBambino);
+
+        IsPopupLoading = false;
+        PopupLoadingOverlay?.Stop();
+
+        StateHasChanged();
+    }
+
+    private void ChiudiPopup()
+    {
+        IsPopupAperto = false;
+        iscrizioneDaModificare = new ModuloIscrizioneDto();
+    }
+
+    private Task SalvaIscrizione(ModuloIscrizioneDto model)
+    {
+        Console.WriteLine($"Salvata iscrizione: {model.Nome} {model.Cognome}");
+        // Qui logica di salvataggio reale
+        return Task.CompletedTask;
+    }
+
+    private VIscrizioneCompleta SelectedIscritto { get; set; }
+}

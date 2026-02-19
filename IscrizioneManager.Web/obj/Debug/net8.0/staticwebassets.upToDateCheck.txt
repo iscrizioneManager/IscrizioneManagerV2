@@ -1,6 +1,7 @@
 wwwroot\css\app.css
 wwwroot\css\Home.css
 wwwroot\css\InserisciIscrizione.css
+wwwroot\css\IscrittiLista.css
 wwwroot\css\LoadingView.css
 wwwroot\css\Login.css
 wwwroot\css\ModuloIscrizioneView.css
