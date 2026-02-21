@@ -38,6 +38,7 @@ public class ModuloIscrizioneDto
   // Altri flag
   public bool DaIscrivereAlNoi { get; set; }
   public bool ScontoFratelli { get; set; }
+  public bool Ricevuta { get; set; }
 
   public ModuloIscrizioneDto()
   {

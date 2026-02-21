@@ -6,4 +6,8 @@ wwwroot\css\LoadingView.css
 wwwroot\css\Login.css
 wwwroot\css\ModuloIscrizioneView.css
 wwwroot\icon-192.png
+wwwroot\images\edit.svg
+wwwroot\images\save.svg
+wwwroot\images\trash.svg
+wwwroot\images\undo.svg
 wwwroot\index.html

@@ -30,4 +30,6 @@ public class Iscrizione : EventModel
   public int? FormatoIscrizione { get; set; }
   [Column("sconto_fratelli")]
   public bool ScontoFratelli { get; set; }
+  [Column("ricevuta")]
+  public bool Ricevuta { get; set; }
 }

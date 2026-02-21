@@ -11,7 +11,7 @@
     }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .form-control {
@@ -73,9 +73,7 @@
     cursor: pointer;
 }
 
-    .btn-remove:hover {
-        background-color: darkred;
-    }
+
 
 .icon-button {
     width: 40px;
@@ -123,6 +121,14 @@
     width: 24px;
     height: 24px;
     filter: invert(0);
+}
+
+.btn-delete {
+    background-color: red;
+}
+
+.btn-remove:hover, .btn-delete:hover {
+    background-color: darkred;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -322,6 +328,109 @@
 
 .no-border {
     border: none;
-    padding: 0;
-    margin: 0;
 }
+
+.btn-edit {
+    margin-left: auto;
+    height: 40px;
+    align-self: flex-end;
+    padding: 0 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-icon {
+    display: none; /* desktop non mostra icona */
+}
+
+@media (max-width: 768px) {
+
+    .btn-edit {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+    }
+
+    .btn-text {
+        display: none; /* mobile nasconde testo */
+    }
+
+    .btn-icon {
+        display: block;
+        font-size: 20px;
+        filter: invert(1);
+    }
+    .mobile-fab {
+        position: fixed;
+        right: 20px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Pulsante principale: Salva */
+    .btn-submit.mobile-fab {
+        bottom: 20px;
+    }
+
+    /* Pulsanti secondari: Annulla e Elimina */
+    .fab-secondary {
+        bottom: 90px; /* Annulla */
+    }
+
+    .fab-tertiary {
+        bottom: 160px; /* Elimina */
+    }
+
+    /* Mobile: mostra solo icona */
+    .mobile-fab .btn-text {
+        display: none;
+    }
+
+    .mobile-fab .btn-icon {
+        display: block;
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.save-loader {
+    width: 30px;
+    height: 30px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+.visually-hidden {
+    visibility: hidden; /* element still occupies space */
+    height: 0;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+} 

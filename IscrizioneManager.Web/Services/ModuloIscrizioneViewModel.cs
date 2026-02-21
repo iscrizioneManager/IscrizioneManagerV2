@@ -76,7 +76,7 @@ namespace IscrizioneManager.Web.Services
         Nome = x.Nome,
         Cognome = x.Cognome,
         Telefono = x.Telefono,
-        Sesso = x.Sesso
+        Genere = x.Genere
       })?.ToList() ?? new List<GenitoreDto>();
     }
   }

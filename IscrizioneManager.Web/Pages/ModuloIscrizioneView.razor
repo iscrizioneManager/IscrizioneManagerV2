@@ -3,6 +3,7 @@
 @using IscrizioniManager.Items
 @using IscrizioniManager.Models
 @using Microsoft.AspNetCore.Components.Forms
+@using Newtonsoft.Json
 <link href="css/ModuloIscrizioneView.css" rel="stylesheet" />
 
 <EditForm Model="FormModel" OnValidSubmit="HandleSubmit">
@@ -10,33 +11,56 @@
     <ValidationSummary />
     <LoadingView @ref="LoadingOverlay" />
 
-    <fieldset disabled="@IsReadOnly" class="no-border form-container @(IsLoading ? "hidden" : "")">
-            <!-- ================= ANAGRAFICA ================= -->
-            <div class="row-flex">
+    <div class="form-container @(IsLoading ? "hidden" : "")">
+        <!-- ================= ANAGRAFICA ================= -->
+        <div class="row-flex">
+            <fieldset disabled="@IsReadOnly" class="no-border">
                 <div class="field small">
-                    <label>Cognome*</label>
+                    <label>Cognome</label>
                     <InputText @bind-Value="FormModel.Cognome" class="form-control" />
                 </div>
+            </fieldset>
+            <fieldset disabled="@IsReadOnly" class="no-border">
 
                 <div class="field small">
-                    <label>Nome*</label>
+                    <label>Nome</label>
                     <InputText @bind-Value="FormModel.Nome" class="form-control" />
                 </div>
-
+            </fieldset>
+            <fieldset disabled="@IsReadOnly" class="no-border">
                 <div class="field small">
-                    <label>Data di nascita*</label>
+                    <label>Data di nascita</label>
                     <InputDate @bind-Value="FormModel.DataNascita" class="form-control" />
                 </div>
-
+            </fieldset>
+            <fieldset disabled="@IsReadOnly" class="no-border">
                 <div class="field small">
-                    <label>Genere*</label>
+                    <label>Genere</label>
                     <InputSelect @bind-Value="FormModel.Genere" class="form-control">
                         <option value="">Seleziona</option>
                         <option value="1">M</option>
                         <option value="2">F</option>
                     </InputSelect>
                 </div>
-            </div>
+            </fieldset>
+
+            <button type="button" class="no-border btn-edit @((!IsReadOnly || IsSubmitting) ? "hidden" : "")" @onclick="Modifica">
+                <span class="btn-text">Modifica</span>
+                <img src="images/edit.svg" class="btn-icon" />
+            </button>
+
+            <button type="button" class="no-border btn-edit mobile-fab fab-tertiary btn-delete @((IsReadOnly || FormModel.IdBambino == null) ? "hidden" : "")" @onclick="Elimina">
+                <span class="btn-text">Elimina</span>
+                <img src="images/trash.svg" class="btn-icon" />
+            </button>
+
+            <button type="button" class="no-border btn-edit mobile-fab fab-secondary @((IsReadOnly || FormModel.IdBambino == null) ? "hidden" : "")" style="margin-left: 0" @onclick="AnnulaModifica">
+                <span class="btn-text">Annulla</span>
+                <img src="images/undo.svg" class="btn-icon" />
+            </button>
+        </div>
+
+        <fieldset disabled="@IsReadOnly" class="no-border">
 
             <div class="row-flex mt">
                 <div class="field medium">
@@ -55,176 +79,190 @@
                 </div>
             </div>
 
-        <!-- ================= GENITORI ================= -->
-        <div class="section mt">
-            <label>Genitori</label>
-            <button type="button" class="mb btn-add-genitore @(IsReadOnly ? "hidden" : "")" style="@(FormModel.Genitori.Count >= 2 ? "none" : "inline-block")" @onclick="AddGenitore">
-                Aggiungi Genitore
-            </button>
-
-            @if (FormModel.Genitori != null)
-            {
-                @foreach (var genitore in FormModel.Genitori)
-                {
-                    <div class="genitore-card">
-                        <div class="field small center">
-                            <InputText @bind-Value="genitore.Cognome" placeholder="Cognome" class="form-control" />
-                        </div>
-
-                        <div class="field small center">
-                            <InputText @bind-Value="genitore.Nome" placeholder="Nome" class="form-control" />
-                        </div>
-
-                        <div class="field small center">
-                            <InputText @bind-Value="genitore.Telefono" placeholder="Telefono" class="form-control" />
-                        </div>
-
-                        <div class="field small center">
-                            <InputSelect @bind-Value="genitore.Sesso" class="form-control">
-                                <option value="">Seleziona</option>
-                                <option value="M">M</option>
-                                <option value="F">F</option>
-                            </InputSelect>
-                        </div>
-
-                        <button type="button" class="icon-button @(IsReadOnly ? "hidden" : "")" @onclick="@(() => ApriPopup(genitore))" title="Cerca genitore">
-                            <img src="images/icona_cerca.svg" class="cerca-img" />
-                        </button>
-
-                        <button type="button" class="btn-remove @(IsReadOnly ? "hidden" : "")" @onclick="@(() => RemoveGenitore(FormModel.Genitori.IndexOf(genitore)))">
-                            Rimuovi
-                        </button>
-                    </div>
-                }
-            }
-        </div>
-
-        <!-- ================= ISCRIZIONE E NOTE ================= -->
-        <div class="row-flex mt">
-            <div class="field medium">
-                <label>Anno scolastico</label>
-                <InputSelect @bind-Value="FormModel.AnnoScolastico" class="form-control">
-                    <option value="">Seleziona</option>
-                    @foreach (var anno in AnniScolastici)
-                    {
-                        <option value="@anno.Value">@anno.Description</option>
-                    }
-                </InputSelect>
-            </div>
-        </div>
-
-        <div class="row-flex mt">
-            <div class="field large">
-                <label>Note</label>
-                <InputTextArea @bind-Value="FormModel.Note" rows="3" class="form-control" />
-            </div>
-        </div>
-
-        <!-- ================= SETTIMANE ================= -->
-        @if (FormModel.Settimane != null)
-        {
+            <!-- ================= GENITORI ================= -->
             <div class="section mt">
-                <label>Settimane</label>
-                @foreach (var settimana in FormModel.Settimane)
+                <label>Genitori</label>
+                <button type="button" class="mb btn-add-genitore @((IsReadOnly || FormModel.Genitori.Count >= 2) ? "hidden" : "")" @onclick="AddGenitore">
+                    Aggiungi Genitore
+                </button>
+
+                @if (FormModel.Genitori != null)
                 {
-                    <div class="row-flex align-center">
-                        <InputCheckbox @bind-Value="settimana.IsSelected" />
-                        <span>@settimana.Desc</span>
-                    </div>
+                    @foreach (var genitore in FormModel.Genitori)
+                    {
+                        <div class="genitore-card">
+                            <div class="field small center">
+                                <InputText @bind-Value="genitore.Cognome" placeholder="Cognome" class="form-control" />
+                            </div>
+
+                            <div class="field small center">
+                                <InputText @bind-Value="genitore.Nome" placeholder="Nome" class="form-control" />
+                            </div>
+
+                            <div class="field small center">
+                                <InputText @bind-Value="genitore.Telefono" placeholder="Telefono" class="form-control" />
+                            </div>
+
+                            <div class="field small center">
+                                <InputSelect @bind-Value="genitore.Genere" class="form-control">
+                                    <option value="">Seleziona</option>
+                                    <option value="1">M</option>
+                                    <option value="2">F</option>
+                                </InputSelect>
+                            </div>
+
+                            <button type="button" class="icon-button @(IsReadOnly ? "hidden" : "")" @onclick="@(() => ApriPopup(genitore))" title="Cerca genitore">
+                                <img src="images/icona_cerca.svg" class="cerca-img" />
+                            </button>
+
+                            <button type="button" class="btn-remove @(IsReadOnly ? "hidden" : "")" @onclick="@(() => RemoveGenitore(FormModel.Genitori.IndexOf(genitore)))">
+                                Rimuovi
+                            </button>
+                        </div>
+                    }
                 }
             </div>
-        }
 
-        <!-- ================= TAGLIA ================= -->
-        @if (Taglie != null)
-        {
+            <!-- ================= ISCRIZIONE E NOTE ================= -->
             <div class="row-flex mt">
                 <div class="field medium">
-                    <label>Taglia</label>
-                    <InputSelect @bind-Value="FormModel.Taglia" class="form-control">
+                    <label>Anno scolastico</label>
+                    <InputSelect @bind-Value="FormModel.AnnoScolastico" class="form-control">
                         <option value="">Seleziona</option>
-                        @foreach (var taglia in Taglie)
+                        @foreach (var anno in AnniScolastici)
                         {
-                            <option value="@taglia.Id">@taglia.Descrizione</option>
+                            <option value="@anno.Value">@anno.Description</option>
                         }
                     </InputSelect>
                 </div>
             </div>
-        }
 
-        <!-- ================= SCHEDA SANITARIA ================= -->
-        <div class="row-flex mt">
-            <div class="field large">
-                <label>Allergie/Intolleranze</label>
-                <InputTextArea @bind-Value="FormModel.AllergieIntolleranze" class="form-control" rows="2" />
+            <div class="row-flex mt">
+                <div class="field large">
+                    <label>Note</label>
+                    <InputTextArea @bind-Value="FormModel.Note" rows="3" class="form-control" />
+                </div>
             </div>
-        </div>
 
-        <div class="row-flex mt">
-            <div class="field large">
-                <label>Patologie/Terapie</label>
-                <InputTextArea @bind-Value="FormModel.PatologieTerapie" class="form-control" rows="2" />
-            </div>
-        </div>
+            <!-- ================= SETTIMANE ================= -->
+            @if (FormModel.Settimane != null)
+            {
+                <div class="section mt">
+                    <label>Settimane</label>
+                    @foreach (var settimana in FormModel.Settimane)
+                    {
+                        <div class="row-flex align-center">
+                            <InputCheckbox @bind-Value="settimana.IsSelected" />
+                            <span>@settimana.Desc</span>
+                        </div>
+                    }
+                </div>
+            }
 
-        <!-- ================= CONSENSI ================= -->
-        @if (FormModel.ConsensiDisponibili != null)
-        {
-            <div class="section mt">
-                <label>Consensi</label>
-                @foreach (var consenso in FormModel.ConsensiDisponibili)
-                {
-                    <div class="row-flex align-center">
-                        <InputCheckbox @bind-Value="consenso.IsSelected" />
-                        <span>@consenso.Descrizione</span>
+            <!-- ================= TAGLIA ================= -->
+            @if (Taglie != null)
+            {
+                <div class="row-flex mt">
+                    <div class="field medium">
+                        <label>Taglia</label>
+                        <InputSelect @bind-Value="FormModel.Taglia" class="form-control">
+                            <option value="">Seleziona</option>
+                            @foreach (var taglia in Taglie)
+                            {
+                                <option value="@taglia.Id">@taglia.Descrizione</option>
+                            }
+                        </InputSelect>
                     </div>
-                }
-            </div>
-        }
+                </div>
+            }
 
-        <!-- ================= PAGAMENTO E FLAGS ================= -->
-        <div class="row-flex mt wrap">
-            <div class="field medium">
-                <label>Formato iscrizione</label>
-                <InputSelect @bind-Value="FormModel.FormatoIscrizioneSelezionato">
-                    <option value="">Seleziona</option>
-                    @foreach (var formato in FormatoIscrizioneItems)
+            <!-- ================= SCHEDA SANITARIA ================= -->
+            <div class="row-flex mt">
+                <div class="field large">
+                    <label>Allergie/Intolleranze</label>
+                    <InputTextArea @bind-Value="FormModel.AllergieIntolleranze" class="form-control" rows="2" />
+                </div>
+            </div>
+
+            <div class="row-flex mt">
+                <div class="field large">
+                    <label>Patologie/Terapie</label>
+                    <InputTextArea @bind-Value="FormModel.PatologieTerapie" class="form-control" rows="2" />
+                </div>
+            </div>
+
+            <!-- ================= CONSENSI ================= -->
+            @if (FormModel.ConsensiDisponibili != null)
+            {
+                <div class="section mt">
+                    <label>Consensi</label>
+                    @foreach (var consenso in FormModel.ConsensiDisponibili)
                     {
-                        <option value="@formato.Id">@formato.Desc</option>
+                        <div class="row-flex align-center">
+                            <InputCheckbox @bind-Value="consenso.IsSelected" />
+                            <span>@consenso.Descrizione</span>
+                        </div>
                     }
-                </InputSelect>
+                </div>
+            }
+
+            <!-- ================= PAGAMENTO E FLAGS ================= -->
+            <div class="row-flex mt wrap">
+                <div class="field medium">
+                    <label>Formato iscrizione</label>
+                    <InputSelect @bind-Value="FormModel.FormatoIscrizioneSelezionato">
+                        <option value="">Seleziona</option>
+                        @foreach (var formato in FormatoIscrizioneItems)
+                        {
+                            <option value="@formato.Id">@formato.Desc</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div class="field medium">
+                    <label>Modalità pagamento</label>
+                    <InputSelect @bind-Value="FormModel.ModalitaPagamentoSelezionata">
+                        <option value="">Seleziona</option>
+                        @foreach (var modalita in ModalitaPagamentoItems)
+                        {
+                            <option value="@modalita.Id">@modalita.Desc</option>
+                        }
+                    </InputSelect>
+                </div>
             </div>
 
-            <div class="field medium">
-                <label>Modalità pagamento</label>
-                <InputSelect @bind-Value="FormModel.ModalitaPagamentoSelezionata">
-                    <option value="">Seleziona</option>
-                    @foreach (var modalita in ModalitaPagamentoItems)
-                    {
-                        <option value="@modalita.Id">@modalita.Desc</option>
-                    }
-                </InputSelect>
+            <div class="row-flex mt align-center">
+                <InputCheckbox @bind-Value="FormModel.DaIscrivereAlNoi" />
+                <span>Da iscrivere al NOI</span>
             </div>
-        </div>
 
-        <div class="row-flex mt align-center">
-            <InputCheckbox @bind-Value="FormModel.DaIscrivereAlNoi" />
-            <span>Da iscrivere al NOI</span>
-        </div>
+            <div class="row-flex mt align-center">
+                <InputCheckbox @bind-Value="FormModel.ScontoFratelli" />
+                <span>Sconto fratelli</span>
+            </div>
 
-        <div class="row-flex mt align-center">
-            <InputCheckbox @bind-Value="FormModel.ScontoFratelli" />
-            <span>Sconto fratelli</span>
-        </div>
+            <div class="row-flex mt align-center">
+                <InputCheckbox @bind-Value="FormModel.Ricevuta" />
+                <span>Richiede ricevuta</span>
+            </div>
+        </fieldset>
 
         <!-- ================= SUBMIT ================= -->
-        <div class="mt salva-iscrizione-button">
-            <button type="submit" class="btn-submit @(IsReadOnly ? "hidden" : "")">
-                Salva Iscrizione
-            </button>
-        </div>
-
-    </fieldset>
+        <button type="submit"
+        class="btn-submit mobile-fab @((IsReadOnly && !IsSubmitting) ? "hidden" : "")"
+        disabled="@IsSubmitting">
+            @if (IsSubmitting)
+            {
+                <span class="btn-text visually-hidden">Salva iscrizione</span>
+                <span class="save-loader"></span>
+            }
+            else
+            {
+                <span class="btn-text">Salva iscrizione</span>
+                <img src="images/save.svg" class="btn-icon" />
+            }
+        </button>
+    </div>
 </EditForm>
 @if (IsPopupAperto)
 {
@@ -244,8 +282,8 @@
             else
             {
                 <input type="text" placeholder="Cerca per nome o cognome"
-                       @bind="SearchText"
-                       class="popup-search" />
+                @bind="SearchText"
+                class="popup-search" />
 
                 <div style="height:350px; overflow:auto;">
                     @foreach (var g in GenitoriFiltrati)
@@ -264,6 +302,8 @@
     private LoadingView? LoadingOverlay;
     private bool IsLoading = true;
     [Parameter]
+    public bool IsSubmitting { get; set; } = false;
+    [Parameter]
     public ModuloIscrizioneDto FormModel { get; set; } = new();
 
     [Parameter]
@@ -272,7 +312,8 @@
     [Inject]
     public ModuloIscrizioneViewModel ViewModel { get; set; } = new();
 
-    private bool IsReadOnly = false;
+    [Parameter]
+    public bool IsReadOnly { get; set; } = false;
     private List<Settimana>? Settimane = new List<Settimana>();
     private List<Taglia>? Taglie = new List<Taglia>();
     private List<ConsensoDto>? ConsensiDisponibili = new List<ConsensoDto>();
@@ -291,11 +332,12 @@
         .Select(e => new FormatoIscrizioneItem() { Id = (int)e, Desc = e.ToString() }).ToList();
     private bool datiCaricati = false;
 
-
+    private ModuloIscrizioneDto? _initialFormModel;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender || datiCaricati)
+        if (!firstRender || datiCaricati){
             return;
+        }
 
         IsLoading = true;
         StateHasChanged();
@@ -321,11 +363,13 @@
                 }).ToList();
         }
 
-        if (FormModel.ConsensiDisponibili == null)
+        if (FormModel.ConsensiDisponibili == null || !FormModel.ConsensiDisponibili?.Any() == true)
             FormModel.ConsensiDisponibili = ConsensiDisponibili;
 
         IsReadOnly = FormModel.IdIscrizione != null;
-
+        _initialFormModel = JsonConvert.DeserializeObject<ModuloIscrizioneDto>(
+            JsonConvert.SerializeObject(FormModel)
+            );
         datiCaricati = true;
         LoadingOverlay?.Stop();
         IsLoading = false;
@@ -392,10 +436,33 @@
             genitoreCorrente.Cognome = genitore.Cognome;
             genitoreCorrente.Telefono = genitore.Telefono;
             genitoreCorrente.Existing = true;
-            genitoreCorrente.Sesso = genitore.Sesso;
+            genitoreCorrente.Genere = genitore.Genere;
         }
         IsPopupAperto = false;
         SearchText = "";
         Genitori.Clear();
+    }
+
+    private void Modifica()
+    {
+        IsReadOnly = false;
+    }
+
+    private void AnnulaModifica()
+    {
+        // if (_initialFormModel != null)
+        // {
+        //     // Deep clone again to avoid referencing the same object
+        //     FormModel = JsonConvert.DeserializeObject<ModuloIscrizioneDto>(
+        //         JsonConvert.SerializeObject(_initialFormModel)
+        //     );
+        // }
+
+        IsReadOnly = true;
+    }
+
+    private void Elimina()
+    {
+
     }
 }

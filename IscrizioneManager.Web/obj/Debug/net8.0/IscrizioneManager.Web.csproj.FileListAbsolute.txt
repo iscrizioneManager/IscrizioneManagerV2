@@ -1123,8 +1123,8 @@ C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\D
 C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\IscrizioneManager.Web.pdb
 C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\ref\IscrizioneManager.Web.dll
 C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\IscrizioneManager.Web.sourcelink.json
-C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\4ulzcehigh-fgqqx8tp3v.gz
-C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\g6v8majqzg-5q4wfjw5hn.gz
-C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\9our7h80wp-exjfbh92wx.gz
-C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\6qjmepq40f-b7qeztm0nt.gz
-C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\0spggsu04f-erjifdq9zr.gz
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\4ulzcehigh-d8l6lykow8.gz
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\g6v8majqzg-6s4qfvyw9i.gz
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\9our7h80wp-b2tro5x1rj.gz
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\6qjmepq40f-q0ed25qukv.gz
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\0spggsu04f-9yf780uqey.gz

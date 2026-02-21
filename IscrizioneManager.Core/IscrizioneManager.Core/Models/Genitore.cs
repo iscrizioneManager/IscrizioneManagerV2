@@ -17,5 +17,5 @@ public class Genitore : EventModel
   public string? Telefono { get; set; }
 
   [Column("sesso")]
-  public int? Sesso { get; set; }
+  public int? Genere { get; set; }
 }

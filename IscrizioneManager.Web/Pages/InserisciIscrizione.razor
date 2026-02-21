@@ -1,25 +1,80 @@
 ﻿@page "/inserisciIscrizione"
+@using IscrizioneManager.Core.Utils
 <link href="css/InserisciIscrizione.css" rel="stylesheet" />
+
 <div class="header-iscrizione">
     <h2>Nuova Iscrizione</h2>
     <button class="btn-chiudi" @onclick="TornaIndietro" title="Chiudi">×</button>
 </div>
-<ModuloIscrizioneView FormModel="newIscrizione" OnSubmitCallback="SalvaIscrizione" />
+
+<ModuloIscrizioneView FormModel="newIscrizione" OnSubmitCallback="SalvaIscrizione" IsSubmitting="IsSubmitting" IsReadOnly="IsReadOnly" />
+
+@if (showErrorPopup)
+{
+    <div class="error-popup-overlay">
+        <div class="error-popup-content">
+            <button class="error-popup-close" @onclick="CloseErrorPopup">×</button>
+            <h3>Errore durante il salvataggio</h3>
+            <p style="white-space: pre-wrap;">@errorMessage</p>
+        </div>
+    </div>
+}
 
 @code {
     private ModuloIscrizioneDto newIscrizione = new();
+
     [Inject]
     private NavigationManager Navigation { get; set; } = default!;
 
-    private Task SalvaIscrizione(ModuloIscrizioneDto model)
+    private bool showErrorPopup = false;
+    private string errorMessage = string.Empty;
+    private bool IsReadOnly = false;
+    private bool IsSubmitting = false;
+
+    private async Task SalvaIscrizione(ModuloIscrizioneDto model)
     {
-        Console.WriteLine($"Salvata iscrizione: {model.Nome} {model.Cognome}");
-        // Qui logica di salvataggio reale
-        return Task.CompletedTask;
+        IsSubmitting = true; // disabilita il form
+        IsReadOnly = true;
+        bool succeded = false;
+        try
+        {
+            var validate = ModuloIscrizioneValidator.Validate(model);
+            if (validate != "")
+                throw new Exception(validate);
+
+            if (model.IdBambino != null)
+            {
+                succeded = await IscrizioneCompletaController.UpdateAsync(model);
+            }
+            else
+            {
+                succeded = await IscrizioneCompletaController.CreateAsync(model);
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message; // salva il messaggio da mostrare
+            showErrorPopup = true;      // mostra popup
+            Console.WriteLine($"Errore durante il salvataggio: {ex.Message}");
+        }
+
+        if (succeded)
+        {
+            Console.WriteLine($"Salvata iscrizione: {model.Nome} {model.Cognome}");
+        }
+
+        IsSubmitting = false;
+        IsReadOnly = false;
+    }
+
+    private void CloseErrorPopup()
+    {
+        showErrorPopup = false;
+        errorMessage = string.Empty;
     }
 
     private void TornaIndietro()
     {
-        Navigation.NavigateTo("/", true); // "/" è la home, oppure puoi cambiare con la pagina precedente
+        Navigation.NavigateTo("/", true);
     }
 }

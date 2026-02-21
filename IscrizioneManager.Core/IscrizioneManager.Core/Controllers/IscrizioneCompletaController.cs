@@ -1,9 +1,9 @@
 ﻿using IscrizioneManager.Core.Items;
 using IscrizioneManager.Core.Services;
-using IscrizioniManager;
-using IscrizioniManager.Items;
 using IscrizioniManager.Models;
 using IscrizioniManager.Utils;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 public class IscrizioneCompletaController
 {
@@ -11,364 +11,133 @@ public class IscrizioneCompletaController
   {
   }
 
-  public async Task<bool> CreateAsync(ModuloIscrizioneDto dto)
+  public static async Task<bool> CreateAsync(ModuloIscrizioneDto dto)
   {
-    Bambino bambinoCreato;
-      // crea nuovo bambino
-    var bambino = new Bambino
+    if (dto == null) throw new ArgumentNullException(nameof(dto));
+    var payload = new
     {
-      Nome = dto.Nome!,
-      Cognome = dto.Cognome!,
-      DataNascita = dto.DataNascita.Value.ToString("yyyy-MM-dd"),
-      Genere = dto.Genere!.Value,
-      LuogoNascita = dto.LuogoNascita,
-      IndirizzoResidenza = dto.IndirizzoResidenza,
-      ComuneResidenza = dto.ComuneResidenza
-    };
-    var bambinoResp = await ClientHolder.Client.GetAll<Bambino>().InsertAsync(bambino);
-    bambinoCreato = bambinoResp.Models.First();
-
-    // --- 2. Crea genitori e relazioni
-    if (dto.Genitori != null)
-    {
-      foreach (var g in dto.Genitori)
+      p_dto = new
       {
-        Genitore genitoreCreato;
-
-        if (g.IdGenitore.HasValue && g.IdGenitore.Value > 0)
-        {
-          // caso 1: genitore già esistente
-          var existing = await ClientHolder.Client
-              .GetAll<Genitore>()
-              .Select("*")
-              .Where(x => x.Id == g.IdGenitore.Value)
-              .Single();
-
-          if (existing == null)
-            throw new Exception($"Genitore con Id {g.IdGenitore.Value} non trovato");
-
-          genitoreCreato = existing;
-        }
-        else
-        {
-          // caso 2: nuovo genitore
-          var nuovo = new Genitore
-          {
-            Nome = g.Nome!,
-            Cognome = g.Cognome!,
-            Telefono = g.Telefono,
-            Sesso = g.Sesso,
-          };
-          var resp = await ClientHolder.Client.GetAll<Genitore>().InsertAsync(nuovo);
-          genitoreCreato = resp.Models.First();
-        }
-
-        // --- crea relazione genitore-bambino
-        var rel = new GenitoreBambino
-        {
-          IdGenitore = genitoreCreato.Id,
-          IdBambino = bambinoCreato.Id,
-        };
-        await ClientHolder.Client.GetAll<GenitoreBambino>().InsertAsync(rel);
-
+        nome = dto.Nome,
+        cognome = dto.Cognome,
+        data_nascita = dto.DataNascita?.ToString("yyyy-MM-dd"),
+        genere = dto.Genere,
+        luogo_nascita = dto.LuogoNascita,
+        indirizzo_residenza = dto.IndirizzoResidenza,
+        comune_residenza = dto.ComuneResidenza,
+        settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
+          id_settimana = Math.Abs(s.Id),
+          intero = s.CostoIntero != null
+        }).ToArray(),
+        genitori = dto.Genitori?.Select(g => new {
+          id_genitore = g.IdGenitore,
+          nome = g.Nome,
+          cognome = g.Cognome,
+          telefono = g.Telefono,
+          sesso = g.Genere
+        }).ToArray(),
+        consensi = dto.ConsensiDisponibili?.Select(c => new {
+          id_tipo_consenso = c.IdTipoConsenso,
+          valore = c.IsSelected
+        }).ToArray(),
+        sconto_fratelli = dto.ScontoFratelli,
+        da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
+        formato_iscrizione = dto.FormatoIscrizioneSelezionato,
+        modalita_pagamento = dto.ModalitaPagamentoSelezionata,
+        taglia = dto.Taglia
       }
-    }
-
-    // --- 3. Crea iscrizione
-    var iscrizione = new Iscrizione
-    {
-      IdBambino = bambinoCreato.Id,
-      Anno = (AnnoScolastico?)dto.AnnoScolastico,
-      Note = dto.Note,
-      DaIscrivereAlNoi = dto.DaIscrivereAlNoi,
-      ModalitaPagamento = dto.ModalitaPagamentoSelezionata,
-      FormatoIscrizione = dto.FormatoIscrizioneSelezionato,
-      ScontoFratelli = dto.ScontoFratelli
     };
-    var iscrizioneResp = await ClientHolder.Client.GetAll<Iscrizione>().InsertAsync(iscrizione);
-    var iscrizioneCreato = iscrizioneResp.Models.First();
 
-    // --- 4. Settimane
-    if (dto.Settimane != null)
+    try
     {
-      foreach (var idSettimana in dto.Settimane)
+      // 1. Serializza il DTO in JSON
+      var dtoJson = JsonSerializer.Serialize(payload, new JsonSerializerOptions
       {
-        var iscrSettimana = new IscrizioneSettimana
-        {
-          IdIscrizione = iscrizioneCreato.Id,
-          IdSettimana = idSettimana.CostoIntero != null ? idSettimana.Id : -idSettimana.Id,
-          Intero = idSettimana.CostoIntero != null
-        };
-        await ClientHolder.Client.GetAll<IscrizioneSettimana>().InsertAsync(iscrSettimana);
-      }
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+      });
+
+      // 2. Chiama la stored procedure PostgreSQL via RPC
+      //    "create_iscrizione" è il nome della funzione PL/pgSQL
+      var bambinoId = await ClientHolder.Client.Rpc<int>(
+          "create_iscrizione",
+          payload  // pass as JSON, not string
+      );
+
+      // 3. Restituisci l'id del bambino creato
+      return bambinoId != default;
     }
-
-    // --- 5. Taglia
-    if (dto.Taglia != null)
+    catch (Exception ex)
     {
-      var iscrTaglia = new IscrizioneTaglia
-      {
-        IdIscrizione = iscrizioneCreato.Id,
-        IdTaglia = dto.Taglia.Value
-      };
-      await ClientHolder.Client.GetAll<IscrizioneTaglia>().InsertAsync(iscrTaglia);
+      // Qui puoi loggare o rilanciare l'eccezione
+      Console.WriteLine($"Errore CreateAsync: {ex.Message}");
+      throw;
     }
-
-    // --- 6. Scheda sanitaria
-    var scheda = new SchedaSanitaria
-    {
-      IdIscrizione = iscrizioneCreato.Id,
-      AllergieIntolleranze = dto.AllergieIntolleranze,
-      PatologieTerapie = dto.PatologieTerapie
-    };
-    await ClientHolder.Client.GetAll<SchedaSanitaria>().InsertAsync(scheda);
-
-    // --- 7. Consensi
-    if (dto.ConsensiDisponibili != null)
-    {
-      foreach (var c in dto.ConsensiDisponibili)
-      {
-        if (c.IdTipoConsenso.HasValue)
-        {
-          var consenso = new Consenso
-          {
-            IdIscrizione = iscrizioneCreato.Id,
-            IdTipoConsenso = c.IdTipoConsenso.Value,
-            Valore = c.IsSelected,
-          };
-          await ClientHolder.Client.GetAll<Consenso>().InsertAsync(consenso);
-        }
-      }
-    }
-
-    //return new ModuloIscrizioneDto
-    //{
-    //  IdBambino = bambinoCreato.Id,
-    //  Nome = bambinoCreato.Nome,
-    //  Cognome = bambinoCreato.Cognome,
-    //  DataNascita = DateOnly.Parse(bambinoCreato.DataNascita),
-    //  LuogoNascita = bambinoCreato.LuogoNascita,
-    //  IndirizzoResidenza = bambinoCreato.IndirizzoResidenza,
-    //  IdIscrizione = iscrizioneCreato.Id,
-    //  Anno = iscrizioneCreato.Anno,
-    //  Note = iscrizioneCreato.Note
-    //  // Genitori, Settimane, Consensi ecc. → puoi caricarli se vuoi subito
-    //};
-    return true;
   }
 
-  public async Task<bool> UpdateAsync(int idBambino, ModuloIscrizioneDto dto)
+  public static async Task<bool> UpdateAsync(ModuloIscrizioneDto dto)
   {
-    // --- Aggiorna dati del bambino
-    if (dto.Nome != null || dto.Cognome != null || dto.DataNascita.HasValue || dto.Genere.HasValue ||
-        dto.LuogoNascita != null || dto.IndirizzoResidenza != null || dto.ComuneResidenza != null)
+    if (dto == null) throw new ArgumentNullException(nameof(dto));
+    var payload = new
     {
-      var bambinoResp = await ClientHolder.Client
-          .GetAll<Bambino>()
-          .Select("*")
-          .Where(x => x.Id == idBambino)
-          .Get();
+      p_dto = new
+      {
+        nome = dto.Nome,
+        cognome = dto.Cognome,
+        data_nascita = dto.DataNascita?.ToString("yyyy-MM-dd"),
+        genere = dto.Genere,
+        luogo_nascita = dto.LuogoNascita,
+        indirizzo_residenza = dto.IndirizzoResidenza,
+        comune_residenza = dto.ComuneResidenza,
+        settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
+          id_settimana = Math.Abs(s.Id),
+          intero = s.CostoIntero != null
+        }).ToArray(),
+        genitori = dto.Genitori?.Select(g => new {
+          id_genitore = g.IdGenitore,
+          nome = g.Nome,
+          cognome = g.Cognome,
+          telefono = g.Telefono,
+          sesso = g.Genere
+        }).ToArray(),
+        consensi = dto.ConsensiDisponibili?.Select(c => new {
+          id_tipo_consenso = c.IdTipoConsenso,
+          valore = c.IsSelected
+        }).ToArray(),
+        sconto_fratelli = dto.ScontoFratelli,
+        da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
+        formato_iscrizione = dto.FormatoIscrizioneSelezionato,
+        modalita_pagamento = dto.ModalitaPagamentoSelezionata,
+        taglia = dto.Taglia
+      },
+      p_id_bambino = dto.IdBambino
+    };
 
-      var bambino = bambinoResp.Models?.FirstOrDefault();
-      if (bambino == null) throw new Exception("Bambino non trovato");
-
-      if (dto.Nome != null) bambino.Nome = dto.Nome;
-      if (dto.Cognome != null) bambino.Cognome = dto.Cognome;
-      if (dto.DataNascita.HasValue) bambino.DataNascita = dto.DataNascita.Value.ToString("yyyy-MM-dd");
-      if (dto.Genere != null) bambino.Genere = dto.Genere.Value;
-      if (dto.LuogoNascita != null) bambino.LuogoNascita = dto.LuogoNascita;
-      if (dto.IndirizzoResidenza != null) bambino.IndirizzoResidenza = dto.IndirizzoResidenza;
-      if (dto.ComuneResidenza != null) bambino.ComuneResidenza = dto.ComuneResidenza;
-
-      await ClientHolder.Client.GetAll<Bambino>().Update(bambino);
-    }
-
-    if (dto.Genitori != null)
+    try
     {
-      // Prendi tutte le relazioni esistenti
-      var relazioniEsistenti = await ClientHolder.Client
-          .GetAll<GenitoreBambino>()
-          .Where(x => x.IdBambino == idBambino)
-          .Get();
-
-      // Cancella tutte le relazioni esistenti
-      foreach (var rel in relazioniEsistenti.Models ?? new List<GenitoreBambino>())
+      // 1. Serializza il DTO in JSON
+      var dtoJson = JsonSerializer.Serialize(payload, new JsonSerializerOptions
       {
-        await ClientHolder.Client.GetAll<GenitoreBambino>().Delete(rel);
-      }
-
-      foreach (var g in dto.Genitori)
-      {
-        Genitore genitoreAggiornato;
-
-        if (g.IdGenitore.HasValue && g.IdGenitore.Value > 0)
-        {
-          // Aggiorna genitore esistente
-          var existing = await ClientHolder.Client
-              .GetAll<Genitore>()
-              .Where(x => x.Id == g.IdGenitore.Value)
-              .Single();
-
-          if (existing == null)
-            throw new Exception($"Genitore con Id {g.IdGenitore.Value} non trovato");
-
-          existing.Nome = g.Nome;
-          existing.Cognome = g.Cognome;
-          existing.Telefono = g.Telefono;
-          existing.Sesso = g.Sesso;
-
-          await ClientHolder.Client.GetAll<Genitore>().Update(existing);
-          genitoreAggiornato = existing;
-        }
-        else
-        {
-          // Inserisci nuovo genitore
-          var nuovo = new Genitore
-          {
-            Nome = g.Nome,
-            Cognome = g.Cognome,
-            Telefono = g.Telefono,
-            Sesso = g.Sesso
-          };
-          var resp = await ClientHolder.Client.GetAll<Genitore>().InsertAsync(nuovo);
-          genitoreAggiornato = resp.Models.First();
-        }
-
-        // Inserisci nuova relazione GenitoreBambino
-        var rel = new GenitoreBambino
-        {
-          IdGenitore = genitoreAggiornato.Id,
-          IdBambino = idBambino
-        };
-        await ClientHolder.Client.GetAll<GenitoreBambino>().InsertAsync(rel);
-      }
-    }
-
-    // --- Aggiorna iscrizione
-    var iscrList = await ClientHolder.Client
-        .GetAll<Iscrizione>()
-        .Select("*")
-        .Where(x => x.IdBambino == idBambino)
-        .Get();
-
-    var iscrizione = iscrList.Models?.FirstOrDefault();
-    if (iscrizione == null) throw new Exception("Iscrizione non trovata");
-
-    if (dto.AnnoScolastico.HasValue) iscrizione.Anno = (AnnoScolastico?)dto.AnnoScolastico.Value;
-    if (dto.Note != null) iscrizione.Note = dto.Note;
-    iscrizione.DaIscrivereAlNoi = dto.DaIscrivereAlNoi;
-    iscrizione.ModalitaPagamento = dto.ModalitaPagamentoSelezionata;
-    iscrizione.FormatoIscrizione = dto.FormatoIscrizioneSelezionato;
-    iscrizione.ScontoFratelli = dto.ScontoFratelli;
-
-    await ClientHolder.Client.GetAll<Iscrizione>().Update(iscrizione);
-
-    // --- Aggiorna settimane
-    if (dto.Settimane != null)
-    {
-      // cancella quelle esistenti
-      var settimaneExist = await ClientHolder.Client
-          .GetAll<IscrizioneSettimana>()
-          .Where(x => x.IdIscrizione == iscrizione.Id)
-          .Get();
-      foreach (var s in settimaneExist.Models ?? new List<IscrizioneSettimana>())
-        await ClientHolder.Client.GetAll<IscrizioneSettimana>().Delete(s);
-
-      // inserisci quelle nuove
-      foreach (var idSettimana in dto.Settimane)
-      {
-        await ClientHolder.Client.GetAll<IscrizioneSettimana>().InsertAsync(new IscrizioneSettimana
-        {
-          IdIscrizione = iscrizione.Id,
-          IdSettimana = idSettimana.CostoIntero != null ? idSettimana.Id : -idSettimana.Id,
-          Intero = idSettimana.CostoIntero != null
-        });
-      }
-    }
-
-    // --- Aggiorna taglia
-    if (dto.Taglia != null)
-    {
-      var tagliaExist = await ClientHolder.Client
-          .GetAll<IscrizioneTaglia>()
-          .Where(x => x.IdIscrizione == iscrizione.Id)
-          .Get();
-
-      foreach (var t in tagliaExist.Models ?? new List<IscrizioneTaglia>())
-        await ClientHolder.Client.GetAll<IscrizioneTaglia>().Delete(t);
-
-      await ClientHolder.Client.GetAll<IscrizioneTaglia>().InsertAsync(new IscrizioneTaglia
-      {
-        IdIscrizione = iscrizione.Id,
-        IdTaglia = dto.Taglia.Value
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
       });
-    }
 
-    // --- Aggiorna scheda sanitaria
-    if (dto.AllergieIntolleranze != null || dto.PatologieTerapie != null)
+      // 2. Chiama la stored procedure PostgreSQL via RPC
+      //    "create_iscrizione" è il nome della funzione PL/pgSQL
+      var bambinoId = await ClientHolder.Client.Rpc<int>(
+          "update_iscrizione",
+          payload  // pass as JSON, not string
+      );
+
+      // 3. Restituisci l'id del bambino creato
+      return bambinoId != default;
+    }
+    catch (Exception ex)
     {
-      var schedaExist = await ClientHolder.Client
-          .GetAll<SchedaSanitaria>()
-          .Where(x => x.IdIscrizione == iscrizione.Id)
-          .Get();
-
-      var scheda = schedaExist.Models?.FirstOrDefault();
-      if (scheda == null)
-      {
-        scheda = new SchedaSanitaria { IdIscrizione = iscrizione.Id };
-        await ClientHolder.Client.GetAll<SchedaSanitaria>().InsertAsync(scheda);
-      }
-
-      if (dto.AllergieIntolleranze != null) scheda.AllergieIntolleranze = dto.AllergieIntolleranze;
-      if (dto.PatologieTerapie != null) scheda.PatologieTerapie = dto.PatologieTerapie;
-
-      await ClientHolder.Client.GetAll<SchedaSanitaria>().Update(scheda);
+      // Qui puoi loggare o rilanciare l'eccezione
+      Console.WriteLine($"Errore CreateAsync: {ex.Message}");
+      throw;
     }
-
-    // --- Aggiorna consensi
-    if (dto.ConsensiDisponibili != null)
-    {
-      var consensiExist = await ClientHolder.Client
-          .GetAll<Consenso>()
-          .Where(x => x.IdIscrizione == iscrizione.Id)
-          .Get();
-
-      foreach (var c in consensiExist.Models ?? new List<Consenso>())
-        await ClientHolder.Client.GetAll<Consenso>().Delete(c);
-
-      foreach (var c in dto.ConsensiDisponibili)
-      {
-        await ClientHolder.Client.GetAll<Consenso>().InsertAsync(new Consenso
-        {
-          IdIscrizione = iscrizione.Id,
-          IdTipoConsenso = c.IdTipoConsenso.Value,
-          Valore = c.IsSelected,
-        });
-      }
-    }
-
-    // --- Aggiorna squadre
-    //if (dto.IdSquadre != null)
-    //{
-    //  var squadreExist = await ClientHolder.Client
-    //      .GetAll<SquadraBambino>()
-    //      .Where(x => x.IdBambino == idBambino)
-    //      .Get();
-
-    //  foreach (var s in squadreExist.Models ?? new List<SquadraBambino>())
-    //    await ClientHolder.Client.GetAll<SquadraBambino>().Delete(s);
-
-    //  foreach (var idSquadra in dto.IdSquadre)
-    //  {
-    //    await ClientHolder.Client.GetAll<SquadraBambino>().InsertAsync(new SquadraBambino
-    //    {
-    //      IdBambino = idBambino,
-    //      IdSquadra = idSquadra
-    //    });
-    //  }
-    //}
-
-    return true;
   }
 
   public static async Task<ModuloIscrizioneDto> GetAsync(int idBambino)
@@ -419,9 +188,7 @@ public class IscrizioneCompletaController
           Nome = gen.Nome,
           Cognome = gen.Cognome,
           Telefono = gen.Telefono,
-          Sesso = gen.Sesso,
-          SessoSelezionato = new SessoItem
-          (gen.Sesso == 1 ? "M" : "F", gen.Sesso)
+          Genere = gen.Genere
            
         });
       }
@@ -468,10 +235,16 @@ public class IscrizioneCompletaController
         .Where(x => x.IdIscrizione == iscrizione.Id)
         .Get();
 
+    var tipiConsensiList = await ClientHolder.Client
+        .GetAll<TipoConsenso>()
+        .Select("*")
+        .Get();
+
     var consensiDto = consensiList.Models.Select(c => new ConsensoDto
     {
       IdTipoConsenso = c.IdTipoConsenso,
       IsSelected = c.Valore,
+      Descrizione = tipiConsensiList.Models.FirstOrDefault(t => t.Id == c.IdTipoConsenso)?.Descrizione
     }).ToList();
 
     // --- Squadre
