@@ -50,7 +50,9 @@ input:focus, select:focus {
     fill: none;
     stroke: #1ABC9C;
 }*/
-
+input[type="checkbox"] {
+    accent-color: #1ABC9C;
+}
 /* Pulsanti stile MAUI */
 button {
     background-color: #1ABC9C;

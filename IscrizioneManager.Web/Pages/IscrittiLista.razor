@@ -55,7 +55,7 @@
                             <td>@item.DataNascitaDesc</td>
                             <td>@item.AnnoDesc</td>
                             <td>
-                                <InputCheckbox @bind-Value="item.Pagato" @oninput="@((ChangeEventArgs e) => OnPagatoChanged(item, e))" />
+                                <InputCheckbox @bind-Value="item.Pagato" @oninput="@((ChangeEventArgs e) => OnPagatoChanged(item, e))" @onclick:stopPropagation />
                             </td>
                         </tr>
                     }
@@ -91,6 +91,19 @@
             }
         </div>
     </div>
+    @if (succededPopup)
+    {
+        <div class="succeded-popup-overlay">
+            <div class="succeded-popup-content">
+                <h3>Salvataggio completato</h3>
+                <p>Vuoi continuare a modificare l'iscrizione?</p>
+                <div class="popup-buttons">
+                    <button class="btn-yes" @onclick="ContinuaModifica">Sì</button>
+                    <button class="btn-no" @onclick="ChiudiPopup">No</button>
+                </div>
+            </div>
+        </div>
+    }
 }
 @if (showErrorPopup)
 {
@@ -249,6 +262,7 @@
 
     private void ChiudiPopup()
     {
+        succededPopup = false;
         IsPopupAperto = false;
         iscrizioneDaModificare = new ModuloIscrizioneDto();
     }
@@ -256,6 +270,8 @@
     private bool IsSubmitting = false;
     private bool showErrorPopup = false;
     private string errorMessage = string.Empty;
+    private bool succededPopup = false;
+
     private async Task SalvaIscrizione(ModuloIscrizioneDto model)
     {
         IsSubmitting = true; // disabilita il form
@@ -275,6 +291,11 @@
             {
                 succeded = await IscrizioneCompletaController.CreateAsync(model);
             }
+
+            if (succeded)
+            {
+                succededPopup = true; // mostra popup di successo
+            }
         }
         catch (Exception ex)
         {
@@ -292,8 +313,14 @@
         IsReadOnly = false;
     }
 
+    private void ContinuaModifica()
+    {
+        succededPopup = false;
+    }
+
     private void CloseErrorPopup()
     {
+        succededPopup = false;
         showErrorPopup = false;
         errorMessage = string.Empty;
     }

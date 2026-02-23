@@ -332,3 +332,123 @@ body.modal-open {
         font-size: 1.25rem;
     }
 }
+
+.succeded-popup-overlay {
+    position: fixed;
+    inset: 0; /* top:0; left:0; bottom:0; right:0; */
+    background: rgba(0, 0, 0, 0.6); /* overlay scuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000; /* più in alto di altre modali */
+}
+
+.succeded-popup-content {
+    background-color: #fff;
+    color: #000;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+    text-align: center;
+}
+
+    .succeded-popup-content h3 {
+        margin-top: 0;
+        color: forestgreen;
+    }
+
+    .succeded-popup-content p {
+        margin: 1rem 0;
+    }
+
+/* Pulsante chiusura */
+.succeded-popup-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+}
+
+/* Tema scuro */
+@media (prefers-color-scheme: dark) {
+    .btn-chiudi {
+        color: white;
+    }
+
+    .succeded-popup-content {
+        background-color: #222;
+        color: #fff;
+    }
+
+    .succeded-popup-close {
+        color: #ff6666;
+    }
+}
+
+/* Animazione fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .succeded-popup-content {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .succeded-popup-close {
+        font-size: 1.25rem;
+    }
+}
+
+
+/* ================== PULSANTI POPUP SUCCESSO ================== */
+.popup-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+    .popup-buttons button {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+.btn-yes {
+    background-color: #4CAF50;
+    color: white;
+}
+
+    .btn-yes:hover {
+        background-color: #45a049;
+    }
+
+.btn-no {
+    background-color: #f44336;
+    color: white;
+}
+
+    .btn-no:hover {
+        background-color: #da190b;
+    }

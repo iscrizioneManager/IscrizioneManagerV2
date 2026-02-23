@@ -42,6 +42,7 @@ public class IscrizioneCompletaController
         }).ToArray(),
         sconto_fratelli = dto.ScontoFratelli,
         da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
+        ricevuta = dto.Ricevuta,
         formato_iscrizione = dto.FormatoIscrizioneSelezionato,
         modalita_pagamento = dto.ModalitaPagamentoSelezionata,
         taglia = dto.Taglia
@@ -106,6 +107,7 @@ public class IscrizioneCompletaController
         }).ToArray(),
         sconto_fratelli = dto.ScontoFratelli,
         da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
+        ricevuta = dto.Ricevuta,
         formato_iscrizione = dto.FormatoIscrizioneSelezionato,
         modalita_pagamento = dto.ModalitaPagamentoSelezionata,
         taglia = dto.Taglia
@@ -266,6 +268,7 @@ public class IscrizioneCompletaController
       Genere = bambino.Genere,
       LuogoNascita = bambino.LuogoNascita,
       IndirizzoResidenza = bambino.IndirizzoResidenza,
+      ComuneResidenza = bambino.ComuneResidenza,
       IdIscrizione = iscrizione.Id,
       AnnoScolastico = (int?)iscrizione.Anno,
       Note = iscrizione.Note,
@@ -278,7 +281,8 @@ public class IscrizioneCompletaController
       DaIscrivereAlNoi = iscrizione.DaIscrivereAlNoi,
       ModalitaPagamentoSelezionata = iscrizione.ModalitaPagamento,
       FormatoIscrizioneSelezionato = iscrizione.FormatoIscrizione,
-      ScontoFratelli = iscrizione.ScontoFratelli
+      ScontoFratelli = iscrizione.ScontoFratelli,
+      Ricevuta = iscrizione.Ricevuta
     };
 
     return output;
