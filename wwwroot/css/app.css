@@ -1,0 +1,77 @@
+/* Sfondo globale */
+/* Applica a html, body e div #app */
+html, body, #app {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Lato", sans-serif;
+    background-color: white; /* fallback chiaro */
+    color: black;
+}
+
+input, select {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+    html, body, #app {
+        background-color: #1E1E1E !important; /* grigio scuro */
+        color: #FFFFFF !important; /* testo bianco */
+    }
+
+    input, select {
+        background-color: #222;
+        color: white;
+        border: 1px solid #555;
+        border-radius: 4px;
+        padding: 8px;
+    }
+
+    button {
+        background-color: #1ABC9C;
+        color: white;
+    }
+}
+
+input:focus, select:focus {
+    outline: 2px solid #1ABC9C;
+}
+
+/*#app svg.loading-progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    fill: none;
+    stroke: #1ABC9C;
+}*/
+input[type="checkbox"] {
+    accent-color: #1ABC9C;
+}
+/* Pulsanti stile MAUI */
+button {
+    background-color: #1ABC9C;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    button:disabled {
+        background-color: gray;
+        color: white;
+    }
+
+/* Label */
+label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
