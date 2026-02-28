@@ -2,6 +2,7 @@
 @using IscrizioneManager.Core.Services
 @inject LocalStorageService Storage
 @inject NavigationManager Navigation
+@inject IJSRuntime JS 
 
 <h3>Caricamento...</h3>
 
@@ -14,16 +15,21 @@
         var eventId = await Storage.GetItem("eventId");
         var roleId = await Storage.GetItem("roleId");
 
-        if (!string.IsNullOrEmpty(token) &&
-            !string.IsNullOrEmpty(refresh) &&
-            !string.IsNullOrEmpty(eventId) &&
-            !string.IsNullOrEmpty(roleId))
+        var isIframe = await JS.InvokeAsync<bool>("eval", "window.self !== window.top");
+
+        if (!isIframe)
         {
-            Navigation.NavigateTo("home");
-        }
-        else
-        {
-            Navigation.NavigateTo("login");
+            if (!string.IsNullOrEmpty(token) &&
+                !string.IsNullOrEmpty(refresh) &&
+                !string.IsNullOrEmpty(eventId) &&
+                !string.IsNullOrEmpty(roleId))
+            {
+                Navigation.NavigateTo("home");
+            }
+            else
+            {
+                Navigation.NavigateTo("login");
+            }
         }
     }
 }
