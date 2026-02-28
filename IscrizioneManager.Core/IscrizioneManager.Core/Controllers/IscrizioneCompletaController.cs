@@ -142,6 +142,32 @@ public class IscrizioneCompletaController
     }
   }
 
+  public static async Task<bool> DeleteAsync(int idBambino)
+  {
+    if (idBambino <= 0)
+      throw new ArgumentException("Id non valido", nameof(idBambino));
+
+    var payload = new
+    {
+      p_id_bambino = idBambino
+    };
+
+    try
+    {
+      var deletedIscrizioneId = await ClientHolder.Client.Rpc<int>(
+        "delete_iscrizione",
+        payload
+      );
+
+      return deletedIscrizioneId != default;
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine($"Errore DeleteAsync: {ex.Message}");
+      throw;
+    }
+  }
+
   public static async Task<ModuloIscrizioneDto> GetAsync(int idBambino)
   {
     // --- Bambino

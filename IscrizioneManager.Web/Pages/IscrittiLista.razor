@@ -22,20 +22,43 @@
                     <th @onclick="OrdinaPagato">@HeaderPagato</th>
                 </tr>
                 <tr class="filter-row">
-                    <th><InputText @bind-Value="_filtroCognome" placeholder="Filtra Cognome" class="form-control" @oninput="ApplicaFiltroOrdinamento" /></th>
-                    <th><InputText @bind-Value="_filtroNome" placeholder="Filtra Nome" class="form-control" @oninput="ApplicaFiltroOrdinamento" /></th>
-                    <th><InputText @bind-Value="_filtroDataNascita" placeholder="Filtra Data" class="form-control" @oninput="ApplicaFiltroOrdinamento" /></th>
                     <th>
-                        <InputSelect @bind-Value="_filtroAnno" class="form-control" @onchange="ApplicaFiltroOrdinamento">
+                        <InputText Value="@_filtroCognome"
+                                   ValueExpression="() => _filtroCognome"
+                                   placeholder="Filtra Cognome"
+                                   class="form-control"
+                                   @oninput="OnFiltroCognomeInput" />
+                    </th>
+                    <th>
+                        <InputText Value="@_filtroNome"
+                                   ValueExpression="() => _filtroNome"
+                                   placeholder="Filtra Nome"
+                                   class="form-control"
+                                   @oninput="OnFiltroNomeInput" />
+                    </th>
+                    <th>
+                        <InputText Value="@_filtroDataNascita"
+                                   ValueExpression="() => _filtroDataNascita"
+                                   placeholder="Filtra Data nascita"
+                                   class="form-control"
+                                   @oninput="OnFiltroDataNascitaInput" />
+                    </th>
+                    <th>
+                        <InputSelect Value="_filtroAnnoValue" 
+                                     ValueExpression="() => _filtroAnnoValue" 
+                                     class="form-control" 
+                                     @oninput="OnFiltroAnnoChanged">
                             @foreach (var anno in AnniScolastici)
                             {
                                 <option value="@anno.Value">@anno.Description</option>
                             }
-
                         </InputSelect>
                     </th>
                     <th>
-                        <InputSelect @bind-Value="_filtroPagato" class="form-control" @onchange="ApplicaFiltroOrdinamento">
+                        <InputSelect Value="_filtroPagatoValue" 
+                                     ValueExpression="() => _filtroPagatoValue"
+                                     class="form-control" 
+                                     @oninput="OnFiltroPagatoChanged">
                             @foreach (var p in FiltriPagati)
                             {
                                 <option value="@p.Value">@p.Desc</option>
@@ -73,7 +96,7 @@
 </div>
 @if (IsPopupAperto)
 {
-    <div class="modal-overlay" @onclick="ChiudiPopup">
+    <div class="modal-overlay" @onclick="() => ChiudiPopup(false)">
         <div class="modal-content" @onclick:stopPropagation>
             @if (IsPopupLoading)
             {
@@ -83,11 +106,11 @@
             }
             else
             {
-                <button class="modal-close" @onclick="ChiudiPopup">×</button>
+                <button class="modal-close" @onclick="() => ChiudiPopup(false)">×</button>
                 <ModuloIscrizioneView FormModel="iscrizioneDaModificare"
                                       OnSubmitCallback="SalvaIscrizione"
                                       IsReadOnly="IsReadOnly" IsSubmitting="IsSubmitting"
-                                      />
+                                      ChiudiMainPopup="() => ChiudiPopup(true)" />
             }
         </div>
     </div>
@@ -99,7 +122,7 @@
                 <p>Vuoi continuare a modificare l'iscrizione?</p>
                 <div class="popup-buttons">
                     <button class="btn-yes" @onclick="ContinuaModifica">Sì</button>
-                    <button class="btn-no" @onclick="ChiudiPopup">No</button>
+                    <button class="btn-no" @onclick="() => ChiudiPopup(false)">No</button>
                 </div>
             </div>
         </div>
@@ -133,11 +156,47 @@
     private List<VIscrizioneCompleta> Iscritti = new();
 
     // Filtri
-    private string _filtroCognome;
+    // codice C#
+    private string _filtroCognome = string.Empty;
+
+    private void OnFiltroCognomeInput(ChangeEventArgs e)
+    {
+        _filtroCognome = e.Value?.ToString() ?? string.Empty;
+        ApplicaFiltroOrdinamento();
+    }
     private string _filtroNome;
+    private void OnFiltroNomeInput(ChangeEventArgs e)
+    {
+        _filtroNome = e.Value?.ToString() ?? string.Empty;
+        ApplicaFiltroOrdinamento();
+    }
     private string _filtroDataNascita;
-    private AnnoScolasticoItem _filtroAnno;
-    private FiltroPagatoItem _filtroPagato;
+    private void OnFiltroDataNascitaInput(ChangeEventArgs e)
+    {
+        _filtroDataNascita = e.Value?.ToString() ?? string.Empty;
+        ApplicaFiltroOrdinamento();
+    }
+    private int? _filtroAnnoValue;
+    private int? _filtroPagatoValue;
+    private void OnFiltroAnnoChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var v))
+            _filtroAnnoValue = v;
+        else
+            _filtroAnnoValue = null;
+
+        ApplicaFiltroOrdinamento();
+    }
+
+    private void OnFiltroPagatoChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var v))
+            _filtroPagatoValue = v;
+        else
+            _filtroPagatoValue = null;
+
+        ApplicaFiltroOrdinamento();
+    }
 
     // Ordinamento
     private string _ordinePer = "Cognome";
@@ -155,8 +214,8 @@
     private List<FiltroPagatoItem> FiltriPagati = new()
     {
         new FiltroPagatoItem(null, "Tutti"),
-        new FiltroPagatoItem(true, "Si"),
-        new FiltroPagatoItem(false, "No")
+        new FiltroPagatoItem(1, "Si"),
+        new FiltroPagatoItem(0, "No")
     };
 
     protected override async Task OnInitializedAsync()
@@ -166,9 +225,6 @@
 
         AnniScolastici = new List<AnnoScolasticoItem> { new AnnoScolasticoItem(null, "Tutti") };
         AnniScolastici.AddRange(Enum.GetValues(typeof(AnnoScolastico)).Cast<AnnoScolastico>().Select(a => new AnnoScolasticoItem((int)a)));
-
-        _filtroAnno = AnniScolastici.First();
-        _filtroPagato = FiltriPagati.First();
 
         await CaricaIscrittiAsync();
 
@@ -187,7 +243,7 @@
         IsBusy = false;
     }
 
-    private void ApplicaFiltroOrdinamento()
+    private Task ApplicaFiltroOrdinamento()
     {
         IEnumerable<VIscrizioneCompleta> query = _tuttiGliIscritti;
 
@@ -200,11 +256,11 @@
         if (!string.IsNullOrWhiteSpace(_filtroDataNascita))
             query = query.Where(x => x.DataNascitaDesc.Contains(_filtroDataNascita));
 
-        if (_filtroAnno?.Value != null)
-            query = query.Where(x => x.Anno == (int)_filtroAnno.Value);
+        if (_filtroAnnoValue != null)
+            query = query.Where(x => x.Anno == _filtroAnnoValue.Value);
 
-        if (_filtroPagato?.Value != null)
-            query = query.Where(x => x.Pagato == _filtroPagato.Value);
+        if (_filtroPagatoValue != null)
+            query = query.Where(x => x.Pagato == (_filtroPagatoValue.Value == 1));
 
         query = (_ordinePer, _ordineAsc) switch
         {
@@ -221,6 +277,9 @@
         };
 
         Iscritti = query.ToList();
+
+        StateHasChanged(); // forza il refresh
+        return Task.CompletedTask;
     }
 
     private void OrdinaPer(string colonna)
@@ -260,8 +319,9 @@
         StateHasChanged();
     }
 
-    private void ChiudiPopup()
+    private async Task ChiudiPopup(bool? refreshList)
     {
+        await CaricaIscrittiAsync();
         succededPopup = false;
         IsPopupAperto = false;
         iscrizioneDaModificare = new ModuloIscrizioneDto();
@@ -331,6 +391,4 @@
     {
         Navigation.NavigateTo("/", true); // "/" è la home, oppure puoi cambiare con la pagina precedente
     }
-
-    private VIscrizioneCompleta SelectedIscritto { get; set; }
 }

@@ -20,7 +20,7 @@ namespace IscrizioneManager.Web.Services
           result.Add(new Settimana()
           {
             Id = t.Id,
-            Desc = $"{t.Desc} (Intero)",
+            Desc = $"{t.Desc} (Con pranzo)",
             CostoIntero = t.CostoIntero,
             CostoBase = null,
             DataInizio = t.DataInizio,
@@ -32,7 +32,7 @@ namespace IscrizioneManager.Web.Services
           result.Add(new Settimana()
           {
             Id = -t.Id,
-            Desc = $"{t.Desc} (Base)",
+            Desc = $"{t.Desc} (Senza pranzo)",
             CostoIntero = null,
             CostoBase = t.CostoBase,
             DataInizio = t.DataInizio,

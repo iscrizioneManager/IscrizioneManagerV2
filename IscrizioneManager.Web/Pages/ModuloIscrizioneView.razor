@@ -2,7 +2,6 @@
 @using IscrizioneManager.Web.Services
 @using IscrizioniManager.Items
 @using IscrizioniManager.Models
-@using Microsoft.AspNetCore.Components.Forms
 @using Newtonsoft.Json
 <link href="css/ModuloIscrizioneView.css" rel="stylesheet" />
 
@@ -281,9 +280,11 @@
             }
             else
             {
-                <input type="text" placeholder="Cerca per nome o cognome"
-                @bind="SearchText"
-                class="popup-search" />
+                <InputText Value="@_filtroGenitore"
+                           ValueExpression="() => _filtroGenitore"
+                           placeholder="Cerca per nome o cognome"
+                           class="popup-search"
+                           @oninput="OnFiltroGenitoreInput" />
 
                 <div style="height:350px; overflow:auto;">
                     @foreach (var g in GenitoriFiltrati)
@@ -297,6 +298,29 @@
         </div>
     </div>
 }
+@if (deletedPopup)
+{
+    <div class="succeded-popup-overlay">
+        <div class="succeded-popup-content">
+            <h3>Eliminazione completata</h3>
+            <p>L'iscrizione di @FormModel.Cognome @FormModel.Nome è stata eliminata</p>
+            <div class="popup-buttons">
+                <button class="btn-no" @onclick="ChiudiMainPopup">Ok</button>
+            </div>
+        </div>
+    </div>
+}
+@if (showErrorPopup)
+{
+    <div class="error-popup-overlay">
+        <div class="error-popup-content">
+            <button class="error-popup-close" @onclick="CloseErrorPopup">×</button>
+            <h3>Errore durante il salvataggio</h3>
+            <p style="white-space: pre-wrap;">@errorMessage</p>
+        </div>
+    </div>
+}
+
 
 @code {
     private LoadingView? LoadingOverlay;
@@ -308,6 +332,9 @@
 
     [Parameter]
     public EventCallback<ModuloIscrizioneDto> OnSubmitCallback { get; set; }
+
+    [Parameter]
+    public EventCallback ChiudiMainPopup { get; set; }
 
     [Inject]
     public ModuloIscrizioneViewModel ViewModel { get; set; } = new();
@@ -335,6 +362,12 @@
     private ModuloIscrizioneDto? _initialFormModel;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if(!Settimane.Any())
+            Settimane = await ViewModel.GetSettimaneAsync();
+
+        if (!Taglie.Any())
+            Taglie = await ViewModel.GetTaglieAsync();
+
         if (!firstRender || datiCaricati){
             return;
         }
@@ -344,8 +377,6 @@
 
         LoadingOverlay?.Start();
 
-        Settimane = await ViewModel.GetSettimaneAsync();
-        Taglie = await ViewModel.GetTaglieAsync();
         ConsensiDisponibili = await ViewModel.GetConsensiAsync();
 
         // Se i dati del FormModel arrivano da fuori (iscrizioneDaModificare), non sovrascriverli
@@ -397,13 +428,19 @@
 
     private bool IsPopupAperto = false;
     private bool IsLoadingGenitori = false;
-    private string SearchText = "";
     private List<GenitoreDto> Genitori = new(); // Lista completa dei genitori
+    private string _filtroGenitore = string.Empty;
+
+    private void OnFiltroGenitoreInput(ChangeEventArgs e)
+    {
+        _filtroGenitore = e.Value?.ToString() ?? string.Empty;
+    }
+
     private List<GenitoreDto> GenitoriFiltrati =>
-        string.IsNullOrWhiteSpace(SearchText)
+        string.IsNullOrWhiteSpace(_filtroGenitore)
             ? Genitori
-            : Genitori.Where(g => g.Nome.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
-                                || g.Cognome.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            : Genitori.Where(g => g.Nome.Contains(_filtroGenitore, StringComparison.OrdinalIgnoreCase)
+                                || g.Cognome.Contains(_filtroGenitore, StringComparison.OrdinalIgnoreCase)).ToList();
 
     private GenitoreDto? genitoreCorrente;
 
@@ -423,7 +460,7 @@
     private void ChiudiPopup()
     {
         IsPopupAperto = false;
-        SearchText = "";
+        _filtroGenitore = "";
         Genitori.Clear();
     }
 
@@ -439,7 +476,7 @@
             genitoreCorrente.Genere = genitore.Genere;
         }
         IsPopupAperto = false;
-        SearchText = "";
+        _filtroGenitore = "";
         Genitori.Clear();
     }
 
@@ -461,8 +498,39 @@
         IsReadOnly = true;
     }
 
-    private void Elimina()
-    {
+    private bool deletedPopup = false;
+    private bool showErrorPopup = false;
+    private string errorMessage = string.Empty;
 
+    private async Task Elimina()
+    {
+        IsSubmitting = true; // disabilita il form
+        IsReadOnly = true;
+
+        bool succeded = false;
+        try
+        {
+            succeded = await IscrizioneCompletaController.DeleteAsync(FormModel.IdBambino.Value);
+
+            if (succeded)
+            {
+                deletedPopup = true; // mostra popup di successo
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message; // salva il messaggio da mostrare
+            showErrorPopup = true;      // mostra popup
+            Console.WriteLine($"Errore durante il salvataggio: {ex.Message}");
+        }
+
+        IsSubmitting = false;
+        IsReadOnly = false;
+    }
+
+    private void CloseErrorPopup()
+    {
+        showErrorPopup = false;
+        errorMessage = string.Empty;
     }
 }

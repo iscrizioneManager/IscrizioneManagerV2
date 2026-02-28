@@ -8,10 +8,10 @@ namespace IscrizioneManager.Core.Dtos
 {
   public class FiltroPagatoItem
   {
-    public bool? Value { get; set; }
+    public int? Value { get; set; }
     public string Desc { get; set; }
 
-    public FiltroPagatoItem(bool? value, string desc)
+    public FiltroPagatoItem(int? value, string desc)
     {
       Value = value;
       Desc = desc;
