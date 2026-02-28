@@ -1,13 +1,11 @@
 ﻿@page "/home"
 @using IscrizioneManager.Core.Services
-@using IscrizioneManager.Web.Services
 @using IscrizioniManager.Controllers
 @using IscrizioniManager.Core.Services
 @using IscrizioniManager.Models
 @using System.Reflection
 @inject NavigationManager Navigation
 @inject LocalStorageService Storage
-@inject LoginController LoginController
 @inject IJSRuntime JS
 
 <link href="css/Home.css" rel="stylesheet" />
@@ -104,17 +102,17 @@
         await Storage.RemoveItem("roleId");
 
         ClientHolder.Reset();
-        Navigation.NavigateTo("/login", true);
+        Navigation.NavigateTo("login", true);
     }
 
     private void InserisciIscrizione_Clicked()
     {
-        Navigation.NavigateTo("/inserisciIscrizione");
+        Navigation.NavigateTo("inserisciIscrizione");
     }
 
     private void ListaIscritti_Clicked()
     {
-        Navigation.NavigateTo("/iscritti");
+        Navigation.NavigateTo("iscritti");
     }
 
     private async Task ApriGoogleSheets_Clicked()
