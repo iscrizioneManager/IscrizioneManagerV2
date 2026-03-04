@@ -51,8 +51,46 @@ input:focus, select:focus {
     stroke: #1ABC9C;
 }*/
 input[type="checkbox"] {
-    accent-color: #1ABC9C;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #1ABC9C;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
 }
+
+    /* normal checked */
+    input[type="checkbox"]:checked {
+        background-color: #1ABC9C;
+    }
+
+    /* disabled unchecked */
+    input[type="checkbox"]:disabled {
+        border-color: #ccc;
+        background-color: #eee;
+        cursor: not-allowed;
+    }
+
+        /* disabled checked */
+        input[type="checkbox"]:disabled:checked {
+            border-color: #888;
+            background-color: #bbb;
+        }
+
+    /* checkmark using ::after */
+    input[type="checkbox"]:checked::after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 2px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
 /* Pulsanti stile MAUI */
 button {
     background-color: #1ABC9C;

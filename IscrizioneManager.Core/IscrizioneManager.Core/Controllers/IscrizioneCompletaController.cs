@@ -1,7 +1,5 @@
-﻿using IscrizioneManager.Core.Items;
-using IscrizioneManager.Core.Services;
+﻿using IscrizioneManager.Core.Services;
 using IscrizioniManager.Models;
-using IscrizioniManager.Utils;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
@@ -14,43 +12,64 @@ public class IscrizioneCompletaController
   public static async Task<bool> CreateAsync(ModuloIscrizioneDto dto)
   {
     if (dto == null) throw new ArgumentNullException(nameof(dto));
-    var payload = new
-    {
-      p_dto = new
-      {
-        nome = dto.Nome,
-        cognome = dto.Cognome,
-        data_nascita = dto.DataNascita?.ToString("yyyy-MM-dd"),
-        genere = dto.Genere,
-        luogo_nascita = dto.LuogoNascita,
-        indirizzo_residenza = dto.IndirizzoResidenza,
-        comune_residenza = dto.ComuneResidenza,
-        settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
-          id_settimana = Math.Abs(s.Id),
-          intero = s.CostoIntero != null
-        }).ToArray(),
-        genitori = dto.Genitori?.Select(g => new {
-          id_genitore = g.IdGenitore,
-          nome = g.Nome,
-          cognome = g.Cognome,
-          telefono = g.Telefono,
-          sesso = g.Genere
-        }).ToArray(),
-        consensi = dto.ConsensiDisponibili?.Select(c => new {
-          id_tipo_consenso = c.IdTipoConsenso,
-          valore = c.IsSelected
-        }).ToArray(),
-        sconto_fratelli = dto.ScontoFratelli,
-        da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
-        ricevuta = dto.Ricevuta,
-        formato_iscrizione = dto.FormatoIscrizioneSelezionato,
-        modalita_pagamento = dto.ModalitaPagamentoSelezionata,
-        taglia = dto.Taglia
-      }
-    };
+        var payload = new
+        {
+            p_dto = new
+            {
+                // Bambino
+                nome = dto.Nome,
+                cognome = dto.Cognome,
+                data_nascita = dto.DataNascita?.ToString("yyyy-MM-dd"),
+                genere = dto.Genere,
+                luogo_nascita = dto.LuogoNascita,
+                indirizzo_residenza = dto.IndirizzoResidenza,
+                comune_residenza = dto.ComuneResidenza,
+                anno_scolastico = dto.AnnoScolastico,
+                note = dto.Note,
 
-    try
-    {
+                // Iscrizione
+                da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
+                formato_iscrizione = dto.FormatoIscrizioneSelezionato,
+                modalita_pagamento = dto.ModalitaPagamentoSelezionata,
+                sconto_fratelli = dto.ScontoFratelli,
+                ricevuta = dto.Ricevuta,
+                desc_ricevuta = dto.Ricevuta ? dto.DescRicevuta : null,
+                esce_solo = dto.EsceSolo,
+
+                // Settimane
+                settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
+                    id_settimana = Math.Abs(s.Id),
+                    intero = s.CostoIntero != null
+                }).ToArray(),
+
+                // Genitori
+                genitori = dto.Genitori?.Select(g => new {
+                    id_genitore = g.IdGenitore,
+                    nome = g.Nome,
+                    cognome = g.Cognome,
+                    telefono = g.Telefono,
+                    sesso = g.Genere
+                }).ToArray(),
+
+                // Consensi
+                consensi = dto.ConsensiDisponibili?.Select(c => new {
+                    id_tipo_consenso = c.IdTipoConsenso,
+                    valore = c.IsSelected
+                }).ToArray(),
+
+                // Taglia
+                Taglia = dto.Taglia,  // maiuscolo perché la funzione controlla 'Taglia'
+
+                // Scheda sanitaria
+                allergie_intolleranze = dto.AllergieIntolleranze,
+                patologie_terapie = dto.PatologieTerapie,
+                event_id = ClientHolder.Client._eventId
+            }
+        };
+
+
+        try
+        {
       // 1. Serializza il DTO in JSON
       var dtoJson = JsonSerializer.Serialize(payload, new JsonSerializerOptions
       {
@@ -79,43 +98,63 @@ public class IscrizioneCompletaController
   public static async Task<bool> UpdateAsync(ModuloIscrizioneDto dto)
   {
     if (dto == null) throw new ArgumentNullException(nameof(dto));
-    var payload = new
-    {
-      p_dto = new
-      {
-        nome = dto.Nome,
-        cognome = dto.Cognome,
-        data_nascita = dto.DataNascita?.ToString("yyyy-MM-dd"),
-        genere = dto.Genere,
-        luogo_nascita = dto.LuogoNascita,
-        indirizzo_residenza = dto.IndirizzoResidenza,
-        comune_residenza = dto.ComuneResidenza,
-        settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
-          id_settimana = Math.Abs(s.Id),
-          intero = s.CostoIntero != null
-        }).ToArray(),
-        genitori = dto.Genitori?.Select(g => new {
-          id_genitore = g.IdGenitore,
-          nome = g.Nome,
-          cognome = g.Cognome,
-          telefono = g.Telefono,
-          sesso = g.Genere
-        }).ToArray(),
-        consensi = dto.ConsensiDisponibili?.Select(c => new {
-          id_tipo_consenso = c.IdTipoConsenso,
-          valore = c.IsSelected
-        }).ToArray(),
-        sconto_fratelli = dto.ScontoFratelli,
-        da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
-        ricevuta = dto.Ricevuta,
-        formato_iscrizione = dto.FormatoIscrizioneSelezionato,
-        modalita_pagamento = dto.ModalitaPagamentoSelezionata,
-        taglia = dto.Taglia
-      },
-      p_id_bambino = dto.IdBambino
-    };
+        var payload = new
+        {
+            p_dto = new
+            {
+                // Bambino
+                nome = dto.Nome,
+                cognome = dto.Cognome,
+                data_nascita = dto.DataNascita?.ToString("yyyy-MM-dd"),
+                genere = dto.Genere,
+                luogo_nascita = dto.LuogoNascita,
+                indirizzo_residenza = dto.IndirizzoResidenza,
+                comune_residenza = dto.ComuneResidenza,
 
-    try
+                // Iscrizione
+                anno_scolastico = dto.AnnoScolastico,
+                note = dto.Note,
+                da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
+                formato_iscrizione = dto.FormatoIscrizioneSelezionato,
+                modalita_pagamento = dto.ModalitaPagamentoSelezionata,
+                sconto_fratelli = dto.ScontoFratelli,
+                ricevuta = dto.Ricevuta,
+                desc_ricevuta = dto.Ricevuta ? dto.DescRicevuta : null,
+                esce_solo = dto.EsceSolo,
+
+                // Settimane
+                settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
+                    id_settimana = Math.Abs(s.Id),
+                    intero = s.CostoIntero != null
+                }).ToArray(),
+
+                // Genitori
+                genitori = dto.Genitori?.Select(g => new {
+                    id_genitore = g.IdGenitore,
+                    nome = g.Nome,
+                    cognome = g.Cognome,
+                    telefono = g.Telefono,
+                    sesso = g.Genere
+                }).ToArray(),
+
+                // Consensi
+                consensi = dto.ConsensiDisponibili?.Select(c => new {
+                    id_tipo_consenso = c.IdTipoConsenso,
+                    valore = c.IsSelected
+                }).ToArray(),
+
+                // Taglia
+                taglia = dto.Taglia,
+
+                // Scheda sanitaria
+                allergie_intolleranze = dto.AllergieIntolleranze,
+                patologie_terapie = dto.PatologieTerapie,
+                event_id = ClientHolder.Client._eventId
+            },
+            p_id_bambino = dto.IdBambino
+        };
+
+        try
     {
       // 1. Serializza il DTO in JSON
       var dtoJson = JsonSerializer.Serialize(payload, new JsonSerializerOptions
@@ -275,17 +314,51 @@ public class IscrizioneCompletaController
       Descrizione = tipiConsensiList.Models.FirstOrDefault(t => t.Id == c.IdTipoConsenso)?.Descrizione
     }).ToList();
 
-    // --- Squadre
-    //var squadreList = await ClientHolder.Client
-    //    .GetAll<SquadraBambino>()
-    //    .Select("*")
-    //    .Where(x => x.IdBambino == idBambino)
-    //    .Get();
+        // --- Squadre
+        //var squadreList = await ClientHolder.Client
+        //    .GetAll<SquadraBambino>()
+        //    .Select("*")
+        //    .Where(x => x.IdBambino == idBambino)
+        //    .Get();
 
-    //var idSquadre = squadreList.Models.Select(s => s.IdSquadra).ToList();
+        //var idSquadre = squadreList.Models.Select(s => s.IdSquadra).ToList();
+        var tutteSettimane = await ClientHolder.Client
+     .GetAll<Settimana>()
+     .Select("*")
+     .Get();
 
-    // --- Costruisci DTO finale
-    var output = new ModuloIscrizioneDto
+        var result = new List<Settimana>();
+        foreach (var t in settimane.Models)
+        {
+            if (t.CostoIntero != null)
+            {
+                result.Add(new Settimana()
+                {
+                    Id = t.Id,
+                    Desc = $"{t.Desc} (Con pranzo)",
+                    CostoIntero = t.CostoIntero,
+                    CostoBase = null,
+                    DataInizio = t.DataInizio,
+                    DataFine = t.DataFine,
+                    IsSelected = settimaneList.Models.Any(x => x.Intero && x.IdSettimana == t.Id)
+                });
+            }
+            if (t.CostoBase != null)
+            {
+                result.Add(new Settimana()
+                {
+                    Id = -t.Id,
+                    Desc = $"{t.Desc} (Senza pranzo)",
+                    CostoIntero = null,
+                    CostoBase = t.CostoBase,
+                    DataInizio = t.DataInizio,
+                    DataFine = t.DataFine,
+                    IsSelected = settimaneList.Models.Any(x => !x.Intero && x.IdSettimana == t.Id)
+                });
+            }
+        }
+        // --- Costruisci DTO finale
+        var output = new ModuloIscrizioneDto
     {
       IdBambino = bambino.Id,
       Nome = bambino.Nome,
@@ -299,7 +372,7 @@ public class IscrizioneCompletaController
       AnnoScolastico = (int?)iscrizione.Anno,
       Note = iscrizione.Note,
       Genitori = genitoriDto,
-      Settimane = settimane.Models,
+      Settimane = result,
       Taglia = idTaglia,
       AllergieIntolleranze = scheda?.AllergieIntolleranze,
       PatologieTerapie = scheda?.PatologieTerapie,
@@ -308,7 +381,9 @@ public class IscrizioneCompletaController
       ModalitaPagamentoSelezionata = iscrizione.ModalitaPagamento,
       FormatoIscrizioneSelezionato = iscrizione.FormatoIscrizione,
       ScontoFratelli = iscrizione.ScontoFratelli,
-      Ricevuta = iscrizione.Ricevuta
+      Ricevuta = iscrizione.Ricevuta,
+      DescRicevuta = iscrizione.DescRicevuta,
+      EsceSolo = iscrizione.EsceSolo
     };
 
     return output;

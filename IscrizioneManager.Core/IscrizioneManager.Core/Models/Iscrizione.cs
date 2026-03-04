@@ -32,4 +32,8 @@ public class Iscrizione : EventModel
   public bool ScontoFratelli { get; set; }
   [Column("ricevuta")]
   public bool Ricevuta { get; set; }
+    [Column("desc_ricevuta")]
+    public string DescRicevuta { get; set; }
+    [Column("esce_solo")]
+    public bool EsceSolo { get; set; }
 }
