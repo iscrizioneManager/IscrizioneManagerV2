@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
     },
     {
+      "Id": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\404.html",
+      "PackagePath": "staticwebassets\\404.html"
+    },
+    {
       "Id": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\Home.css",
       "PackagePath": "staticwebassets\\css\\Home.css"
     },

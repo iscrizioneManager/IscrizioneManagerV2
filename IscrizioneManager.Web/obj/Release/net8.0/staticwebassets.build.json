@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Vo/gTNwJqOaysZ1Hcqyv9PoB56wMKbdF00H2NET67ME=",
+  "Hash": "M4+Kt1tfob8cUXR72Z+cAbmAVE2Od7npGc/PfreFxEE=",
   "Source": "IscrizioneManager.Web",
   "BasePath": "/",
   "Mode": "Root",
@@ -8489,6 +8489,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\bin\\Release\\net8.0\\wwwroot\\_framework\\System.Xml.Serialization.wasm"
+    },
+    {
+      "Identity": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\404.html",
+      "SourceId": "IscrizioneManager.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "404.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\404.html"
     },
     {
       "Identity": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\app.css",

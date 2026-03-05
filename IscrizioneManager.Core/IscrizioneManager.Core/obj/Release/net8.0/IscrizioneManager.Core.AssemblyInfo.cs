@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IscrizioneManager.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c92f2c1a79a94a79f5ba4fb1c1f72e76733fa83")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+561dcfcbcdc7ed9818c7784dbaa4002e23cdcf43")]
 [assembly: System.Reflection.AssemblyProductAttribute("IscrizioneManager.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IscrizioneManager.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
