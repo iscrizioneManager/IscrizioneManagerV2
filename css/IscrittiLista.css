@@ -34,6 +34,30 @@
         color: darkred;
     }
 
+@media (max-width: 768px) {
+    .btn-chiudi {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        font-size: 2rem; /* più proporzionato */
+        background-color: #1ABC9C;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+        .btn-chiudi:hover {
+            color: white; /* evita effetto testo rosso su mobile */
+            background-color: #16a085;
+        }
+}
+
 /* ================== TABELLA RESPONSIVE ================== */
 .table-wrapper {
     width: 100%;
