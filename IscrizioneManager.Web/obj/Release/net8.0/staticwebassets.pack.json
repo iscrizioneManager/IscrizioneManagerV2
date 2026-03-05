@@ -49,6 +49,10 @@
       "PackagePath": "staticwebassets\\images\\edit.svg"
     },
     {
+      "Id": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\images\\icona_cerca.svg",
+      "PackagePath": "staticwebassets\\images\\icona_cerca.svg"
+    },
+    {
       "Id": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\images\\save.svg",
       "PackagePath": "staticwebassets\\images\\save.svg"
     },

@@ -504,13 +504,13 @@
 
     private void AnnulaModifica()
     {
-        // if (_initialFormModel != null)
-        // {
-        //     // Deep clone again to avoid referencing the same object
-        //     FormModel = JsonConvert.DeserializeObject<ModuloIscrizioneDto>(
-        //         JsonConvert.SerializeObject(_initialFormModel)
-        //     );
-        // }
+        if (_initialFormModel != null)
+        {
+            // Deep clone again to avoid referencing the same object
+            FormModel = JsonConvert.DeserializeObject<ModuloIscrizioneDto>(
+                JsonConvert.SerializeObject(_initialFormModel)
+            );
+        }
 
         IsReadOnly = true;
     }

@@ -8,11 +8,6 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\favicon.ico" />
-    <Content Remove="wwwroot\images\icona_cerca.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="wwwroot\images\icona_cerca.svg" />
   </ItemGroup>
 
   <ItemGroup>

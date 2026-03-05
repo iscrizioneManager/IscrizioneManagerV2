@@ -13,6 +13,19 @@
         errors += "Il campo 'Data di Nascita' è obbligatorio.\n";
       if (!modulo.Genere.HasValue || (modulo.Genere != 1 && modulo.Genere != 2))
         errors += "Il campo 'Genere' è obbligatorio\n";
+
+      if (modulo.Genitori != null)
+      {
+        foreach (var genitore in modulo.Genitori)
+        {
+          if(genitore.Cognome == null)
+            errors += "Il campo 'Cognome' del genitore è obbligatorio.\n";
+          if (genitore.Nome == null)
+            errors += "Il campo 'Nome' del genitore è obbligatorio.\n";
+          if(genitore.Genere == null)
+            errors += "Il campo 'Genere' del genitore è obbligatorio\n";
+        }
+      }
       return errors;
     }
   }
