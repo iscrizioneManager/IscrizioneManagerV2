@@ -231,6 +231,11 @@
             </div>
 
             <div class="row-flex mt align-center">
+                <InputCheckbox @bind-Value="FormModel.EsceSolo" />
+                <span>Uscita autonoma</span>
+            </div>
+
+            <div class="row-flex mt align-center">
                 <InputCheckbox @bind-Value="FormModel.DaIscrivereAlNoi" />
                 <span>Da iscrivere al NOI</span>
             </div>
@@ -243,7 +248,19 @@
             <div class="row-flex mt align-center">
                 <InputCheckbox @bind-Value="FormModel.Ricevuta" />
                 <span>Richiede ricevuta</span>
+               
             </div>
+            @if (FormModel.Ricevuta)
+            {
+            <div class="row-flex mt align-center">
+
+
+                        <div class="field medium">
+                            <label>Intestatario ricevuta</label>
+                            <InputText @bind-Value="FormModel.DescRicevuta" class="form-control" />
+                        </div>
+                        </div>
+            }
         </fieldset>
 
         <!-- ================= SUBMIT ================= -->
