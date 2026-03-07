@@ -21,8 +21,6 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web
 build_property._RazorSourceGeneratorDebug = 
-build_property.EffectiveAnalysisLevelStyle = 8.0
-build_property.EnableCodeStyleSeverity = 
 
 [C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
@@ -46,6 +44,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/IscrittiLista.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXNjcml0dGlMaXN0YS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/ListaSquadre.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFTcXVhZHJlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/LoadingView.razor]

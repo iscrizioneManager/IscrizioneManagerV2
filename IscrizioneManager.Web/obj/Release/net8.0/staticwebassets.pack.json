@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets\\css\\IscrittiLista.css"
     },
     {
+      "Id": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\ListaSquadre.css",
+      "PackagePath": "staticwebassets\\css\\ListaSquadre.css"
+    },
+    {
       "Id": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\LoadingView.css",
       "PackagePath": "staticwebassets\\css\\LoadingView.css"
     },

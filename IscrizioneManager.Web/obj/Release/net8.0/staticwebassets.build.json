@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oT3r5oqGwhUZOz5YsTVox9HYgFzitt4NvdzBK9ZG/S4=",
+  "Hash": "OQ/FiWYu/CiFA7ht2e46jMqil85T3mDY3KVEk4+4js4=",
   "Source": "IscrizioneManager.Web",
   "BasePath": "/",
   "Mode": "Root",
@@ -8584,6 +8584,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\IscrittiLista.css"
+    },
+    {
+      "Identity": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\ListaSquadre.css",
+      "SourceId": "IscrizioneManager.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/ListaSquadre.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\ListaSquadre.css"
     },
     {
       "Identity": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\LoadingView.css",

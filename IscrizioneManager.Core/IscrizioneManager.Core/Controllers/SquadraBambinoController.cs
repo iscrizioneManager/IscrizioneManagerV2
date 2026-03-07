@@ -2,6 +2,7 @@
 using IscrizioniManager;
 using IscrizioniManager.Data;
 using IscrizioniManager.Dtos;
+using IscrizioniManager.Models;
 
 public class SquadraBambinoController
 {
@@ -9,26 +10,36 @@ public class SquadraBambinoController
   {
   }
 
-  public async Task<SquadraBambino?> AddChildToTeamAsync(BambinoSquadraDto dto)
+  public static async Task<List<Squadra>> GetSquadreAsync()
   {
-    // Controlla se l'associazione esiste già
-    var existingResp = await ClientHolder.Client
-        .GetAll<SquadraBambino>()
-        .Select("*")
-        .Where(x => x.IdBambino == dto.IdBambino && x.IdSquadra == dto.IdSquadra)
-        .Single();
+    var bambini = await ClientHolder.Client
+      .GetAll<Bambino>()
+      .Select("*")
+      .Get();
+    var squadraBambino = await ClientHolder.Client
+      .GetAll<SquadraBambino>()
+      .Select("*")
+      .Get();
+    var squadra = await ClientHolder.Client
+      .GetAll<Squadra>()
+      .Select("*")
+      .Get();
 
-    if (existingResp != null)
-      throw new Exception("Il bambino è già associato a questa squadra.");
-
-    // Inserisci nuova associazione
-    var relazione = new SquadraBambino
+    foreach (var s in squadra.Models)
     {
-      IdBambino = dto.IdBambino,
-      IdSquadra = dto.IdSquadra
-    };
-    var resp = await ClientHolder.Client.GetAll<SquadraBambino>().Insert(relazione);
+      s.Bambini = squadraBambino.Models
+        .Where(sb => sb.IdSquadra == s.Id)
+        .Join(bambini.Models, sb => sb.IdBambino, b => b.Id, (sb, b) => b)
+        .ToList();
+    }
 
-    return resp.Models.FirstOrDefault();
+    squadra.Models.Add(new Squadra()
+    {
+      Nome = "Senza squadra", 
+      Color = "#bbb",
+      Bambini = bambini.Models.Where(x => !squadraBambino.Models.Select(y => y.IdBambino).Contains(x.Id)).ToList()
+    });
+
+    return squadra.Models;
   }
 }

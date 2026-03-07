@@ -1,0 +1,171 @@
+﻿@page "/squadre"
+@using IscrizioniManager.Models
+
+<link href="css/ListaSquadre.css" rel="stylesheet" />
+
+<LoadingView @ref="LoadingOverlay" />
+
+<div class="header-iscrizione">
+    <h2>Squadre</h2>
+    <button class="btn-chiudi" @onclick="TornaIndietro" title="Chiudi">×</button>
+</div>
+
+<div class="squadre-grid">
+    @foreach (var squadra in Squadre)
+    {
+        <div class="squadra-card">
+            <!-- Header cliccabile -->
+            <div class="squadra-header"
+                 style="background-color:@squadra.Color; color:@GetTextColor(squadra.Color)"
+                 @onclick="() => squadra.IsExpanded = !squadra.IsExpanded">
+                @squadra.Nome (@squadra.Bambini.Count)
+            </div>
+
+            @if (squadra.IsExpanded)
+            {
+                <!-- Lista bambini droppabile -->
+                <ul class="squadra-bambini @(squadra.IsDragOver ? "dragover" : "")"
+                    @ondragover:preventDefault="true"
+                   >
+                    @foreach (var b in squadra.Bambini)
+                    {
+                        <li draggable="true"
+                            @ondragstart="(e) => DragStartBambino(e, b, squadra)"
+                            @key="b.Id"
+                            @ondrop="(e) => DropBambino(e, squadra)"
+                            >
+                            @b.Nome @b.Cognome
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+    
+    <ul ondragover="event.preventDefault();" style="margin:20px">
+        @foreach (var item in Squadre)
+        {
+            if(item != null)     //Change @ondrop to @ondragover to update UI in real time 
+            {
+                <li draggable="true" style="list-style-type:none; height:30px" 
+                    @key="item.Id" tabindex="1"
+                    @ondrop="@(()=> Drop(item))" 
+                    @ondrag="@(()=> StartDrag(item))">
+                    <span>@item.Nome</span> <small>@item.Id</small>
+                </li>
+            } else 
+            {
+                <li>NULL??</li>
+            }
+        }
+    </ul>
+</div>
+
+@code {
+    private LoadingView? LoadingOverlay;
+    private List<Squadra> Squadre = new();
+
+    private Bambino? DraggedBambino;
+    private Squadra? SquadraOrigine;
+
+    protected override async Task OnInitializedAsync()
+    {
+        LoadingOverlay?.Start();
+        Squadre = await SquadraBambinoController.GetSquadreAsync();
+        // inizializzo IsExpanded e IsDragOver
+        foreach (var s in Squadre)
+        {
+            s.IsExpanded = true;
+            s.IsDragOver = false;
+        }
+        LoadingOverlay?.Stop();
+    }
+
+    [Inject] private NavigationManager Navigation { get; set; } = default!;
+
+    private void TornaIndietro()
+    {
+        Navigation.NavigateTo("", true);
+    }
+
+    private void DragStartBambino(DragEventArgs e, Bambino bambino, Squadra squadra)
+    {
+        DraggedBambino = bambino;
+        SquadraOrigine = squadra;
+    }
+
+    private void DropBambino(DragEventArgs e, Squadra squadraDestinazione)
+    {
+        if (DraggedBambino == null || SquadraOrigine == null) return;
+
+        if (SquadraOrigine == squadraDestinazione)
+        {
+            squadraDestinazione.IsDragOver = false;
+            return;
+        }
+
+        // Rimuovo dalla squadra originale e aggiungo alla destinazione
+        SquadraOrigine.Bambini.Remove(DraggedBambino);
+        squadraDestinazione.Bambini.Add(DraggedBambino);
+
+        // Aggiorna DB
+        // await SquadraBambinoController.SetSquadra(DraggedBambino.Id, squadraDestinazione.Id);
+
+        DraggedBambino = null;
+        SquadraOrigine = null;
+        squadraDestinazione.IsDragOver = false;
+        StateHasChanged();
+    }
+
+    string GetTextColor(string? hex)
+    {
+        if (string.IsNullOrWhiteSpace(hex))
+            return "black";
+
+        if (hex.StartsWith("#")) hex = hex.Substring(1);
+        if (hex.Length == 3) hex = string.Concat(hex[0], hex[0], hex[1], hex[1], hex[2], hex[2]);
+        if (hex.Length != 6) return "black";
+
+        int r = Convert.ToInt32(hex.Substring(0, 2), 16);
+        int g = Convert.ToInt32(hex.Substring(2, 2), 16);
+        int b = Convert.ToInt32(hex.Substring(4, 2), 16);
+
+        double luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return luminance > 0.6 ? "black" : "white";
+    }
+    int currentIndex;
+    void StartDrag(Squadra item)
+    {
+        currentIndex = GetIndex(item);
+        Console.WriteLine($"DragStart for {item.Id} index {currentIndex}");
+    }
+
+    int GetIndex(Squadra item)
+    {
+        return Squadre.FindIndex(a => a.Id == item.Id);
+    }
+
+    void Drop(Squadra item)
+    {
+        if (item != null)
+        {
+            Console.WriteLine($"Drop item {item.Nome} ({item.Id})");
+            var index = GetIndex(item);
+            Console.WriteLine($"Drop index is {index}, move from {currentIndex}");
+            // get current item
+            var current = Squadre[currentIndex];
+            // remove game from current index
+            Squadre.RemoveAt(currentIndex);
+            Squadre.Insert(index, current);
+
+            // update current selection
+            currentIndex = index;
+
+            StateHasChanged();
+        } 
+        else
+        {
+            Console.WriteLine("Drop - null");
+        }
+    }
+}

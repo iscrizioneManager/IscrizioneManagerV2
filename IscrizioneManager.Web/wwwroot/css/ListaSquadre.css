@@ -1,0 +1,78 @@
+﻿.squadre-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+}
+
+/* Card squadra */
+.squadra-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Header cliccabile */
+.squadra-header {
+    padding: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white; /* il colore reale lo setti via style inline con GetTextColor */
+}
+
+/* Lista bambini */
+.squadra-bambini {
+    list-style: none;
+    margin: 0;
+    padding: 12px;
+    min-height: 40px; /* spazio per il drop */
+    transition: background-color 0.2s, border 0.2s;
+}
+
+    /* Bambini */
+    .squadra-bambini li {
+        padding: 8px 12px;
+        margin: 4px 0;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        color: black;
+        cursor: grab;
+        transition: background 0.2s, opacity 0.2s, color 0.2s;
+    }
+
+        .squadra-bambini li:active {
+            cursor: grabbing;
+            opacity: 0.8;
+            background-color: #c0e0ff;
+        }
+
+    /* Evidenzia drop target */
+    .squadra-bambini.dragover {
+        background-color: #e0f7fa;
+        border: 2px dashed #1ABC9C;
+    }
+
+/* =================== */
+/* Tema scuro */
+/* =================== */
+@media (prefers-color-scheme: dark) {
+    .squadre-card {
+        border: 1px solid #444;
+    }
+
+    .squadra-bambini li {
+        background-color: #2a2a2a;
+        color: #eee;
+        border: 1px solid #555;
+    }
+
+        .squadra-bambini li:active {
+            background-color: #3a3a3a;
+        }
+
+    .squadra-bambini.dragover {
+        background-color: #1e404a;
+        border: 2px dashed #1ABC9C;
+    }
+}

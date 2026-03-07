@@ -1,22 +1,21 @@
 {
   "mainAssemblyName": "IscrizioneManager.Web",
   "resources": {
-    "hash": "sha256-WYEkAjdzvA46BflshIYZ3CX+Cel5G9rBaojckU629GE=",
+    "hash": "sha256-pqOf61W+G0WU/OZKzI/BpN5YqchExwGgbvCbzBW0xVY=",
     "jsModuleNative": {
-      "dotnet.native.js": "sha256-VdKq87/z5NIxZKmuM+fv38XF+RcEb/bg3jVBwQSfwP4="
+      "dotnet.native.8.0.24.in4wt6ympn.js": "sha256-4g0GzvOXSwZvTLca4PrWJkoeltz+V9IF/hEFDcnVros="
     },
     "jsModuleRuntime": {
-      "dotnet.runtime.js": "sha256-nam8JTYKjhMKOTg6+FlihYP6JpWPGe3jjM9fiUFWzhY="
+      "dotnet.runtime.8.0.24.1gmg4ilrf8.js": "sha256-ZDVyGEZEz4QOmKAwlgqf4qB6Psobwb9hIqMw9YpIo4I="
     },
     "wasmNative": {
-      "dotnet.native.wasm": "sha256-1NJsNYy4gznvjVwzcG5w3Cl50enK1KB/7cKBMY+6jz4="
+      "dotnet.native.wasm": "sha256-+2F3q3zurFW8sx65kwigUw2zFgwjOoFkS9UmsNBDsns="
     },
     "icu": {
       "icudt_CJK.dat": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
       "icudt_EFIGS.dat": "sha256-8fItetYY8kQ0ww6oxwTLiT3oXlBwHKumbeP2pRF4yTc=",
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
-    "coreAssembly": {},
     "assembly": {
       "Microsoft.AspNetCore.Authorization.wasm": "sha256-W1OqRV83imd3SG/v4PAlCa5m/3RA9n5ysXT7G46jKKc=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-BbzyjRS+gcf0R8v27CSNdTK4vm9XoqKz4NEhk7LK+dY=",
@@ -226,12 +225,12 @@
       "mscorlib.wasm": "sha256-04e4k5XU8HWGB/dq/2+j84xzzGPflTs0IYWI0OxogVc=",
       "netstandard.wasm": "sha256-gnGZURPnoSmjXuYNCOJi5tt8qn2LRImWgue1Ru3/TDQ=",
       "System.Private.CoreLib.wasm": "sha256-6w3jYr0arcp8jnt4aeqh+AmqrLA6q7jl9rQYAwLzE0M=",
-      "IscrizioneManager.Core.wasm": "sha256-KD7hJteupfwH0/X4N9zxBwnB2hxh+Fwh1wAoY04H3qY=",
-      "IscrizioneManager.Web.wasm": "sha256-11brjIQiZBr/PpTFwN0iCpBwOttUXcxaWU579NFKJSI="
+      "IscrizioneManager.Core.wasm": "sha256-VLXkQp1gd9XagZXJK8OLlGKEOriMr2D3fsJxEsE+y/c=",
+      "IscrizioneManager.Web.wasm": "sha256-RSReNo5TzFqm0ShnyMFTvmZwbcDB/3fY8w7Felw36pY="
     },
     "pdb": {
-      "IscrizioneManager.Core.pdb": "sha256-gfbI8wiZ57qt9cXMeMgBfRmfhE2JK4ft/yQM5UL/OU0=",
-      "IscrizioneManager.Web.pdb": "sha256-VIC5GXCL8uUlsK0iJzSWNeSRdsosITk/Ab/6rIlPhCw="
+      "IscrizioneManager.Core.pdb": "sha256-s7V/l8bcc6SzLSb4NC3w/Jp5OZgAYzmLtc7SiAhvcak=",
+      "IscrizioneManager.Web.pdb": "sha256-VSXodTep2xezK1Tx+hAW4FuYiOXtjMTWqBUtDVV0FuQ="
     }
   },
   "cacheBootResources": true,
