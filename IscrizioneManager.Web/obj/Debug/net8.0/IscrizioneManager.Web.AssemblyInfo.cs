@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IscrizioneManager.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+97ed83432c0112fd1ea30eb5e510abb50e601c29")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6efd7bf717b3c1730bf0249d1ca053af94ade19b")]
 [assembly: System.Reflection.AssemblyProductAttribute("IscrizioneManager.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IscrizioneManager.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

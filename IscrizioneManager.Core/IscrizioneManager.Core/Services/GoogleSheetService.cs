@@ -9,11 +9,11 @@ namespace IscrizioniManager.Core.Services
     public static async Task<string> GetOrCreateUrlAsync(Func<Task<string?>> askUserFunc, UrlTypes urlType)
     {
       var client = ClientHolder.Client;
-
+      int type = (int)urlType;
       var sheet = (await client
           .GetAll<GoogleSheet>()
           .Select("*")
-          .Where(x => x.UrlType == (int)urlType)
+          .Where(x => x.UrlType == type)
           .Get())
           .Model
           ;
@@ -32,7 +32,7 @@ namespace IscrizioniManager.Core.Services
       {
         Url = url,
         event_id = client._eventId,
-        UrlType = (int)urlType
+        UrlType = type
       };
 
       await client

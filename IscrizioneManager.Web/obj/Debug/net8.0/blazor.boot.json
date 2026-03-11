@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "IscrizioneManager.Web",
   "resources": {
-    "hash": "sha256-KmQpRw2hB3gkiZZbyM6kaY2njLs+IXgwgj2qL7+wIqE=",
+    "hash": "sha256-ALwuBUsUzb3FE/dOFMRVk91D5Je0E/0NJ25ScU1MbLo=",
     "jsModuleNative": {
       "dotnet.native.8.0.24.in4wt6ympn.js": "sha256-4g0GzvOXSwZvTLca4PrWJkoeltz+V9IF/hEFDcnVros="
     },
@@ -225,12 +225,12 @@
       "mscorlib.wasm": "sha256-04e4k5XU8HWGB/dq/2+j84xzzGPflTs0IYWI0OxogVc=",
       "netstandard.wasm": "sha256-gnGZURPnoSmjXuYNCOJi5tt8qn2LRImWgue1Ru3/TDQ=",
       "System.Private.CoreLib.wasm": "sha256-6w3jYr0arcp8jnt4aeqh+AmqrLA6q7jl9rQYAwLzE0M=",
-      "IscrizioneManager.Core.wasm": "sha256-KBNHaDfpUsDMI+ltClUtslDbBWykde4KcNF5wUPaq+0=",
-      "IscrizioneManager.Web.wasm": "sha256-S0q91ZnAPv7ceUJQ02vlMAE44MoCABo7J6KC3YrjM2o="
+      "IscrizioneManager.Core.wasm": "sha256-RqFhHVRxHfhTHniq0MNbvuQJL/mY53xNSZf+LhHmmRE=",
+      "IscrizioneManager.Web.wasm": "sha256-ZwvJvCPuwx9LiyjtmNmwLscBMJyc90RP3Go8az18JaU="
     },
     "pdb": {
-      "IscrizioneManager.Core.pdb": "sha256-M/3CcuJPnn2+30N3ZJA43e9NhfdCcTZ9KhelwwuWXfA=",
-      "IscrizioneManager.Web.pdb": "sha256-LyOhei8J5CReCNLQ5p0j8Zk20y6+0GpwNcz4z1YK90s="
+      "IscrizioneManager.Core.pdb": "sha256-7KD6Nq6NEOVigNOE773BUgJCRM4Hs62AehWtv53nNbA=",
+      "IscrizioneManager.Web.pdb": "sha256-xDvi4ZEtE5m0ANsj1RcLXpmafeetWIf/jKonbP0cXWI="
     }
   },
   "cacheBootResources": true,
