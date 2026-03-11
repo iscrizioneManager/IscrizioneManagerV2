@@ -9,21 +9,34 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var token = await Storage.GetItem("jwtToken");
-        var refresh = await Storage.GetItem("refreshToken");
-        var eventId = await Storage.GetItem("eventId");
-        var roleId = await Storage.GetItem("roleId");
+        try
+        {
+            var token = await Storage.GetItem("jwtToken");
+            var refresh = await Storage.GetItem("refreshToken");
+            var eventId = await Storage.GetItem("eventId");
+            var roleId = await Storage.GetItem("roleId");
 
-        if (!string.IsNullOrEmpty(token) &&
-            !string.IsNullOrEmpty(refresh) &&
-            !string.IsNullOrEmpty(eventId) &&
-            !string.IsNullOrEmpty(roleId))
-        {
-            Navigation.NavigateTo("home");
+            if (!string.IsNullOrEmpty(token) &&
+                !string.IsNullOrEmpty(refresh) &&
+                !string.IsNullOrEmpty(eventId) &&
+                !string.IsNullOrEmpty(roleId))
+            {
+                Navigation.NavigateTo("home");
+            }
+            else
+            {
+                Navigation.NavigateTo("login");
+            }
         }
-        else
+        catch (Exception)
         {
-            Navigation.NavigateTo("login");
+            await Storage.RemoveItem("jwtToken");
+            await Storage.RemoveItem("refreshToken");
+            await Storage.RemoveItem("eventId");
+            await Storage.RemoveItem("roleId");
+
+            ClientHolder.Reset();
+            Navigation.NavigateTo("login", true);
         }
     }
 }

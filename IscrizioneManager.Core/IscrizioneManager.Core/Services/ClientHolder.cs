@@ -37,15 +37,23 @@ namespace IscrizioneManager.Core.Services
     {
       if (_client != null)
         return;
+      try{
+        var token = await storage.GetItem("jwtToken");
+        var refreshToken = await storage.GetItem("refreshToken");
+        var eventId = await storage.GetItem("eventId");
+        var roleId = await storage.GetItem("roleId");
 
-      var token = await storage.GetItem("jwtToken");
-      var refreshToken = await storage.GetItem("refreshToken");
-      var eventId = await storage.GetItem("eventId");
-      var roleId = await storage.GetItem("roleId");
-
-      if (token != null && refreshToken != null && eventId != null && roleId != null)
+        if (token != null && refreshToken != null && eventId != null && roleId != null)
+        {
+          _client = await LoginController.InitializeClientFromToken(token, refreshToken, int.Parse(eventId), int.Parse(roleId));
+        }
+      }
+      catch (Exception)
       {
-        _client = await LoginController.InitializeClientFromToken(token, refreshToken, int.Parse(eventId), int.Parse(roleId));
+        await storage.RemoveItem("jwtToken");
+        await storage.RemoveItem("refreshToken");
+        await storage.RemoveItem("eventId");
+        await storage.RemoveItem("roleId");
       }
     }
   }

@@ -10,5 +10,7 @@ namespace IscrizioniManager.Models
     public int Id { get; set; }
     [Column("url")]
     public string Url { get; set; }
+    [Column("url_type")]
+    public int UrlType { get; set; }
   }
 }

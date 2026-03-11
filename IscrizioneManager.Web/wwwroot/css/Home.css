@@ -80,3 +80,16 @@
         width: 100%;
     }
 }
+
+/* Nuovo pulsante per cartella Google Drive */
+.main-button.blue {
+    background-color: #1976d2; /* blu dolce */
+    color: white;
+}
+
+    .main-button.blue:hover {
+        background-color: #1565c0; /* leggermente più scuro al passaggio del mouse */
+    }
+    .main-button.blue:active {
+        transform: scale(0.98);
+    }

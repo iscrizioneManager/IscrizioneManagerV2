@@ -1,17 +1,19 @@
-﻿using IscrizioneManager.Core.Services;
+﻿using IscrizioneManager.Core.Models;
+using IscrizioneManager.Core.Services;
 using IscrizioniManager.Models;
 
 namespace IscrizioniManager.Core.Services
 {
   public class GoogleSheetService
   {
-    public static async Task<string> GetOrCreateSheetAsync(Func<Task<string?>> askUserFunc)
+    public static async Task<string> GetOrCreateUrlAsync(Func<Task<string?>> askUserFunc, UrlTypes urlType)
     {
       var client = ClientHolder.Client;
 
       var sheet = (await client
           .GetAll<GoogleSheet>()
           .Select("*")
+          .Where(x => x.UrlType == (int)urlType)
           .Get())
           .Model
           ;
@@ -19,14 +21,6 @@ namespace IscrizioniManager.Core.Services
       if (!string.IsNullOrWhiteSpace(sheet?.Url))
         return sheet.Url;
 
-      // Ask the user for the URL
-      //var url = await Application.Current.MainPage.DisplayPromptAsync(
-      //    "Configura il link",
-      //    "Inserisci il link del foglio Google da utilizzare",
-      //    accept: "Salva",
-      //    cancel: "Annulla",
-      //    placeholder: "https://docs.google.com/..."
-      //);
       var url = await askUserFunc();
 
       // User cancelled or entered nothing
@@ -37,7 +31,8 @@ namespace IscrizioniManager.Core.Services
       var newSheet = new GoogleSheet
       {
         Url = url,
-        event_id = client._eventId
+        event_id = client._eventId,
+        UrlType = (int)urlType
       };
 
       await client

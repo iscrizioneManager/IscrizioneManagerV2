@@ -3,6 +3,7 @@
 @using IscrizioniManager.Core.Services
 @using IscrizioniManager.Models
 @using System.Reflection
+@using IscrizioneManager.Core.Models
 @inject NavigationManager Navigation
 @inject LocalStorageService Storage
 @inject IJSRuntime JS
@@ -25,7 +26,11 @@
     </button>
 
     <button class="main-button green" @onclick="ApriGoogleSheets_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
-        Apri in Fogli Google
+        Visualizza in Fogli Google
+    </button>
+    
+    <button class="main-button blue" @onclick="ApriGoogleSheets_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
+        Cartella Google Drive
     </button>
 
     <button class="main-button logout" @onclick="Logout_Clicked">
@@ -131,7 +136,23 @@
             return await JS.InvokeAsync<string?>("prompt", "Inserisci il link del foglio Google da utilizzare:", "");
         };
 
-        var sheetUrl = await GoogleSheetService.GetOrCreateSheetAsync(askUserFunc);
+        var sheetUrl = await GoogleSheetService.GetOrCreateUrlAsync(askUserFunc, UrlTypes.GoogleSheet);
+
+        if (!string.IsNullOrEmpty(sheetUrl))
+        {
+            await JS.InvokeVoidAsync("open", sheetUrl, "_blank");
+        }
+    }
+
+    private async Task ApriGoogleDrive_Clicked()
+    {
+        // Funzione che chiede all'utente il link via prompt JS
+        Func<Task<string?>> askUserFunc = async () =>
+        {
+            return await JS.InvokeAsync<string?>("prompt", "Inserisci il link della cartella Drive da utilizzare:", "");
+        };
+
+        var sheetUrl = await GoogleSheetService.GetOrCreateUrlAsync(askUserFunc, UrlTypes.GoogleDrive);
 
         if (!string.IsNullOrEmpty(sheetUrl))
         {
