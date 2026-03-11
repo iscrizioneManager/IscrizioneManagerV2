@@ -49,7 +49,7 @@ namespace IscrizioniManager.Controllers
            IdIscrizione = x.Key.IdIscrizione,
            Note = x.Key.Note,
            Pagato = x.Key.Pagato,
-           event_id = x.Key.event_id
+           event_id = x.Key.event_id,
          })
          .ToList();
 

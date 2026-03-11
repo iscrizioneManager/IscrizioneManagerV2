@@ -29,6 +29,7 @@ public class IscrizioneCompletaController
 
                 // Iscrizione
                 da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
+                altra_parrocchia = !dto.DaIscrivereAlNoi ? dto.AltraParrocchia : false,
                 formato_iscrizione = dto.FormatoIscrizioneSelezionato,
                 modalita_pagamento = dto.ModalitaPagamentoSelezionata,
                 sconto_fratelli = dto.ScontoFratelli,
@@ -115,6 +116,7 @@ public class IscrizioneCompletaController
                 anno_scolastico = dto.AnnoScolastico,
                 note = dto.Note,
                 da_iscrivere_al_noi = dto.DaIscrivereAlNoi,
+                altra_parrocchia = !dto.DaIscrivereAlNoi ? dto.AltraParrocchia : false,
                 formato_iscrizione = dto.FormatoIscrizioneSelezionato,
                 modalita_pagamento = dto.ModalitaPagamentoSelezionata,
                 sconto_fratelli = dto.ScontoFratelli,
@@ -378,6 +380,7 @@ public class IscrizioneCompletaController
       PatologieTerapie = scheda?.PatologieTerapie,
       ConsensiDisponibili = consensiDto,
       DaIscrivereAlNoi = iscrizione.DaIscrivereAlNoi,
+      AltraParrocchia = iscrizione.AltraParrocchia,
       ModalitaPagamentoSelezionata = iscrizione.ModalitaPagamento,
       FormatoIscrizioneSelezionato = iscrizione.FormatoIscrizione,
       ScontoFratelli = iscrizione.ScontoFratelli,

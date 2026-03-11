@@ -1,6 +1,5 @@
 ﻿@page "/home"
 @using IscrizioneManager.Core.Services
-@using IscrizioniManager.Controllers
 @using IscrizioniManager.Core.Services
 @using IscrizioniManager.Models
 @using System.Reflection
@@ -69,6 +68,15 @@
     {
         if (!firstRender)
             return;
+
+        if (string.IsNullOrEmpty(await Storage.GetItem("jwtToken")) || 
+            string.IsNullOrEmpty(await Storage.GetItem("refreshToken")) ||
+            string.IsNullOrEmpty(await Storage.GetItem("eventId")) ||
+            string.IsNullOrEmpty(await Storage.GetItem("roleId")))
+        {
+            ClientHolder.Reset();
+            Navigation.NavigateTo("login", true);
+        }
 
         IsLoading = true;
         StateHasChanged();

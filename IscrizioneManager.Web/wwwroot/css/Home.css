@@ -21,16 +21,53 @@
     border: none;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.2s, transform 0.05s;
 }
 
-    .main-button.green {
-        background-color: green;
+    /* Hover generale */
+    .main-button:hover {
+        background-color: #16a085; /* leggermente più scuro */
     }
 
-    .main-button.logout {
-        background-color: transparent;
-        border: 1px solid white;
+    /* Piccolo effetto click */
+    .main-button:active {
+        transform: scale(0.98);
     }
+
+    .main-button.green {
+        background-color: #2e7d32;
+    }
+
+        .main-button.green:hover {
+            background-color: #1b5e20;
+        }
+
+    /* Logout */
+    .main-button.logout {
+        background-color: #e53935;
+        color: white;
+    }
+
+        .main-button.logout:hover {
+            background-color: #c62828;
+        }
+
+/* Light theme override */
+@media (prefers-color-scheme: light) {
+    .main-button.logout {
+        background-color: #e53935;
+        color: white;
+        border: none;
+    }
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    .main-button.logout {
+        background-color: #ef5350;
+        color: white;
+    }
+}
 
 /* Responsive */
 @media (max-width: 800px) {

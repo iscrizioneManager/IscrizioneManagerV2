@@ -23,6 +23,9 @@ public class Iscrizione : EventModel
   [Column("inclusa_iscrizione_noi")]
   public bool DaIscrivereAlNoi { get; set; }
 
+  [Column("altra_parrocchia")]
+  public bool AltraParrocchia { get; set; }
+
   [Column("modalita_pagamento")]
   public int? ModalitaPagamento { get; set; }
 

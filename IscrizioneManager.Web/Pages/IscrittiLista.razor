@@ -199,15 +199,15 @@
     }
 
     // Ordinamento
-    private string _ordinePer = "Cognome";
-    private bool _ordineAsc = true;
+    private string _ordinePer = "IdIscrizione"; // default
+    private bool? _ordineAsc = null; // true = asc, false = desc, null = nessuno 
 
     // Header
-    private string HeaderCognome => _ordinePer == "Cognome" ? "Cognome " + (_ordineAsc ? "↑" : "↓") : "Cognome";
-    private string HeaderNome => _ordinePer == "Nome" ? "Nome " + (_ordineAsc ? "↑" : "↓") : "Nome";
-    private string HeaderDataNascita => _ordinePer == "DataNascita" ? "Data di nascita " + (_ordineAsc ? "↑" : "↓") : "Data di nascita";
-    private string HeaderAnno => _ordinePer == "Anno" ? "Anno " + (_ordineAsc ? "↑" : "↓") : "Anno";
-    private string HeaderPagato => _ordinePer == "Pagato" ? "Pagato " + (_ordineAsc ? "↑" : "↓") : "Pagato";
+    private string HeaderCognome => _ordinePer == "Cognome" ? "Cognome " + (_ordineAsc == true ? "↑" : _ordineAsc == false ? "↓" : "") : "Cognome";
+    private string HeaderNome => _ordinePer == "Nome" ? "Nome " + (_ordineAsc == true ? "↑" : _ordineAsc == false ? "↓" : "") : "Nome";
+    private string HeaderDataNascita => _ordinePer == "DataNascita" ? "Data di nascita " + (_ordineAsc == true ? "↑" : _ordineAsc == false ? "↓" : "") : "Data di nascita";
+    private string HeaderAnno => _ordinePer == "Anno" ? "Anno " + (_ordineAsc == true ? "↑" : _ordineAsc == false ? "↓" : "") : "Anno";
+    private string HeaderPagato => _ordinePer == "Pagato" ? "Pagato " + (_ordineAsc == true ? "↑" : _ordineAsc == false ? "↓" : "") : "Pagato";
 
     // Picker
     private List<AnnoScolasticoItem> AnniScolastici = new();
@@ -272,8 +272,8 @@
             ("Anno", false) => query.OrderByDescending(x => x.Anno),
             ("Pagato", true) => query.OrderBy(x => x.Pagato),
             ("Pagato", false) => query.OrderByDescending(x => x.Pagato),
-            (_, true) => query.OrderBy(x => x.BCognome),
-            _ => query.OrderByDescending(x => x.BCognome)
+            (_, null) => query.OrderBy(x => x.IdIscrizione), // nessun ordinamento specifico -> default
+            _ => query.OrderBy(x => x.BCognome) // caso iniziale
         };
 
         Iscritti = query.ToList();
@@ -284,7 +284,13 @@
 
     private void OrdinaPer(string colonna)
     {
-        if (_ordinePer == colonna) _ordineAsc = !_ordineAsc;
+        if (_ordinePer == colonna)
+        {
+            // cicla tra asc -> desc -> nessuno
+            if (_ordineAsc == true) _ordineAsc = false;
+            else if (_ordineAsc == false) _ordineAsc = null; // nessuno
+            else _ordineAsc = true; // riparte da ascendente
+        }
         else
         {
             _ordinePer = colonna;
@@ -293,6 +299,7 @@
 
         ApplicaFiltroOrdinamento();
     }
+
 
     private async Task OnPagatoChanged(VIscrizioneCompleta item, ChangeEventArgs e)
     {
