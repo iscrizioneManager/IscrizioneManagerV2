@@ -29,7 +29,7 @@
         Visualizza in Fogli Google
     </button>
     
-    <button class="main-button blue" @onclick="ApriGoogleSheets_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
+    <button class="main-button blue" @onclick="ApriGoogleSheets_Clicked" style="display:@((ShowAdminButtons || ShowAnimatoreButtons) ? "block" : "none")">
         Cartella Google Drive
     </button>
 
@@ -44,6 +44,7 @@
 
     private string RoleText = "";
     private bool ShowAdminButtons = false;
+    private bool ShowAnimatoreButtons = false;
 
     // protected override async Task OnInitializedAsync()
     // {
@@ -90,6 +91,7 @@
 
         var client = ClientHolder.Client;
         var isAdmin = client._roleId == RoleValues.Admin;
+        var isAnimatore = client._roleId == RoleValues.Animatore;
 
         if (client._roleId != null)
         {
@@ -99,6 +101,7 @@
         }
 
         ShowAdminButtons = isAdmin;
+        ShowAnimatoreButtons = isAnimatore;
 
         LoadingOverlay?.Stop();
         IsLoading = false;
