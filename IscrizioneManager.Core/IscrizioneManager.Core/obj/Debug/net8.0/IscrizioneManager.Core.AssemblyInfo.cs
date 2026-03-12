@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IscrizioneManager.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6efd7bf717b3c1730bf0249d1ca053af94ade19b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1437d589e7b46781b4401570f870310621fd89e")]
 [assembly: System.Reflection.AssemblyProductAttribute("IscrizioneManager.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IscrizioneManager.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

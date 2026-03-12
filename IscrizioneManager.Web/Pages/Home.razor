@@ -8,6 +8,18 @@
 @inject LocalStorageService Storage
 @inject IJSRuntime JS
 
+<script>
+        function openLinkDirect(url) {
+        // crea un link temporaneo e lo clicca
+        const a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+</script>
 <link href="css/Home.css" rel="stylesheet" />
 
 <LoadingView @ref="LoadingOverlay" />
@@ -28,7 +40,7 @@
     <button class="main-button green" @onclick="ApriGoogleSheets_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
         Visualizza in Fogli Google
     </button>
-    
+
     <button class="main-button blue" @onclick="ApriGoogleDrive_Clicked" style="display:@((ShowAdminButtons || ShowAnimatoreButtons) ? "block" : "none")">
         Cartella Google Drive
     </button>
@@ -143,7 +155,8 @@
 
         if (!string.IsNullOrEmpty(sheetUrl))
         {
-            await JS.InvokeVoidAsync("open", sheetUrl, "_blank");
+            // chiama la tua funzione JS che simula un tap reale
+            await JS.InvokeVoidAsync("openLinkDirect", sheetUrl);
         }
     }
 
@@ -159,7 +172,8 @@
 
         if (!string.IsNullOrEmpty(sheetUrl))
         {
-            await JS.InvokeVoidAsync("open", sheetUrl, "_blank");
+            // chiama la tua funzione JS che simula un tap reale
+            await JS.InvokeVoidAsync("openLinkDirect", sheetUrl);
         }
     }
 }
