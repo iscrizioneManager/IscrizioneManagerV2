@@ -20,26 +20,27 @@ namespace IscrizioniManager.Core.Services
 
       if (!string.IsNullOrWhiteSpace(sheet?.Url))
         return sheet.Url;
+      return null;
 
-      var url = await askUserFunc();
+      //var url = await askUserFunc();
 
-      // User cancelled or entered nothing
-      if (string.IsNullOrWhiteSpace(url))
-        return null;
+      //// User cancelled or entered nothing
+      //if (string.IsNullOrWhiteSpace(url))
+      //  return null;
 
-      // Persist it
-      var newSheet = new GoogleSheet
-      {
-        Url = url,
-        event_id = client._eventId,
-        UrlType = type
-      };
+      //// Persist it
+      //var newSheet = new GoogleSheet
+      //{
+      //  Url = url,
+      //  event_id = client._eventId,
+      //  UrlType = type
+      //};
 
-      await client
-          .GetAll<GoogleSheet>()
-          .Insert(newSheet);
+      //await client
+      //    .GetAll<GoogleSheet>()
+      //    .Insert(newSheet);
 
-      return url;
+      //return url;
     }
   }
 }

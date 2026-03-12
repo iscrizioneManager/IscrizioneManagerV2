@@ -9,15 +9,15 @@
 @inject IJSRuntime JS
 
 <script>
-        function openLinkDirect(url) {
-        // crea un link temporaneo e lo clicca
-        const a = document.createElement("a");
-        a.href = url;
-        a.target = "_blank";
-        a.rel = "noopener";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+    function openLinkDirect(url) {
+    // crea un link temporaneo e lo clicca
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
     }
 </script>
 <link href="css/Home.css" rel="stylesheet" />
@@ -36,13 +36,17 @@
     <button class="main-button" @onclick="ListaIscritti_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
         Lista iscritti
     </button>
-
-    <button class="main-button green" @onclick="ApriGoogleSheets_Clicked" style="display:@(ShowAdminButtons ? "block" : "none")">
-        Visualizza in Fogli Google
+    
+    <button class="main-button green" style="display:@((ShowAdminButtons || ShowAnimatoreButtons) ? "block" : "none")">
+        <a href="@ExcelLink" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; display:block;">
+            Visualizza in Fogli Google
+        </a>
     </button>
 
-    <button class="main-button blue" @onclick="ApriGoogleDrive_Clicked" style="display:@((ShowAdminButtons || ShowAnimatoreButtons) ? "block" : "none")">
-        Cartella Google Drive
+    <button class="main-button blue" style="display:@((ShowAdminButtons || ShowAnimatoreButtons) ? "block" : "none")">
+        <a href="@DriveLink" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; display:block;">
+            Cartella Google Drive
+        </a>
     </button>
 
     <button class="main-button logout" @onclick="Logout_Clicked">
@@ -81,6 +85,8 @@
     //     IsLoading = false;
     //     StateHasChanged();
     // }
+    private string ExcelLink = null;
+    private string DriveLink = null;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -111,6 +117,11 @@
             var attribute = field?.GetCustomAttribute<System.ComponentModel.DescriptionAttribute>();
             RoleText = attribute?.Description ?? "";
         }
+
+        
+        ExcelLink = await GoogleSheetService.GetOrCreateUrlAsync(null, UrlTypes.GoogleSheet);
+        DriveLink = await GoogleSheetService.GetOrCreateUrlAsync(null, UrlTypes.GoogleDrive);
+
 
         ShowAdminButtons = isAdmin;
         ShowAnimatoreButtons = isAnimatore;
@@ -146,12 +157,13 @@
     private async Task ApriGoogleSheets_Clicked()
     {
         // Funzione che chiede all'utente il link via prompt JS
-        Func<Task<string?>> askUserFunc = async () =>
-        {
-            return await JS.InvokeAsync<string?>("prompt", "Inserisci il link del foglio Google da utilizzare:", "");
-        };
+        // Func<Task<string?>> askUserFunc = async () =>
+        // {
+        //     return await JS.InvokeAsync<string?>("prompt", "Inserisci il link del foglio Google da utilizzare:", "");
+        // };
 
-        var sheetUrl = await GoogleSheetService.GetOrCreateUrlAsync(askUserFunc, UrlTypes.GoogleSheet);
+        // var sheetUrl = await GoogleSheetService.GetOrCreateUrlAsync(askUserFunc, UrlTypes.GoogleSheet);
+        var sheetUrl = await GoogleSheetService.GetOrCreateUrlAsync(null, UrlTypes.GoogleSheet);
 
         if (!string.IsNullOrEmpty(sheetUrl))
         {
@@ -163,17 +175,17 @@
     private async Task ApriGoogleDrive_Clicked()
     {
         // Funzione che chiede all'utente il link via prompt JS
-        Func<Task<string?>> askUserFunc = async () =>
-        {
-            return await JS.InvokeAsync<string?>("prompt", "Inserisci il link della cartella Drive da utilizzare:", "");
-        };
+        // Func<Task<string?>> askUserFunc = async () =>
+        // {
+        //     return await JS.InvokeAsync<string?>("prompt", "Inserisci il link della cartella Drive da utilizzare:", "");
+        // };
 
-        var sheetUrl = await GoogleSheetService.GetOrCreateUrlAsync(askUserFunc, UrlTypes.GoogleDrive);
+        // var sheetUrl = await GoogleSheetService.GetOrCreateUrlAsync(askUserFunc, UrlTypes.GoogleDrive);
 
-        if (!string.IsNullOrEmpty(sheetUrl))
-        {
-            // chiama la tua funzione JS che simula un tap reale
-            await JS.InvokeVoidAsync("openLinkDirect", sheetUrl);
-        }
+        // if (!string.IsNullOrEmpty(sheetUrl))
+        // {
+        //     // chiama la tua funzione JS che simula un tap reale
+        //     await JS.InvokeVoidAsync("openLinkDirect", sheetUrl);
+        // }
     }
 }
