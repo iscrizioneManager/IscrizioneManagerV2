@@ -272,8 +272,8 @@
 
         <!-- ================= SUBMIT ================= -->
         <button type="submit"
-                class="btn-submit mobile-fab @((IsReadOnly && !IsSubmitting) ? "hidden" : "")"
-                disabled="@IsSubmitting">
+        class="btn-submit mobile-fab @((IsReadOnly && !IsSubmitting) ? "hidden" : "")"
+        disabled="@IsSubmitting">
             @if (IsSubmitting)
             {
                 <span class="btn-text visually-hidden">Salva iscrizione</span>
@@ -305,10 +305,10 @@
             else
             {
                 <InputText Value="@_filtroGenitore"
-                           ValueExpression="() => _filtroGenitore"
-                           placeholder="Cerca per nome o cognome"
-                           class="popup-search"
-                           @oninput="OnFiltroGenitoreInput" />
+                ValueExpression="() => _filtroGenitore"
+                placeholder="Cerca per nome o cognome"
+                class="popup-search"
+                @oninput="OnFiltroGenitoreInput" />
 
                 <div style="height:350px; overflow:auto;">
                     @foreach (var g in GenitoriFiltrati)
@@ -383,7 +383,6 @@
         .Select(e => new FormatoIscrizioneItem() { Id = (int)e, Desc = e.ToString() }).ToList();
     private bool datiCaricati = false;
 
-    private ModuloIscrizioneDto? _initialFormModel;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!Settimane.Any())
@@ -423,9 +422,6 @@
             FormModel.ConsensiDisponibili = ConsensiDisponibili;
 
         IsReadOnly = FormModel.IdIscrizione != null;
-        _initialFormModel = JsonConvert.DeserializeObject<ModuloIscrizioneDto>(
-            JsonConvert.SerializeObject(FormModel)
-            );
         datiCaricati = true;
         LoadingOverlay?.Stop();
         IsLoading = false;
@@ -510,17 +506,9 @@
         IsReadOnly = false;
     }
 
-    private void AnnulaModifica()
+    private async Task AnnulaModifica()
     {
-        if (_initialFormModel != null)
-        {
-            // Deep clone again to avoid referencing the same object
-            FormModel = JsonConvert.DeserializeObject<ModuloIscrizioneDto>(
-                JsonConvert.SerializeObject(_initialFormModel)
-            );
-        }
-
-        IsReadOnly = true;
+        await ChiudiMainPopup.InvokeAsync();
     }
 
     private bool deletedPopup = false;
