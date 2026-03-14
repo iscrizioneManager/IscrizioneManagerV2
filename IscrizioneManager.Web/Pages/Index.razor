@@ -33,6 +33,7 @@
             await Storage.RemoveItem("jwtToken");
             await Storage.RemoveItem("refreshToken");
             await Storage.RemoveItem("eventId");
+            await Storage.RemoveItem("eventDesc");
             await Storage.RemoveItem("roleId");
 
             ClientHolder.Reset();

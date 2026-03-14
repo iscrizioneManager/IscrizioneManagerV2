@@ -5,6 +5,10 @@
     padding: 20px;
     gap: 15px;
 }
+.event-label {
+    text-align: center;
+    font-size: 2.5rem;
+}
 
 .role-label {
     text-align: center;

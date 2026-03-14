@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IscrizioneManager.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+addb8665174869285a64a13bd139e48fce273bc8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2643ead8ab73943ac7019e47ec0dbdf5d32a6ce")]
 [assembly: System.Reflection.AssemblyProductAttribute("IscrizioneManager.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IscrizioneManager.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

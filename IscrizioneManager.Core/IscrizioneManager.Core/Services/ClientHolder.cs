@@ -53,6 +53,7 @@ namespace IscrizioneManager.Core.Services
         await storage.RemoveItem("jwtToken");
         await storage.RemoveItem("refreshToken");
         await storage.RemoveItem("eventId");
+        await storage.RemoveItem("eventDesc");
         await storage.RemoveItem("roleId");
       }
     }

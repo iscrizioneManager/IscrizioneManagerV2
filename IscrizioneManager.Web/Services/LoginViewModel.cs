@@ -98,6 +98,7 @@ namespace IscrizioneManager.Web.Services
         await _storage.SetItem("jwtToken", token);
         await _storage.SetItem("refreshToken", refresh);
         await _storage.SetItem("eventId", SelectedEvent.Id.ToString());
+        await _storage.SetItem("eventDesc", SelectedEvent.DisplayName);
         await _storage.SetItem("roleId", ((int)SelectedRole.Value).ToString());
 
         return true; // login ok
