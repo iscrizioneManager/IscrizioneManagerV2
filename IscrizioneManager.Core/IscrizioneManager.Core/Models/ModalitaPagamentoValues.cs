@@ -4,5 +4,6 @@
   {
     Contanti = 1,
     Bonifico = 2,
+    Pos = 3
   }
 }
