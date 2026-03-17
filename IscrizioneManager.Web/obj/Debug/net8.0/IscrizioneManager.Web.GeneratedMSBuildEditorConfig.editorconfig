@@ -13,55 +13,55 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = IscrizioneManager.Web
 build_property.RootNamespace = IscrizioneManager.Web
-build_property.ProjectDir = C:\Users\Michele\Documents\IscrizioneManagerV2\IscrizioneManager.Web\
+build_property.ProjectDir = C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = false
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Michele\Documents\IscrizioneManagerV2\IscrizioneManager.Web
+build_property.MSBuildProjectDirectory = C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/App.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Layout/MainLayout.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Pages/Home.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Pages/Index.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Pages/InserisciIscrizione.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/InserisciIscrizione.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zZXJpc2NpSXNjcml6aW9uZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Pages/IscrittiLista.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/IscrittiLista.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSXNjcml0dGlMaXN0YS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Pages/ListaSquadre.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/ListaSquadre.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFTcXVhZHJlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Pages/LoadingView.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/LoadingView.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9hZGluZ1ZpZXcucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Pages/Login.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/Login.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/Pages/ModuloIscrizioneView.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/Pages/ModuloIscrizioneView.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW9kdWxvSXNjcml6aW9uZVZpZXcucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michele/Documents/IscrizioneManagerV2/IscrizioneManager.Web/_Imports.razor]
+[C:/Users/miche/Documents/Michele/IscrizioneManagerV2/IscrizioneManager.Web/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
