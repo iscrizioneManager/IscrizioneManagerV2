@@ -1,30 +1,33 @@
 ﻿using IscrizioniManager.Data;
 using Supabase.Postgrest.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IscrizioniManager.Models;
 
-[Table("bambino")]
+[Supabase.Postgrest.Attributes.Table("bambino")]
 public class Bambino : EventModel
 {
   [PrimaryKey("id_bambino")]
   public int Id { get; set; }
 
-  [Column("nome")]
+  [Supabase.Postgrest.Attributes.Column("nome")]
   public string Nome { get; set; } = string.Empty;
 
-  [Column("cognome")]
+  [Supabase.Postgrest.Attributes.Column("cognome")]
   public string Cognome { get; set; } = string.Empty;
 
-  [Column("data_nascita")]
+  [Supabase.Postgrest.Attributes.Column("data_nascita")]
   public string DataNascita { get; set; }
-  [Column("genere")]
+  [Supabase.Postgrest.Attributes.Column("genere")]
   public int? Genere { get; set; }
 
-  [Column("luogo_nascita")]
+  [Supabase.Postgrest.Attributes.Column("luogo_nascita")]
   public string? LuogoNascita { get; set; }
 
-  [Column("indirizzo_residenza")]
+  [Supabase.Postgrest.Attributes.Column("indirizzo_residenza")]
   public string? IndirizzoResidenza { get; set; }
-  [Column("comune_residenza")]
+  [Supabase.Postgrest.Attributes.Column("comune_residenza")]
   public string? ComuneResidenza { get; set; }
+  [NotMapped]
+  public int? Anno { get; set; }
 }

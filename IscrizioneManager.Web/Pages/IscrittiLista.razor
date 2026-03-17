@@ -7,7 +7,7 @@
 
 <LoadingView @ref="LoadingOverlay" />
 <div class="header-iscrizione">
-    <h2>Iscritti</h2>
+    <h2>Iscritti (@Iscritti.Count)</h2>
     <button class="btn-chiudi" @onclick="TornaIndietro" title="Chiudi">×</button>
 </div>
 <div class="iscritti-container @(IsLoading ? "loading" : null)">

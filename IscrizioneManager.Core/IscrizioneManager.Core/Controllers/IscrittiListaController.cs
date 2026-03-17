@@ -19,17 +19,11 @@ namespace IscrizioniManager.Controllers
 
     public static async Task AggiornaPagatoAsync(VIscrizioneCompleta item)
     {
-      await ClientHolder.Client.GetAll<Iscrizione>()
-          .Where(x => x.Id == item.IdIscrizione)
-          .Update(new Iscrizione
-          {
-            Id = item.IdIscrizione.Value,
-            Anno = (AnnoScolastico?)item.Anno,
-            IdBambino = item.IdBambino,
-            Note = item.Note,
-            Pagato = item.Pagato,
-            event_id = item.event_id
-          });
+      await ClientHolder.Client
+        .GetAll<Iscrizione>()
+        .Where(x => x.Id == item.IdIscrizione)
+        .Set(x => x.Pagato, item.Pagato)
+        .Update();
     }
 
     public static async Task<List<VIscrizioneCompleta>> LoadIscrittiAsync()

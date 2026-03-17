@@ -34,7 +34,8 @@
 }
 else
 {
-    <button @onclick="StopDragDrop">Ferma modifica</button>
+    <button @onclick="StopDragDrop">Salva</button>
+    <button @onclick="RidistriubisciSquadre">Ridistribuisci automaticamente</button>
 }
 
 <script>
@@ -145,5 +146,41 @@ else
     {
         await JS.InvokeVoidAsync("stopDragDrop");
         DragAndDropOn = false;
+    }
+
+    private void RidistriubisciSquadre()
+    {
+        // 1. prendi tutti i bambini
+        var tutti = Squadre.SelectMany(s => s.Bambini).ToList();
+
+        // 2. svuota le squadre
+        foreach (var s in Squadre)
+            s.Bambini.Clear();
+
+        // 3. raggruppa per annata
+        var gruppiPerAnno = tutti
+            .GroupBy(b => b.Anno)
+            .OrderBy(g => g.Key);
+
+        int index = 0;
+
+        // 4. distribuzione round-robin
+        foreach (var gruppo in gruppiPerAnno)
+        {
+            var bambini = gruppo
+                .OrderBy(_ => Guid.NewGuid()) // randomizza
+                .ToList();
+
+            foreach (var bambino in bambini)
+            {
+                Squadre[index].Bambini.Add(bambino);
+
+                index++;
+                if (index >= Squadre.Count)
+                    index = 0;
+            }
+        }
+
+        StateHasChanged();
     }
 }
