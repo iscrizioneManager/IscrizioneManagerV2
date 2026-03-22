@@ -1,11 +1,14 @@
-﻿using IscrizioniManager.Data;
-using Supabase.Postgrest.Attributes;
+﻿using Supabase.Postgrest.Attributes;
+using Supabase.Postgrest.Models;
 
 [Table("genitore")]
-public class Genitore : EventModel
+public class Genitore : BaseModel
 {
   [PrimaryKey("id_genitore")]
   public int Id { get; set; }
+
+  [Column("event_id")]
+  public int event_id { get; set; }
 
   [Column("nome")]
   public string Nome { get; set; } = string.Empty;

@@ -265,7 +265,7 @@ public class IscrizioneCompletaController
     foreach (var rel in relGenitoriList.Models)
     {
       var gen = await ClientHolder.Client
-          .GetAll<Genitore>()
+          .BaseFrom<Genitore>()
           .Select("*")
           .Where(x => x.Id == rel.IdGenitore)
           .Single();

@@ -67,7 +67,7 @@ namespace IscrizioneManager.Web.Services
     public async Task<List<GenitoreDto>> GetGenitoriListAsync()
     {
       var genitori = await ClientHolder.Client
-       .GetAll<Genitore>()
+       .BaseFrom<Genitore>()
        .Select("*")
        .Get();
 
