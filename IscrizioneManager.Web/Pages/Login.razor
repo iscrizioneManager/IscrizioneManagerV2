@@ -2,6 +2,7 @@
 @using IscrizioneManager.Core.Services
 @using IscrizioneManager.Web.Services
 @using IscrizioniManager.Controllers
+@using IscrizioniManager.Models
 @inject LocalStorageService Storage
 @inject NavigationManager Navigation
 @inject LoginController LoginController
@@ -21,10 +22,10 @@
         </select>
 
         <label>Evento</label>
-        <select @bind="VM.SelectedEventValue">
-            @foreach (var e in VM.EventList)
+        <select @bind="eventoId">
+            @foreach (var e in Eventi)
             {
-                <option value="@e.Id">@e.DisplayName</option>
+                <option value="@e.Id">@e.Nome</option>
             }
         </select>
 
@@ -44,6 +45,8 @@
     private LoadingView? LoadingOverlay;
     private LoginViewModel VM;
     private bool IsLoading = true;
+    private List<Evento> Eventi { get; set; }
+    private int eventoId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -53,7 +56,7 @@
         IsLoading = true;
         StateHasChanged();
 
-        await VM.LoadEventiAsync();
+        Eventi = await VM.LoadEventiAsync();
 
         // Nascondi overlay
         LoadingOverlay.Stop();
@@ -67,7 +70,7 @@
         LoadingOverlay.Start();
         StateHasChanged();
 
-        var success = await VM.LoginAsync();
+        var success = await VM.LoginAsync(Eventi.Single(x => x.Id == eventoId));
 
         LoadingOverlay.Stop();
         IsLoading = false;

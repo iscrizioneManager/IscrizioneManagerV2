@@ -1,6 +1,94 @@
-﻿.squadre-grid {
+﻿.header-iscrizione {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 2%; /* margini laterali come prima */
+    margin-bottom: 15px; /* margine inferiore originale */
+}
+
+    .header-iscrizione h2 {
+        margin: 0;
+        font-size: 2rem; /* dimensione desktop */
+        font-weight: 600;
+    }
+
+.btn-chiudi {
+    background: none;
+    border: none;
+    font-size: 3rem; /* dimensione desktop originale */
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.2s;
+    color: black;
+}
+
+    .btn-chiudi:hover {
+        color: darkred;
+    }
+
+@media (max-width: 768px) {
+    .btn-chiudi {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        font-size: 2rem; /* più proporzionato */
+        background-color: #1ABC9C;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+        .btn-chiudi:hover {
+            color: white; /* evita effetto testo rosso su mobile */
+            background-color: #16a085;
+        }
+}
+
+/* ================== RESPONSIVE ================== */
+@media (max-width: 768px) {
+    .header-iscrizione h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-iscrizione {
+        flex-direction: row; /* manteniamo titolo e × sulla stessa riga */
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 2%;
+        margin-bottom: 15px;
+    }
+
+        .header-iscrizione h2 {
+            font-size: 1.25rem;
+        }
+
+    .btn-chiudi {
+        font-size: 1.75rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .btn-chiudi {
+        color: white;
+    }
+}
+
+.squadre-container {
+    margin: 0 2%; /* margini laterali come prima */
+}
+
+.squadre-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     margin-top: 16px;
 }
@@ -76,3 +164,15 @@
         border: 2px dashed #1ABC9C;
     }
 }
+
+.btn-squadre {
+    margin-right: 10px;
+}
+
+.btn-secondary {
+    background-color: #444;
+}
+
+    .btn-secondary:hover {
+        background-color: #666;
+    }

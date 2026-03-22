@@ -1,4 +1,6 @@
 ﻿@page "/squadre"
+@using IscrizioniManager.Models
+@using Newtonsoft.Json
 @inject IJSRuntime JS
 
 <link href="css/ListaSquadre.css" rel="stylesheet" />
@@ -10,66 +12,58 @@
     <button class="btn-chiudi" @onclick="TornaIndietro" title="Chiudi">×</button>
 </div>
 
-<div class="squadre-grid">
-    @foreach (var squadra in Squadre)
+<div class="squadre-container">
+    @if (!DragAndDropOn)
     {
-        <div class="squadra-card">
-            <div class="squadra-header"
-                 style="background-color:@squadra.Color; color:@GetTextColor(squadra.Color)">
-                @squadra.Nome (@squadra.Bambini.Count)
-            </div>
-            <ul class="squadra-bambini" id="squadra-@squadra.Id">
-                @foreach (var b in squadra.Bambini)
-                {
-                    <li data-id="@b.Id">@b.Nome @b.Cognome</li>
-                }
-            </ul>
-        </div>
+        <button @onclick="ActivateDragDrop">Modifica</button>
     }
-</div>
+    else
+    {
+        <button @onclick="StopDragDrop" class="btn-squadre">Salva</button>
+        <button @onclick="RidistriubisciSquadre" class="btn-squadre">Ridistribuisci automaticamente</button>
+        <button @onclick="AnnullaModifica" class="btn-squadre btn-secondary">Annulla</button>
+    }
 
-@if (!DragAndDropOn)
-{
-    <button @onclick="ActivateDragDrop">Modifica</button>
-}
-else
-{
-    <button @onclick="StopDragDrop">Salva</button>
-    <button @onclick="RidistriubisciSquadre">Ridistribuisci automaticamente</button>
-}
+    <div class="squadre-grid">
+        @foreach (var squadra in Squadre)
+        {
+            <div class="squadra-card">
+                <div class="squadra-header"
+                     style="background-color:@squadra.Color; color:@GetTextColor(squadra.Color)">
+                    @squadra.Nome (@squadra.Bambini.Count)
+                </div>
+                <ul class="squadra-bambini" id="squadra-@squadra.Id" @key="squadra.Id">
+                    @foreach (var b in squadra.Bambini)
+                    {
+                        <li data-id="@b.Id" @key="b.Id">@b.Cognome @b.Nome (@(
+                                (AnnoScolastico?)b.Anno != null ? AnnoScolasticoItem.GetEnumDescription((AnnoScolastico)b.Anno) : "NON DEFINITO"
+                            ))</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>
 
 <script>
     let draggedId = null;
     let dragListenersAdded = false;
 
-    function initDragDrop() {
-        if (dragListenersAdded) return; // evita doppio binding
+       function initDragDrop(dotnetRef) {
+        if (!dotnetRef) {
+            console.error("DotNetObjectReference is missing!");
+            return;
+        }
         dragListenersAdded = true;
 
         document.querySelectorAll('.squadra-bambini li').forEach(li => {
             li.setAttribute('draggable', 'true');
-
             li.addEventListener('dragstart', dragStartHandler);
         });
 
         document.querySelectorAll('.squadra-bambini').forEach(ul => {
             ul.addEventListener('dragover', dragOverHandler);
-            ul.addEventListener('drop', dropHandler);
-        });
-    }
-
-    function stopDragDrop() {
-        if (!dragListenersAdded) return;
-        dragListenersAdded = false;
-
-        document.querySelectorAll('.squadra-bambini li').forEach(li => {
-            li.removeAttribute('draggable');
-            li.removeEventListener('dragstart', dragStartHandler);
-        });
-
-        document.querySelectorAll('.squadra-bambini').forEach(ul => {
-            ul.removeEventListener('dragover', dragOverHandler);
-            ul.removeEventListener('drop', dropHandler);
+            ul.addEventListener('drop', ev => dropHandler(ev, dotnetRef));
         });
     }
 
@@ -84,17 +78,14 @@ else
         ev.dataTransfer.dropEffect = "move";
     }
 
-    function dropHandler(ev) {
-        ev.preventDefault();
-        const id = ev.dataTransfer.getData("text/plain");
-        if (!id) return;
+    function dropHandler(ev, dotnetRef) {
+         ev.preventDefault();
+         const id = ev.dataTransfer.getData("text/plain");
+         if (!id) return;
 
-        const li = document.querySelector(`li[data-id='${id}']`);
-        if (li) ev.currentTarget.appendChild(li);
-
-        const squadraId = parseInt(ev.currentTarget.id.split('-')[1]);
-        DotNet.invokeMethodAsync('IscrizioniManager.Web', 'AggiornaSquadra', parseInt(id), squadraId);
-    }
+         const squadraId = parseInt(ev.currentTarget.id.split('-')[1]);
+         dotnetRef.invokeMethodAsync('AggiornaSquadra', parseInt(id), squadraId);
+     }
 </script>
 
 @code {
@@ -105,6 +96,8 @@ else
     {
         LoadingOverlay?.Start();
         Squadre = await SquadraBambinoController.GetSquadreAsync();
+        Console.WriteLine(JsonConvert.SerializeObject(Squadre));
+       
         foreach (var s in Squadre) s.IsExpanded = true;
         LoadingOverlay?.Stop();
     }
@@ -126,12 +119,30 @@ else
         double luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
         return luminance > 0.6 ? "black" : "white";
     }
+    private DotNetObjectReference<ListaSquadre>? objRef;
 
-    [JSInvokable]
-    public static Task AggiornaSquadra(int bambinoId, int squadraId)
+    protected override void OnInitialized()
     {
-        // Aggiorna la tua lista in memoria o DB
-        Console.WriteLine($"Bambino {bambinoId} spostato in squadra {squadraId}");
+        objRef = DotNetObjectReference.Create(this);
+    }
+    [JSInvokable]
+    public Task AggiornaSquadra(int bambinoId, int squadraId)
+    {
+        // 1. find the bambino in current lists
+        var bambino = Squadre.SelectMany(s => s.Bambini).FirstOrDefault(b => b.Id == bambinoId);
+        if (bambino == null) return Task.CompletedTask;
+
+        // 2. remove from old squad
+        foreach (var s in Squadre)
+            s.Bambini.Remove(bambino);
+
+        // 3. add to new squad
+        var newSquad = Squadre.FirstOrDefault(s => s.Id == squadraId);
+        newSquad?.Bambini.Add(bambino);
+
+        // 4. refresh UI
+        StateHasChanged();
+
         return Task.CompletedTask;
     }
 
@@ -139,7 +150,7 @@ else
     private async Task ActivateDragDrop()
     {
         DragAndDropOn = true;
-        await JS.InvokeVoidAsync("initDragDrop");
+        await JS.InvokeVoidAsync("initDragDrop", objRef);
     }
 
     private async Task StopDragDrop()
@@ -163,6 +174,7 @@ else
             .OrderBy(g => g.Key);
 
         int index = 0;
+        var squadreToDistribute = Squadre.Where(x => x.Id != default).ToList();
 
         // 4. distribuzione round-robin
         foreach (var gruppo in gruppiPerAnno)
@@ -173,14 +185,23 @@ else
 
             foreach (var bambino in bambini)
             {
-                Squadre[index].Bambini.Add(bambino);
+                squadreToDistribute[index].Bambini.Add(bambino);
 
                 index++;
-                if (index >= Squadre.Count)
+                if (index >= squadreToDistribute.Count)
                     index = 0;
             }
+
         }
 
+        squadreToDistribute.ForEach(y => y.Bambini = y.Bambini.OrderByDescending(x => x.Anno).ThenBy(x => $"{x.Cognome} {x.Nome}").ToList());
+
+
         StateHasChanged();
+    }
+
+    private async Task AnnullaModifica()
+    {
+        Navigation.NavigateTo("/squadre", true);
     }
 }

@@ -20,7 +20,7 @@ public class AnnoScolasticoItem
     Description = desc;
   }
 
-  private static string GetEnumDescription(Enum value)
+  public static string GetEnumDescription(Enum value)
     {
         var fi = value.GetType().GetField(value.ToString());
         var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);

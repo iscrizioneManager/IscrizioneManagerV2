@@ -79,62 +79,72 @@
             </div>
 
             <!-- ================= GENITORI ================= -->
-            <div class="section mt">
-                <label>Genitori</label>
-                <button type="button" class="mb btn-add-genitore @((IsReadOnly || FormModel.Genitori.Count >= 2) ? "hidden" : "")" @onclick="AddGenitore">
-                    Aggiungi Genitore
-                </button>
+            @if (EventMetadata.View_Genitori)
+            {
+                <div class="section mt">
+                    <label>Genitori</label>
+                    <button type="button" class="mb btn-add-genitore @((IsReadOnly || FormModel.Genitori.Count >= 2) ? "hidden" : "")" @onclick="AddGenitore">
+                        Aggiungi Genitore
+                    </button>
 
-                @if (FormModel.Genitori != null)
-                {
-                    @foreach (var genitore in FormModel.Genitori)
+                    @if (FormModel.Genitori != null)
                     {
-                        <div class="genitore-card">
-                            <div class="field small center">
-                                <InputText @bind-Value="genitore.Cognome" placeholder="Cognome" class="form-control" />
-                            </div>
-
-                            <div class="field small center">
-                                <InputText @bind-Value="genitore.Nome" placeholder="Nome" class="form-control" />
-                            </div>
-
-                            <div class="field small center">
-                                <InputText @bind-Value="genitore.Telefono" placeholder="Telefono" class="form-control" />
-                            </div>
-
-                            <div class="field small center">
-                                <InputSelect @bind-Value="genitore.Genere" class="form-control">
-                                    <option value="">Seleziona</option>
-                                    <option value="1">M</option>
-                                    <option value="2">F</option>
-                                </InputSelect>
-                            </div>
-
-                            <button type="button" class="icon-button @(IsReadOnly ? "hidden" : "")" @onclick="@(() => ApriPopup(genitore))" title="Cerca genitore">
-                                <img src="images/icona_cerca.svg" class="cerca-img" />
-                            </button>
-
-                            <button type="button" class="btn-remove @(IsReadOnly ? "hidden" : "")" @onclick="@(() => RemoveGenitore(FormModel.Genitori.IndexOf(genitore)))">
-                                Rimuovi
-                            </button>
-                        </div>
-                    }
-                }
-            </div>
-
-            <!-- ================= ISCRIZIONE E NOTE ================= -->
-            <div class="row-flex mt">
-                <div class="field medium">
-                    <label>Anno scolastico</label>
-                    <InputSelect @bind-Value="FormModel.AnnoScolastico" class="form-control">
-                        <option value="">Seleziona</option>
-                        @foreach (var anno in AnniScolastici)
+                        @foreach (var genitore in FormModel.Genitori)
                         {
-                            <option value="@anno.Value">@anno.Description</option>
+                            <div class="genitore-card">
+                                <div class="field small center">
+                                    <InputText @bind-Value="genitore.Cognome" placeholder="Cognome" class="form-control" />
+                                </div>
+
+                                <div class="field small center">
+                                    <InputText @bind-Value="genitore.Nome" placeholder="Nome" class="form-control" />
+                                </div>
+
+                                <div class="field small center">
+                                    <InputText @bind-Value="genitore.Telefono" placeholder="Telefono" class="form-control" />
+                                </div>
+
+                                <div class="field small center">
+                                    <InputSelect @bind-Value="genitore.Genere" class="form-control">
+                                        <option value="">Seleziona</option>
+                                        <option value="1">M</option>
+                                        <option value="2">F</option>
+                                    </InputSelect>
+                                </div>
+
+                                <button type="button" class="icon-button @(IsReadOnly ? "hidden" : "")" @onclick="@(() => ApriPopup(genitore))" title="Cerca genitore">
+                                    <img src="images/icona_cerca.svg" class="cerca-img" />
+                                </button>
+
+                                <button type="button" class="btn-remove @(IsReadOnly ? "hidden" : "")" @onclick="@(() => RemoveGenitore(FormModel.Genitori.IndexOf(genitore)))">
+                                    Rimuovi
+                                </button>
+                            </div>
                         }
-                    </InputSelect>
+                    }
                 </div>
-            </div>
+            }
+            
+            @if (EventMetadata.View_MailGenitore)
+            {
+            }
+            
+            @if (EventMetadata.View_AnnoScolastico)
+            {
+                <!-- ================= ISCRIZIONE E NOTE ================= -->
+                <div class="row-flex mt">
+                    <div class="field medium">
+                        <label>Anno scolastico</label>
+                        <InputSelect @bind-Value="FormModel.AnnoScolastico" class="form-control">
+                            <option value="">Seleziona</option>
+                            @foreach (var anno in AnniScolastici)
+                            {
+                                <option value="@anno.Value">@anno.Description</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+            }
 
             <div class="row-flex mt">
                 <div class="field large">
@@ -142,115 +152,139 @@
                     <InputTextArea @bind-Value="FormModel.Note" rows="3" class="form-control" />
                 </div>
             </div>
-
-            <!-- ================= SETTIMANE ================= -->
-            @if (FormModel.Settimane != null)
+            
+            @if (EventMetadata.View_Settimane)
             {
-                <div class="section mt">
-                    <label>Settimane</label>
-                    @foreach (var settimana in FormModel.Settimane)
-                    {
-                        <div class="row-flex align-center">
-                            <InputCheckbox @bind-Value="settimana.IsSelected" />
-                            <span>@settimana.Desc</span>
+                <!-- ================= SETTIMANE ================= -->
+                @if (FormModel.Settimane != null)
+                {
+                    <div class="section mt">
+                        <label>Settimane</label>
+                        @foreach (var settimana in FormModel.Settimane)
+                        {
+                            <div class="row-flex align-center">
+                                <InputCheckbox @bind-Value="settimana.IsSelected" />
+                                <span>@settimana.Desc</span>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            
+            @if (EventMetadata.View_Taglia)
+            {
+                <!-- ================= TAGLIA ================= -->
+                @if (Taglie != null)
+                {
+                    <div class="row-flex mt">
+                        <div class="field medium">
+                            <label>Taglia</label>
+                            <InputSelect @bind-Value="FormModel.Taglia" class="form-control">
+                                <option value="">Seleziona</option>
+                                @foreach (var taglia in Taglie)
+                                {
+                                    <option value="@taglia.Id">@taglia.Descrizione</option>
+                                }
+                            </InputSelect>
                         </div>
-                    }
+                    </div>
+                }
+            }
+            
+            @if (EventMetadata.View_SchedaSanitaria)
+            {
+                <!-- ================= SCHEDA SANITARIA ================= -->
+                <div class="row-flex mt">
+                    <div class="field large">
+                        <label>Allergie/Intolleranze</label>
+                        <InputTextArea @bind-Value="FormModel.AllergieIntolleranze" class="form-control" rows="2" />
+                    </div>
+                </div>
+
+                <div class="row-flex mt">
+                    <div class="field large">
+                        <label>Patologie/Terapie</label>
+                        <InputTextArea @bind-Value="FormModel.PatologieTerapie" class="form-control" rows="2" />
+                    </div>
                 </div>
             }
-
-            <!-- ================= TAGLIA ================= -->
-            @if (Taglie != null)
+            
+            @if (EventMetadata.View_Consensi)
             {
-                <div class="row-flex mt">
+                <!-- ================= CONSENSI ================= -->
+                @if (FormModel.ConsensiDisponibili != null)
+                {
+                    <div class="section mt">
+                        <label>Consensi</label>
+                        @foreach (var consenso in FormModel.ConsensiDisponibili)
+                        {
+                            <div class="row-flex align-center">
+                                <InputCheckbox @bind-Value="consenso.IsSelected" />
+                                <span>@consenso.Descrizione</span>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            
+            @if (EventMetadata.View_FormatoIscrPagamento)
+            {
+                <!-- ================= PAGAMENTO E FLAGS ================= -->
+                <div class="row-flex mt wrap">
                     <div class="field medium">
-                        <label>Taglia</label>
-                        <InputSelect @bind-Value="FormModel.Taglia" class="form-control">
+                        <label>Formato iscrizione</label>
+                        <InputSelect @bind-Value="FormModel.FormatoIscrizioneSelezionato">
                             <option value="">Seleziona</option>
-                            @foreach (var taglia in Taglie)
+                            @foreach (var formato in FormatoIscrizioneItems)
                             {
-                                <option value="@taglia.Id">@taglia.Descrizione</option>
+                                <option value="@formato.Id">@formato.Desc</option>
+                            }
+                        </InputSelect>
+                    </div>
+
+                    <div class="field medium">
+                        <label>Modalità pagamento</label>
+                        <InputSelect @bind-Value="FormModel.ModalitaPagamentoSelezionata">
+                            <option value="">Seleziona</option>
+                            @foreach (var modalita in ModalitaPagamentoItems)
+                            {
+                                <option value="@modalita.Id">@modalita.Desc</option>
                             }
                         </InputSelect>
                     </div>
                 </div>
             }
-
-            <!-- ================= SCHEDA SANITARIA ================= -->
-            <div class="row-flex mt">
-                <div class="field large">
-                    <label>Allergie/Intolleranze</label>
-                    <InputTextArea @bind-Value="FormModel.AllergieIntolleranze" class="form-control" rows="2" />
-                </div>
-            </div>
-
-            <div class="row-flex mt">
-                <div class="field large">
-                    <label>Patologie/Terapie</label>
-                    <InputTextArea @bind-Value="FormModel.PatologieTerapie" class="form-control" rows="2" />
-                </div>
-            </div>
-
-            <!-- ================= CONSENSI ================= -->
-            @if (FormModel.ConsensiDisponibili != null)
+            
+            @if (EventMetadata.View_UscitaAutonoma)
             {
-                <div class="section mt">
-                    <label>Consensi</label>
-                    @foreach (var consenso in FormModel.ConsensiDisponibili)
-                    {
-                        <div class="row-flex align-center">
-                            <InputCheckbox @bind-Value="consenso.IsSelected" />
-                            <span>@consenso.Descrizione</span>
-                        </div>
-                    }
+                <div class="row-flex mt align-center">
+                    <InputCheckbox @bind-Value="FormModel.EsceSolo" />
+                    <span>Uscita autonoma</span>
                 </div>
             }
+            
+            @if (EventMetadata.View_IscrizioneNoi)
+            {
+                <div class="row-flex mt align-center">
+                    <InputCheckbox @bind-Value="FormModel.DaIscrivereAlNoi" />
+                    <span>Da iscrivere al NOI</span>
 
-            <!-- ================= PAGAMENTO E FLAGS ================= -->
-            <div class="row-flex mt wrap">
-                <div class="field medium">
-                    <label>Formato iscrizione</label>
-                    <InputSelect @bind-Value="FormModel.FormatoIscrizioneSelezionato">
-                        <option value="">Seleziona</option>
-                        @foreach (var formato in FormatoIscrizioneItems)
-                        {
-                            <option value="@formato.Id">@formato.Desc</option>
-                        }
-                    </InputSelect>
+                    @if (!FormModel.DaIscrivereAlNoi)
+                    {
+                        <InputCheckbox @bind-Value="FormModel.AltraParrocchia" />
+                        <span>Iscrizione al NOI in un'altra parrocchia?</span>
+                    }
+
                 </div>
-
-                <div class="field medium">
-                    <label>Modalità pagamento</label>
-                    <InputSelect @bind-Value="FormModel.ModalitaPagamentoSelezionata">
-                        <option value="">Seleziona</option>
-                        @foreach (var modalita in ModalitaPagamentoItems)
-                        {
-                            <option value="@modalita.Id">@modalita.Desc</option>
-                        }
-                    </InputSelect>
+            }
+            
+            @if (EventMetadata.View_ScontoFratelli)
+            {
+                <div class="row-flex mt align-center">
+                    <InputCheckbox @bind-Value="FormModel.ScontoFratelli" />
+                    <span>Sconto fratelli</span>
                 </div>
-            </div>
-
-            <div class="row-flex mt align-center">
-                <InputCheckbox @bind-Value="FormModel.EsceSolo" />
-                <span>Uscita autonoma</span>
-            </div>
-
-            <div class="row-flex mt align-center">
-                <InputCheckbox @bind-Value="FormModel.DaIscrivereAlNoi" />
-                <span>Da iscrivere al NOI</span>
-
-                @if (!FormModel.DaIscrivereAlNoi)
-                {
-                    <InputCheckbox @bind-Value="FormModel.AltraParrocchia" />
-                    <span>Iscrizione al NOI in un'altra parrocchia?</span>
-                }
-
-            </div>
-
-            <div class="row-flex mt align-center">
-                <InputCheckbox @bind-Value="FormModel.ScontoFratelli" />
-                <span>Sconto fratelli</span>
-            </div>
+            }
 
             <div class="row-flex mt align-center">
                 <InputCheckbox @bind-Value="FormModel.Ricevuta" />
@@ -383,6 +417,8 @@
         .Select(e => new FormatoIscrizioneItem() { Id = (int)e, Desc = e.ToString() }).ToList();
     private bool datiCaricati = false;
 
+    private EventoMetadata EventMetadata { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!Settimane.Any())
@@ -390,6 +426,8 @@
 
         if (!Taglie.Any())
             Taglie = await ViewModel.GetTaglieAsync();
+        if(EventMetadata == null)
+            EventMetadata = await ViewModel.GetEventMetadataAsync();
 
         if (!firstRender || datiCaricati)
         {

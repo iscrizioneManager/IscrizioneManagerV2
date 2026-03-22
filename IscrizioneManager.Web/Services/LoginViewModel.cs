@@ -12,19 +12,12 @@ namespace IscrizioneManager.Web.Services
     private readonly LocalStorageService _storage;
 
     public List<RoleItem> Roles { get; set; }
-    public List<EventoItem> EventList { get; set; } = new();
 
     public RoleItem? SelectedRole { get; set; }
     public int SelectedRoleValue
     {
       get => (int)(SelectedRole?.Value ?? 0);
       set => SelectedRole = Roles.FirstOrDefault(r => (int)r.Value == value);
-    }
-    public EventoItem? SelectedEvent { get; set; }
-    public int SelectedEventValue
-    {
-      get => SelectedEvent?.Id ?? 0;
-      set => SelectedEvent = EventList.FirstOrDefault(e => e.Id == value);
     }
     public string Password { get; set; } = "";
     public string ErrorMessage { get; set; } = "";
@@ -50,46 +43,34 @@ namespace IscrizioneManager.Web.Services
           .ToList();
     }
 
-    public async Task LoadEventiAsync()
+    public async Task<List<Evento>> LoadEventiAsync()
     {
       try
       {
         var eventi = await _loginController.GetEventiAsync();
-        EventList.Clear();
-        foreach (var e in eventi)
-        {
-          EventList.Add(new EventoItem
-          {
-            Id = e.Id,
-            DisplayName = e.Nome
-          });
-        }
-        SelectedEvent = null;
-
-        if (EventList.Count == 1)
-        {
-          SelectedEvent = EventList[0];
-        }
+        return eventi;
       }
       catch (Exception ex)
       {
         ErrorMessage = "Errore caricamento eventi: " + ex.Message;
       }
+
+      return new List<Evento>();
     }
 
-    public async Task<bool> LoginAsync()
+    public async Task<bool> LoginAsync(Evento @event)
     {
       try
       {
         ErrorMessage = "";
 
-        if (SelectedRole == null || SelectedEvent == null || string.IsNullOrWhiteSpace(Password))
+        if (SelectedRole == null || @event == null || string.IsNullOrWhiteSpace(Password))
           throw new Exception("Login non valida");
 
         var request = new LoginRequest
         {
           RoleId = SelectedRole.Value,
-          EventId = SelectedEvent.Id,
+          EventId = @event.Id,
           Password = Password
         };
 
@@ -97,8 +78,8 @@ namespace IscrizioneManager.Web.Services
 
         await _storage.SetItem("jwtToken", token);
         await _storage.SetItem("refreshToken", refresh);
-        await _storage.SetItem("eventId", SelectedEvent.Id.ToString());
-        await _storage.SetItem("eventDesc", SelectedEvent.DisplayName);
+        await _storage.SetItem("eventId", @event.Id.ToString());
+        await _storage.SetItem("eventDesc", @event.Nome);
         await _storage.SetItem("roleId", ((int)SelectedRole.Value).ToString());
 
         return true; // login ok

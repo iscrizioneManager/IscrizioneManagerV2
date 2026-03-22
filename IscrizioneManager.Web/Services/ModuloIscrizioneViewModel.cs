@@ -1,4 +1,5 @@
-﻿using IscrizioneManager.Core.Services;
+﻿using IscrizioneManager.Core.Models;
+using IscrizioneManager.Core.Services;
 
 namespace IscrizioneManager.Web.Services
 {
@@ -51,6 +52,15 @@ namespace IscrizioneManager.Web.Services
         .Select("*")
         .Get();
       return taglie.Models;
+    }
+
+    public async Task<EventoMetadata> GetEventMetadataAsync()
+    {
+      var eventMetadata = await ClientHolder.Client
+        .GetAll<EventoMetadata>()
+        .Select("*")
+        .Get();
+      return eventMetadata.Model;
     }
 
     public async Task<List<ConsensoDto>> GetConsensiAsync()
