@@ -124,11 +124,17 @@
                     }
                 </div>
             }
-            
+
             @if (EventMetadata.View_MailGenitore)
             {
+                <div class="row-flex mt">
+                    <div class="field medium">
+                        <label>Email genitore</label>
+                        <InputText @bind-Value="FormModel.EmailGenitore" class="form-control" />
+                    </div>
+                </div>
             }
-            
+
             @if (EventMetadata.View_AnnoScolastico)
             {
                 <!-- ================= ISCRIZIONE E NOTE ================= -->
@@ -139,7 +145,7 @@
                             <option value="">Seleziona</option>
                             @foreach (var anno in AnniScolastici)
                             {
-                                <option value="@anno.Value">@anno.Description</option>
+                                <option value="@anno.Id">@anno.Desc</option>
                             }
                         </InputSelect>
                     </div>
@@ -152,7 +158,7 @@
                     <InputTextArea @bind-Value="FormModel.Note" rows="3" class="form-control" />
                 </div>
             </div>
-            
+
             @if (EventMetadata.View_Settimane)
             {
                 <!-- ================= SETTIMANE ================= -->
@@ -170,7 +176,7 @@
                     </div>
                 }
             }
-            
+
             @if (EventMetadata.View_Taglia)
             {
                 <!-- ================= TAGLIA ================= -->
@@ -190,7 +196,7 @@
                     </div>
                 }
             }
-            
+
             @if (EventMetadata.View_SchedaSanitaria)
             {
                 <!-- ================= SCHEDA SANITARIA ================= -->
@@ -208,7 +214,7 @@
                     </div>
                 </div>
             }
-            
+
             @if (EventMetadata.View_Consensi)
             {
                 <!-- ================= CONSENSI ================= -->
@@ -226,7 +232,7 @@
                     </div>
                 }
             }
-            
+
             @if (EventMetadata.View_FormatoIscrPagamento)
             {
                 <!-- ================= PAGAMENTO E FLAGS ================= -->
@@ -254,7 +260,7 @@
                     </div>
                 </div>
             }
-            
+
             @if (EventMetadata.View_UscitaAutonoma)
             {
                 <div class="row-flex mt align-center">
@@ -262,7 +268,7 @@
                     <span>Uscita autonoma</span>
                 </div>
             }
-            
+
             @if (EventMetadata.View_IscrizioneNoi)
             {
                 <div class="row-flex mt align-center">
@@ -277,7 +283,7 @@
 
                 </div>
             }
-            
+
             @if (EventMetadata.View_ScontoFratelli)
             {
                 <div class="row-flex mt align-center">
@@ -403,14 +409,11 @@
     private List<Taglia>? Taglie = new List<Taglia>();
     private List<ConsensoDto>? ConsensiDisponibili = new List<ConsensoDto>();
 
-    private List<AnnoScolasticoItem> AnniScolastici =
-    Enum.GetValues(typeof(AnnoScolastico))
-          .Cast<AnnoScolastico>()
-          .Select(e => new AnnoScolasticoItem((int)e)).ToList();
+    private List<AnnoScolastico> AnniScolastici { get; set; }
 
     private List<ModalitaPagamentoItem> ModalitaPagamentoItems = Enum.GetValues(typeof(ModalitaPagamentoValues))
-          .Cast<ModalitaPagamentoValues>()
-          .Select(e => new ModalitaPagamentoItem() { Id = (int)e, Desc = e.ToString() }).ToList();
+      .Cast<ModalitaPagamentoValues>()
+      .Select(e => new ModalitaPagamentoItem() { Id = (int)e, Desc = e.ToString() }).ToList();
 
     private List<FormatoIscrizioneItem> FormatoIscrizioneItems = Enum.GetValues(typeof(FormatoIscrizioneValues))
         .Cast<FormatoIscrizioneValues>()
@@ -426,9 +429,11 @@
 
         if (!Taglie.Any())
             Taglie = await ViewModel.GetTaglieAsync();
-        if(EventMetadata == null)
-            EventMetadata = await ViewModel.GetEventMetadataAsync();
+        if (firstRender || !datiCaricati)
+            EventMetadata = await IscrizioneCompletaController.GetEventMetadataAsync();
 
+        if (AnniScolastici == null || !AnniScolastici.Any())
+            AnniScolastici = await IscrizioneCompletaController.GetAnniScolasticiAsync(JsonConvert.DeserializeObject<int[]>(EventMetadata.GradiScuolaAllowed));
         if (!firstRender || datiCaricati)
         {
             return;

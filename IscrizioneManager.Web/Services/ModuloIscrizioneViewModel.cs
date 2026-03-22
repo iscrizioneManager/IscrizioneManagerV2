@@ -54,15 +54,6 @@ namespace IscrizioneManager.Web.Services
       return taglie.Models;
     }
 
-    public async Task<EventoMetadata> GetEventMetadataAsync()
-    {
-      var eventMetadata = await ClientHolder.Client
-        .GetAll<EventoMetadata>()
-        .Select("*")
-        .Get();
-      return eventMetadata.Model;
-    }
-
     public async Task<List<ConsensoDto>> GetConsensiAsync()
     {
       var tipiConsensi = await ClientHolder.Client

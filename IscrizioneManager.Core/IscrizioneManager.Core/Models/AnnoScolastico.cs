@@ -1,22 +1,26 @@
-﻿using System.ComponentModel;
+﻿using Supabase.Postgrest.Attributes;
+using Supabase.Postgrest.Models;
 
-namespace IscrizioniManager.Models
+namespace IscrizioneManager.Core.Models
 {
-  public enum AnnoScolastico
+  [Table("anno_scolastico")]
+  public class AnnoScolastico : BaseModel
   {
-    [Description("Prima Elementare")]
-    PrimaE = 1,
-    [Description("Seconda Elementare")]
-    SecondaE = 2,
-    [Description("Terza Elementare")]
-    TerzaE = 3,
-    [Description("Quarta Elementare")]
-    QuartaE = 4,
-    [Description("Quinta Elementare")]
-    QuintaE = 5,
-    [Description("Prima Media")]
-    PrimaM = 6,
-    [Description("Seconda Media")]
-    SecondaM = 7,
+    [PrimaryKey("id")]
+    public int? Id { get; set; }
+
+    [Column("desc")]
+    public string Desc { get; set; }
+
+    [Column("grado_scuola")]
+    public int GradoScuola { get; set; }
+
+    public AnnoScolastico() { }
+
+    public AnnoScolastico(int? id, string desc)
+    {
+      Id = id;
+      Desc = desc;
+    }
   }
 }

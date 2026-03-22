@@ -35,9 +35,7 @@
                 <ul class="squadra-bambini" id="squadra-@squadra.Id" @key="squadra.Id">
                     @foreach (var b in squadra.Bambini)
                     {
-                        <li data-id="@b.Id" @key="b.Id">@b.Cognome @b.Nome (@(
-                                (AnnoScolastico?)b.Anno != null ? AnnoScolasticoItem.GetEnumDescription((AnnoScolastico)b.Anno) : "NON DEFINITO"
-                            ))</li>
+                        <li data-id="@b.Id" @key="b.Id">@b.Cognome @b.Nome</li>
                     }
                 </ul>
             </div>

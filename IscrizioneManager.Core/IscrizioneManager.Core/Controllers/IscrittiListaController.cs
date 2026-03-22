@@ -1,5 +1,5 @@
 ﻿using IscrizioneManager.Core.Services;
-using IscrizioniManager.Models;
+using Newtonsoft.Json;
 
 namespace IscrizioniManager.Controllers
 {
@@ -28,9 +28,8 @@ namespace IscrizioniManager.Controllers
 
     public static async Task<List<VIscrizioneCompleta>> LoadIscrittiAsync()
     {
-      var anniScolastici = Enum.GetValues(typeof(AnnoScolastico))
-          .Cast<AnnoScolastico>()
-          .Select(e => new AnnoScolasticoItem((int)e)).ToList();
+      var eventMetadata = await IscrizioneCompletaController.GetEventMetadataAsync();
+      var anniScolastici = await IscrizioneCompletaController.GetAnniScolasticiAsync(JsonConvert.DeserializeObject<int[]>(eventMetadata.GradiScuolaAllowed));
       var iscritti = (await new IscrittiListaController().GetList())
          .GroupBy(x => new { x.IdIscrizione, x.BCognome, x.BNome, x.DataNascita, x.Anno, x.IdBambino, x.Note, x.Pagato, x.event_id })
          .Select(x => new VIscrizioneCompleta()
@@ -50,7 +49,7 @@ namespace IscrizioniManager.Controllers
       // assegna descrizione anno e formato data
       iscritti.ForEach(x =>
       {
-        x.AnnoDesc = anniScolastici.FirstOrDefault(a => a.Value != null && a.Value == x.Anno)?.Description ?? "";
+        x.AnnoDesc = anniScolastici.FirstOrDefault(a => a.Id != null && a.Id == x.Anno)?.Desc ?? "";
         x.DataNascitaDesc = x.DataNascita.ToString("dd/MM/yyyy");
       });
 

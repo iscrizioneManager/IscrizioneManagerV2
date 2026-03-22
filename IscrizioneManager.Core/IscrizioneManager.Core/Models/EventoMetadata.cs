@@ -8,27 +8,30 @@ namespace IscrizioneManager.Core.Models
   {
     [PrimaryKey("id")]
     public int Id { get; set; }
-    [PrimaryKey("view_genitori")]
+    [Column("view_genitori")]
     public bool View_Genitori { get; set; }
-    [PrimaryKey("view_mail_genitore")]
+    [Column("view_mail_genitore")]
     public bool View_MailGenitore { get; set; }
-    [PrimaryKey("view_anno_scolastico")]
+    [Column("view_anno_scolastico")]
     public bool View_AnnoScolastico { get; set; }
-    [PrimaryKey("view_settimane")]
+    [Column("view_settimane")]
     public bool View_Settimane { get; set; }
-    [PrimaryKey("view_scheda_sanitaria")]
+    [Column("view_scheda_sanitaria")]
     public bool View_SchedaSanitaria { get; set; }
-    [PrimaryKey("view_consensi")]
+    [Column("view_consensi")]
     public bool View_Consensi { get; set; }
-    [PrimaryKey("view_formato_iscr_pagamento")]
+    [Column("view_formato_iscr_pagamento")]
     public bool View_FormatoIscrPagamento { get; set; }
-    [PrimaryKey("view_iscrizione_noi")]
+    [Column("view_iscrizione_noi")]
     public bool View_IscrizioneNoi { get; set; }
-    [PrimaryKey("view_sconto_fratelli")]
+    [Column("view_sconto_fratelli")]
     public bool View_ScontoFratelli { get; set; }
-    [PrimaryKey("view_taglia")]
+    [Column("view_taglia")]
     public bool View_Taglia { get; set; }
-    [PrimaryKey("view_uscita_autonoma")]
+    [Column("view_uscita_autonoma")]
     public bool View_UscitaAutonoma { get; set; }
+
+    [Column("gradi_scuola_allowed")]
+    public string GradiScuolaAllowed { get; set; }
   }
 }

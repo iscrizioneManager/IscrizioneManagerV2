@@ -2,11 +2,30 @@
 using IscrizioniManager.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using IscrizioneManager.Core.Models;
 
 public class IscrizioneCompletaController
 {
   public IscrizioneCompletaController()
   {
+  }
+
+  public static async Task<EventoMetadata> GetEventMetadataAsync()
+  {
+    var eventMetadata = await ClientHolder.Client
+      .GetAll<EventoMetadata>()
+      .Select("*")
+      .Get();
+    return eventMetadata.Model;
+  }
+
+  public static async Task<List<AnnoScolastico>> GetAnniScolasticiAsync(int[] gradiAmmessi)
+  {
+    var annoScolastico = await ClientHolder.Client
+      .BaseFrom<AnnoScolastico>()
+      .Select("*")
+      .Get();
+    return annoScolastico.Models.Where(x => gradiAmmessi.Contains(x.GradoScuola)).OrderBy(x => x.Id).ToList();
   }
 
   public static async Task<bool> CreateAsync(ModuloIscrizioneDto dto)
@@ -36,6 +55,7 @@ public class IscrizioneCompletaController
                 ricevuta = dto.Ricevuta,
                 desc_ricevuta = dto.Ricevuta ? dto.DescRicevuta : null,
                 esce_solo = dto.EsceSolo,
+                email_genitore = dto.EmailGenitore,
 
                 // Settimane
                 settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
@@ -123,6 +143,7 @@ public class IscrizioneCompletaController
                 ricevuta = dto.Ricevuta,
                 desc_ricevuta = dto.Ricevuta ? dto.DescRicevuta : null,
                 esce_solo = dto.EsceSolo,
+                email_genitore = dto.EmailGenitore,
 
                 // Settimane
                 settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
@@ -371,7 +392,7 @@ public class IscrizioneCompletaController
       IndirizzoResidenza = bambino.IndirizzoResidenza,
       ComuneResidenza = bambino.ComuneResidenza,
       IdIscrizione = iscrizione.Id,
-      AnnoScolastico = (int?)iscrizione.Anno,
+      AnnoScolastico = iscrizione.Anno,
       Note = iscrizione.Note,
       Genitori = genitoriDto,
       Settimane = result,
@@ -386,7 +407,8 @@ public class IscrizioneCompletaController
       ScontoFratelli = iscrizione.ScontoFratelli,
       Ricevuta = iscrizione.Ricevuta,
       DescRicevuta = iscrizione.DescRicevuta,
-      EsceSolo = iscrizione.EsceSolo
+      EsceSolo = iscrizione.EsceSolo,
+      EmailGenitore = iscrizione.EmailGenitore,
     };
 
     return output;

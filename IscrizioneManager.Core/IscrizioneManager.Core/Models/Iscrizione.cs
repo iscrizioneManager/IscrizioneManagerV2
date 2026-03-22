@@ -12,7 +12,7 @@ public class Iscrizione : EventModel
   public int IdBambino { get; set; }
 
   [Column("anno")]
-  public AnnoScolastico? Anno { get; set; }
+  public int? Anno { get; set; }
 
   [Column("note")]
   public string? Note { get; set; }
@@ -39,4 +39,6 @@ public class Iscrizione : EventModel
     public string DescRicevuta { get; set; }
     [Column("esce_solo")]
     public bool EsceSolo { get; set; }
+  [Column("email_genitore")]
+    public string EmailGenitore { get; set; }
 }

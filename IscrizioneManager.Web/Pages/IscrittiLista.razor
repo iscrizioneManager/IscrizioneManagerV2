@@ -1,8 +1,10 @@
 ﻿@page "/iscritti"
 @using IscrizioneManager.Core.Dtos
+@using IscrizioneManager.Core.Models
 @using IscrizioneManager.Core.Utils
 @using IscrizioniManager.Controllers
 @using IscrizioniManager.Models
+@using Newtonsoft.Json
 <link href="css/IscrittiLista.css" rel="stylesheet" />
 
 <LoadingView @ref="LoadingOverlay" />
@@ -50,7 +52,7 @@
                                      @oninput="OnFiltroAnnoChanged">
                             @foreach (var anno in AnniScolastici)
                             {
-                                <option value="@anno.Value">@anno.Description</option>
+                                <option value="@anno.Id">@anno.Desc</option>
                             }
                         </InputSelect>
                     </th>
@@ -210,7 +212,7 @@
     private string HeaderPagato => _ordinePer == "Pagato" ? "Pagato " + (_ordineAsc == true ? "↑" : _ordineAsc == false ? "↓" : "") : "Pagato";
 
     // Picker
-    private List<AnnoScolasticoItem> AnniScolastici = new();
+    private List<AnnoScolastico> AnniScolastici = new();
     private List<FiltroPagatoItem> FiltriPagati = new()
     {
         new FiltroPagatoItem(null, "Tutti"),
@@ -223,8 +225,9 @@
         LoadingOverlay?.Start();
         IsLoading = true;
 
-        AnniScolastici = new List<AnnoScolasticoItem> { new AnnoScolasticoItem(null, "Tutti") };
-        AnniScolastici.AddRange(Enum.GetValues(typeof(AnnoScolastico)).Cast<AnnoScolastico>().Select(a => new AnnoScolasticoItem((int)a)));
+        AnniScolastici = new List<AnnoScolastico> { new AnnoScolastico(null, "Tutti") };
+        var eventMetadata = await IscrizioneCompletaController.GetEventMetadataAsync();
+        AnniScolastici.AddRange(await IscrizioneCompletaController.GetAnniScolasticiAsync(JsonConvert.DeserializeObject<int[]>(eventMetadata.GradiScuolaAllowed)));
 
         await CaricaIscrittiAsync();
 

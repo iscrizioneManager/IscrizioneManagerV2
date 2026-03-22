@@ -41,6 +41,7 @@ public class ModuloIscrizioneDto
   public bool ScontoFratelli { get; set; }
   public bool Ricevuta { get; set; }
     public string DescRicevuta { get; set; }
+    public string EmailGenitore { get; set; }
     public bool EsceSolo { get; set; }
 
   public ModuloIscrizioneDto()
