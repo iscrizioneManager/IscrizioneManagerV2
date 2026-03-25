@@ -43,6 +43,7 @@ public class ModuloIscrizioneDto
     public string DescRicevuta { get; set; }
     public string EmailGenitore { get; set; }
     public bool EsceSolo { get; set; }
+    public bool CaparraPagata { get; set; }
 
   public ModuloIscrizioneDto()
   {

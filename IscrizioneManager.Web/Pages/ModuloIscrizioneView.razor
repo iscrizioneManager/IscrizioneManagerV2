@@ -269,6 +269,14 @@
                 </div>
             }
 
+            @if (EventMetadata.View_Caparra)
+            {
+                <div class="row-flex mt align-center">
+                    <InputCheckbox @bind-Value="FormModel.CaparraPagata" />
+                    <span>Caparra pagata</span>
+                </div>
+            }
+
             @if (EventMetadata.View_IscrizioneNoi)
             {
                 <div class="row-flex mt align-center">

@@ -41,4 +41,6 @@ public class Iscrizione : EventModel
     public bool EsceSolo { get; set; }
   [Column("email_genitore")]
     public string EmailGenitore { get; set; }
+  [Column("caparra_pagata")]
+  public bool CaparraPagata { get; set; }
 }

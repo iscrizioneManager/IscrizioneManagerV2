@@ -55,6 +55,7 @@ public class IscrizioneCompletaController
                 ricevuta = dto.Ricevuta,
                 desc_ricevuta = dto.Ricevuta ? dto.DescRicevuta : null,
                 esce_solo = dto.EsceSolo,
+                caparra_pagata = dto.CaparraPagata,
                 email_genitore = dto.EmailGenitore,
 
                 // Settimane
@@ -143,6 +144,7 @@ public class IscrizioneCompletaController
                 ricevuta = dto.Ricevuta,
                 desc_ricevuta = dto.Ricevuta ? dto.DescRicevuta : null,
                 esce_solo = dto.EsceSolo,
+                caparra_pagata = dto.CaparraPagata,
                 email_genitore = dto.EmailGenitore,
 
                 // Settimane
@@ -408,6 +410,7 @@ public class IscrizioneCompletaController
       Ricevuta = iscrizione.Ricevuta,
       DescRicevuta = iscrizione.DescRicevuta,
       EsceSolo = iscrizione.EsceSolo,
+      CaparraPagata = iscrizione.CaparraPagata,
       EmailGenitore = iscrizione.EmailGenitore,
     };
 
