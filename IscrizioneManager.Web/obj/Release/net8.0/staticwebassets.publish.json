@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "4byOj1uux3yAM/v8SaTNGKVnNGXYaWU0hOoRUdSmyDk=",
+  "Hash": "GelGLzxxMTey59RmM1XDhxZ7czVdC6U+Vp36pQnfrVA=",
   "Source": "IscrizioneManager.Web",
   "BasePath": "/",
   "Mode": "Root",
@@ -5867,6 +5867,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\ModuloIscrizioneView.css"
+    },
+    {
+      "Identity": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\SortableList.css",
+      "SourceId": "IscrizioneManager.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/SortableList.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\SortableList.css"
     },
     {
       "Identity": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\icon-192.png",

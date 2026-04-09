@@ -1121,3 +1121,5 @@ C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\D
 C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\lzowsc340o.gz
 C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\ob1s805wqn.gz
 C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\obj\Debug\net8.0\compressed\fveyapdap7.gz
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\bin\Debug\net8.0\wwwroot\js\SortableList.js
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\bin\Debug\net8.0\wwwroot\css\SortableList.css

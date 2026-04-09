@@ -43,4 +43,6 @@ public class Iscrizione : EventModel
     public string EmailGenitore { get; set; }
   [Column("caparra_pagata")]
   public bool CaparraPagata { get; set; }
+  [Column("priority")]
+  public bool Priority { get; set; }
 }

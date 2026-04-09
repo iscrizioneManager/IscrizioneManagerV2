@@ -41,6 +41,10 @@
       "PackagePath": "staticwebassets\\css\\ModuloIscrizioneView.css"
     },
     {
+      "Id": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\SortableList.css",
+      "PackagePath": "staticwebassets\\css\\SortableList.css"
+    },
+    {
       "Id": "C:\\Users\\miche\\Documents\\Michele\\IscrizioneManagerV2\\IscrizioneManager.Web\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },

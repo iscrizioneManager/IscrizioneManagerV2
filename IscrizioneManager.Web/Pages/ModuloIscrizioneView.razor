@@ -159,6 +159,14 @@
                 </div>
             </div>
 
+            @if (EventMetadata.View_Priority)
+            {
+                <div class="row-flex mt align-center">
+                    <InputCheckbox @bind-Value="FormModel.Priority" />
+                    <span>Priorità</span>
+                </div>
+            }
+
             @if (EventMetadata.View_Settimane)
             {
                 <!-- ================= SETTIMANE ================= -->

@@ -35,5 +35,7 @@ namespace IscrizioneManager.Core.Models
     public string GradiScuolaAllowed { get; set; }
     [Column("view_caparra")]
     public bool View_Caparra { get; set; }
+    [Column("view_priority")]
+    public bool View_Priority { get; set; }
   }
 }

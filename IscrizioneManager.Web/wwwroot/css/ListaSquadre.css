@@ -1,25 +1,29 @@
-﻿.header-iscrizione {
+﻿/* ======================= */
+/* HEADER ================= */
+/* ======================= */
+.header-iscrizione {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 2%; /* margini laterali come prima */
-    margin-bottom: 15px; /* margine inferiore originale */
+    margin: 0 2%;
+    margin-bottom: 15px;
 }
 
     .header-iscrizione h2 {
         margin: 0;
-        font-size: 2rem; /* dimensione desktop */
+        font-size: 2rem;
         font-weight: 600;
     }
 
+/* Close button */
 .btn-chiudi {
     background: none;
     border: none;
-    font-size: 3rem; /* dimensione desktop originale */
+    font-size: 3rem;
     cursor: pointer;
     line-height: 1;
     padding: 0;
-    transition: color 0.2s;
+    transition: color 0.2s, background-color 0.2s;
     color: black;
 }
 
@@ -27,7 +31,12 @@
         color: darkred;
     }
 
+/* Responsive header and close button */
 @media (max-width: 768px) {
+    .header-iscrizione h2 {
+        font-size: 1.5rem;
+    }
+
     .btn-chiudi {
         position: fixed;
         top: 20px;
@@ -35,7 +44,7 @@
         width: 56px;
         height: 56px;
         border-radius: 50%;
-        font-size: 2rem; /* più proporzionato */
+        font-size: 2rem;
         background-color: #1ABC9C;
         color: white;
         display: flex;
@@ -46,78 +55,78 @@
     }
 
         .btn-chiudi:hover {
-            color: white; /* evita effetto testo rosso su mobile */
             background-color: #16a085;
+            color: white;
         }
-}
-
-/* ================== RESPONSIVE ================== */
-@media (max-width: 768px) {
-    .header-iscrizione h2 {
-        font-size: 1.5rem;
-    }
 }
 
 @media (max-width: 480px) {
-    .header-iscrizione {
-        flex-direction: row; /* manteniamo titolo e × sulla stessa riga */
-        justify-content: space-between;
-        align-items: center;
-        margin: 0 2%;
-        margin-bottom: 15px;
+    .header-iscrizione h2 {
+        font-size: 1.25rem;
     }
-
-        .header-iscrizione h2 {
-            font-size: 1.25rem;
-        }
 
     .btn-chiudi {
         font-size: 1.75rem;
     }
 }
 
+/* Dark mode header */
 @media (prefers-color-scheme: dark) {
     .btn-chiudi {
         color: white;
     }
 }
 
+/* ======================= */
+/* CONTAINER ============== */
+/* ======================= */
 .squadre-container {
-    margin: 0 2%; /* margini laterali come prima */
+    margin: 0;
+    padding: 0 2%;
+    width: 100%;
 }
 
 .squadre-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 16px;
-    margin-top: 16px;
+    width: 100%;
 }
 
-/* Card squadra */
+/* ======================= */
+/* SQUAD CARD ============= */
+/* ======================= */
 .squadra-card {
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
+    background-color: #fff;
+    transition: box-shadow 0.2s;
 }
 
-/* Header cliccabile */
+    .squadra-card:hover {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
 .squadra-header {
     padding: 12px;
     font-weight: bold;
     cursor: pointer;
-    color: white; /* il colore reale lo setti via style inline con GetTextColor */
+    color: white; /* overridden inline by GetTextColor() */
 }
 
-/* Lista bambini */
+/* ======================= */
+/* LISTA BAMBINI ========== */
+/* ======================= */
 .squadra-bambini {
     list-style: none;
     margin: 0;
     padding: 12px;
-    min-height: 40px; /* spazio per il drop */
+    min-height: 40px;
     transition: background-color 0.2s, border 0.2s;
 }
 
-    /* Bambini */
+    /* Bambini items */
     .squadra-bambini li {
         padding: 8px 12px;
         margin: 4px 0;
@@ -129,24 +138,31 @@
         transition: background 0.2s, opacity 0.2s, color 0.2s;
     }
 
+        /* Active dragging */
         .squadra-bambini li:active {
             cursor: grabbing;
             opacity: 0.8;
             background-color: #c0e0ff;
         }
 
-    /* Evidenzia drop target */
-    .squadra-bambini.dragover {
-        background-color: #e0f7fa;
-        border: 2px dashed #1ABC9C;
-    }
+/* Ghost class applied by SortableJS */
+.drag-ghost {
+    opacity: 0.4;
+}
 
-/* =================== */
-/* Tema scuro */
-/* =================== */
+/* Highlight drop target */
+.squadra-bambini.dragover {
+    background-color: #e0f7fa;
+    border: 2px dashed #1ABC9C;
+}
+
+/* ======================= */
+/* DARK MODE =============== */
+/* ======================= */
 @media (prefers-color-scheme: dark) {
-    .squadre-card {
+    .squadra-card {
         border: 1px solid #444;
+        background-color: #1c1c1c;
     }
 
     .squadra-bambini li {
@@ -165,12 +181,21 @@
     }
 }
 
+/* ======================= */
+/* BUTTONS ================= */
+/* ======================= */
 .btn-squadre {
     margin-right: 10px;
 }
 
 .btn-secondary {
     background-color: #444;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
     .btn-secondary:hover {

@@ -57,6 +57,7 @@ public class IscrizioneCompletaController
                 esce_solo = dto.EsceSolo,
                 caparra_pagata = dto.CaparraPagata,
                 email_genitore = dto.EmailGenitore,
+                priority = dto.Priority,
 
                 // Settimane
                 settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
@@ -146,9 +147,10 @@ public class IscrizioneCompletaController
                 esce_solo = dto.EsceSolo,
                 caparra_pagata = dto.CaparraPagata,
                 email_genitore = dto.EmailGenitore,
+                priority = dto.Priority,
 
-                // Settimane
-                settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
+              // Settimane
+              settimane = dto.Settimane?.Where(x => x.IsSelected).Select(s => new {
                     id_settimana = Math.Abs(s.Id),
                     intero = s.CostoIntero != null
                 }).ToArray(),
@@ -412,6 +414,7 @@ public class IscrizioneCompletaController
       EsceSolo = iscrizione.EsceSolo,
       CaparraPagata = iscrizione.CaparraPagata,
       EmailGenitore = iscrizione.EmailGenitore,
+      Priority = iscrizione.Priority
     };
 
     return output;

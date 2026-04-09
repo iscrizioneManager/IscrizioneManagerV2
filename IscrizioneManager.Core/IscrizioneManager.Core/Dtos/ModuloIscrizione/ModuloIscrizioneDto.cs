@@ -45,6 +45,8 @@ public class ModuloIscrizioneDto
     public bool EsceSolo { get; set; }
     public bool CaparraPagata { get; set; }
 
+    public bool Priority { get; set; }
+
   public ModuloIscrizioneDto()
   {
     Settimane = new List<Settimana>();

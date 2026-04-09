@@ -2244,3 +2244,5 @@ C:\Users\Michele\Documents\IscrizioneManagerV2\IscrizioneManager.Web\obj\Release
 C:\Users\Michele\Documents\IscrizioneManagerV2\IscrizioneManager.Web\obj\Release\net8.0\refint\IscrizioneManager.Web.dll
 C:\Users\Michele\Documents\IscrizioneManagerV2\IscrizioneManager.Web\obj\Release\net8.0\IscrizioneManager.Web.pdb
 C:\Users\Michele\Documents\IscrizioneManagerV2\IscrizioneManager.Web\obj\Release\net8.0\ref\IscrizioneManager.Web.dll
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\bin\Release\net8.0\wwwroot\js\SortableList.js
+C:\Users\miche\Documents\Michele\IscrizioneManagerV2\IscrizioneManager.Web\bin\Release\net8.0\wwwroot\css\SortableList.css
