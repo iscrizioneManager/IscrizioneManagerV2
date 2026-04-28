@@ -1,50 +1,15 @@
-﻿using IscrizioneManager.Core.Services;
-using IscrizioniManager;
-using IscrizioniManager.Data;
-using IscrizioniManager.Dtos;
-using IscrizioniManager.Models;
+using IscrizioneManager.Core.Repositories;
 
 public class SquadraBambinoController
 {
-  public static async Task<List<Squadra>> GetSquadreAsync()
-  {
-    var bambini = await ClientHolder.Client
-      .GetAll<Bambino>()
-      .Select("*")
-      .Get();
-    var iscrizioni = await ClientHolder.Client
-      .GetAll<Iscrizione>()
-      .Select("*")
-      .Get();
-    var squadraBambino = await ClientHolder.Client
-      .GetAll<SquadraBambino>()
-      .Select("*")
-      .Get();
-    var squadra = await ClientHolder.Client
-      .GetAll<Squadra>()
-      .Select("*")
-      .Get();
+    internal static ISquadraBambinoRepository _repo = new SupabaseSquadraBambinoRepository();
 
-    List<Squadra> squadre = new List<Squadra>();
-    foreach (var s in squadra.Models)
-    {
-      s.Bambini = squadraBambino.Models
-        .Where(sb => sb.IdSquadra == s.Id)
-        .Join(bambini.Models, sb => sb.IdBambino, b => b.Id, (sb, b) => b)
-        .Select(x => new Bambino(){ Id = x.Id, Nome = x.Nome,Cognome = x.Cognome, Anno = (int?)iscrizioni.Models.SingleOrDefault(y => y.IdBambino == x.Id)?.Anno })
-        .ToList();
-      squadre.Add(s);
-    }
+    public static async Task<List<Squadra>> GetSquadreAsync()
+        => await _repo.GetSquadreAsync();
 
-    squadre.Add(new Squadra()
-    {
-      Nome = "Senza squadra", 
-      Color = "#bbb",
-      Bambini = bambini.Models.Where(x => !squadraBambino.Models.Select(y => y.IdBambino).Contains(x.Id))
-        .Select(x => new Bambino() { Id = x.Id, Nome = x.Nome, Cognome = x.Cognome, Anno = (int?)iscrizioni.Models.SingleOrDefault(y => y.IdBambino == x.Id)?.Anno })
-        .ToList()
-    });
+    public static async Task SetSquadraAsync(int bambinoId, int newSquadraId)
+        => await _repo.SetSquadraAsync(bambinoId, newSquadraId);
 
-    return squadre;
-  }
+    public static async Task SaveAllAssignmentsAsync(List<Squadra> squadre)
+        => await _repo.SaveAllAssignmentsAsync(squadre);
 }

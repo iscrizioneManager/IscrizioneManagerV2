@@ -44,5 +44,5 @@ public class Iscrizione : EventModel
   [Column("caparra_pagata")]
   public bool CaparraPagata { get; set; }
   [Column("priority")]
-  public bool Priority { get; set; }
+  public bool? Priority { get; set; }
 }

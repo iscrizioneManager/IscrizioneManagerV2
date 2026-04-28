@@ -30,4 +30,6 @@ public class Bambino : EventModel
   public string? ComuneResidenza { get; set; }
   [NotMapped]
   public int? Anno { get; set; }
+  [NotMapped]
+  public string? AnnoDesc { get; set; }
 }

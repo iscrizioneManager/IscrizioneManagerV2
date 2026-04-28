@@ -1,4 +1,4 @@
-﻿/* ======================= */
+/* ======================= */
 /* HEADER ================= */
 /* ======================= */
 .header-iscrizione {
@@ -14,6 +14,12 @@
         font-size: 2rem;
         font-weight: 600;
     }
+
+.saving-indicator {
+    margin-right: 10px;
+    font-style: italic;
+    color: #888;
+}
 
 /* Close button */
 .btn-chiudi {
@@ -31,7 +37,6 @@
         color: darkred;
     }
 
-/* Responsive header and close button */
 @media (max-width: 768px) {
     .header-iscrizione h2 {
         font-size: 1.5rem;
@@ -70,7 +75,6 @@
     }
 }
 
-/* Dark mode header */
 @media (prefers-color-scheme: dark) {
     .btn-chiudi {
         color: white;
@@ -81,16 +85,17 @@
 /* CONTAINER ============== */
 /* ======================= */
 .squadre-container {
-    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
     padding: 0 2%;
-    width: 100%;
+    align-items: start;
 }
 
-.squadre-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
-    width: 100%;
+@media (max-width: 768px) {
+    .squadre-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ======================= */
@@ -108,16 +113,70 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
 
+.squadra-card.full-width {
+    grid-column: 1 / -1;
+}
+
+/* ======================= */
+/* SQUAD HEADER =========== */
+/* ======================= */
 .squadra-header {
     padding: 12px;
     font-weight: bold;
     cursor: pointer;
-    color: white; /* overridden inline by GetTextColor() */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* ======================= */
-/* LISTA BAMBINI ========== */
+/* CHEVRON ================ */
 /* ======================= */
+.chevron {
+    display: inline-block;
+    font-size: 0.75em;
+    transition: transform 0.25s ease;
+}
+
+.chevron.open {
+    transform: rotate(90deg);
+}
+
+/* ======================= */
+/* COLLAPSIBLE BODY ======= */
+/* ======================= */
+.squadra-body {
+    max-height: 4000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.squadra-body.collapsed {
+    max-height: 0;
+}
+
+/* ======================= */
+/* DRAGGABLE ITEMS ======== */
+/* ======================= */
+.squadra-item {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    padding-left: 1rem !important;
+}
+
+    .squadra-item:active {
+        cursor: grabbing;
+    }
+
+/* Ghost class applied by SortableJS */
+.drag-ghost {
+    opacity: 0.4;
+}
+
+/* Bambini items (legacy list style) */
 .squadra-bambini {
     list-style: none;
     margin: 0;
@@ -126,7 +185,6 @@
     transition: background-color 0.2s, border 0.2s;
 }
 
-    /* Bambini items */
     .squadra-bambini li {
         padding: 8px 12px;
         margin: 4px 0;
@@ -135,22 +193,17 @@
         background-color: #f9f9f9;
         color: black;
         cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
         transition: background 0.2s, opacity 0.2s, color 0.2s;
     }
 
-        /* Active dragging */
         .squadra-bambini li:active {
             cursor: grabbing;
             opacity: 0.8;
             background-color: #c0e0ff;
         }
 
-/* Ghost class applied by SortableJS */
-.drag-ghost {
-    opacity: 0.4;
-}
-
-/* Highlight drop target */
 .squadra-bambini.dragover {
     background-color: #e0f7fa;
     border: 2px dashed #1ABC9C;

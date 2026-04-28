@@ -1,6 +1,9 @@
-﻿@page "/squadre"
+@page "/squadre"
 @using IscrizioneManager.Web.Sortable
 @using IscrizioniManager.Models
+@using IscrizioneManager.Core.Services
+@using IscrizioneManager.Core.Models
+@using IscrizioneManager.Core.Logic
 @inject NavigationManager Navigation
 
 <link href="css/ListaSquadre.css" rel="stylesheet" />
@@ -9,182 +12,109 @@
 
 <div class="header-iscrizione">
     <h2>Squadre</h2>
-
-    @if (!isEditing)
-    {
-        <button class="btn-chiudi" @onclick="EnableEditing">Modifica</button>
-    }
-    else
-    {
-        <div class="editing-buttons">
-            <button class="btn-chiudi" @onclick="CancelEditing">Annulla modifica</button>
+    <div class="editing-buttons">
+        @if (isSaving)
+        {
+            <span class="saving-indicator">Salvataggio...</span>
+        }
+        @if (!IsReadOnly)
+        {
             <button class="btn-squadre" @onclick="RidistriubisciSquadre">Ridistribuisci automaticamente</button>
-        </div>
-    }
+        }
+    </div>
+    <button class="btn-chiudi" @onclick="TornaIndietro" title="Chiudi">×</button>
 </div>
 
-<div class="squadre-container full-width">
+<div class="squadre-container">
 
-    <div class="squadra-card full-width">
-        <div class="squadra-header"
-        style="background-color:@Squadra1.Color; color:@GetTextColor(Squadra1.Color)">
-            @Squadra1.Nome (@Squadra1.Bambini.Count)
+    @foreach (var s in Squadre)
+    {
+        <div class="squadra-card @(s.Id == 0 ? "full-width" : "")">
+            <div class="squadra-header"
+                 style="background-color:@s.Color; color:@GetTextColor(s.Color)"
+                 @onclick="() => s.IsExpanded = !s.IsExpanded">
+                <span>@s.Nome (@s.Bambini.Count)</span>
+                <span class="chevron @(s.IsExpanded ? "open" : "")">&#9658;</span>
+            </div>
+
+            <div class="squadra-body @(s.IsExpanded ? "" : "collapsed")">
+                @if (IsReadOnly)
+                {
+                    @foreach (var item in s.Bambini)
+                    {
+                        <div class="card has-border has-background-white squadra-item">
+                            <p class="is-size-4 p-2">@item.Cognome @item.Nome@(string.IsNullOrEmpty(item.AnnoDesc) ? "" : $" ({item.AnnoDesc})")</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <SortableList Items="s.Bambini"
+                                  Group="bambiniGroup"
+                                  Id="@s.Id.ToString()"
+                                  OnRemove="@OnBambinoMoved"
+                                  Context="item">
+                        <SortableItemTemplate>
+                            <div class="card has-border has-background-white squadra-item">
+                                <p class="is-size-4 p-2">@item.Cognome @item.Nome@(string.IsNullOrEmpty(item.AnnoDesc) ? "" : $" ({item.AnnoDesc})")</p>
+                            </div>
+                        </SortableItemTemplate>
+                    </SortableList>
+                }
+            </div>
         </div>
+    }
 
-        <SortableList Items="Squadra1.Bambini"
-        Group="bambiniGroup"
-        Context="item"
-        >
-            <SortableItemTemplate>
-                <div class="card has-border has-background-white">
-                    <p class="is-size-4 p-2 ml-4">@item.Cognome @item.Nome</p>
-                </div>
-            </SortableItemTemplate>
-        </SortableList>
-    </div>
-
-    <div class="squadra-card full-width">
-        <div class="squadra-header"
-        style="background-color:@Squadra2.Color; color:@GetTextColor(Squadra2.Color)">
-            @Squadra2.Nome (@Squadra2.Bambini.Count)
-        </div>
-
-        <SortableList Items="Squadra2.Bambini"
-        Group="bambiniGroup"
-        Context="item"
-        >
-            <SortableItemTemplate>
-                <div class="card has-border has-background-white">
-                    <p class="is-size-4 p-2 ml-4">@item.Cognome @item.Nome</p>
-                </div>
-            </SortableItemTemplate>
-        </SortableList>
-    </div>
-
-    <div class="squadra-card full-width">
-        <div class="squadra-header"
-        style="background-color:@SenzaSquadra.Color; color:@GetTextColor(SenzaSquadra.Color)">
-            @SenzaSquadra.Nome (@SenzaSquadra.Bambini.Count)
-        </div>
-
-        <SortableList Items="SenzaSquadra.Bambini"
-        Group="bambiniGroup"
-        Context="item"
-        >
-            <SortableItemTemplate>
-                <div class="card has-border has-background-white">
-                    <p class="is-size-4 p-2 ml-4">@item.Cognome @item.Nome</p>
-                </div>
-            </SortableItemTemplate>
-        </SortableList>
-    </div>
 </div>
 
 @code {
     private LoadingView? LoadingOverlay;
 
     private List<Squadra> Squadre = new();
-    private List<Squadra> OriginalSquadre = new();
-    private Squadra Squadra1 = new();
-    private Squadra Squadra2 = new();
-    private Squadra Squadra3 = new();
-    private Squadra Squadra4 = new();
-    private Squadra SenzaSquadra = new();
-    private bool isEditing = false;
+    private bool isSaving = false;
+    private bool IsReadOnly = false;
 
     protected override async Task OnInitializedAsync()
     {
         LoadingOverlay?.Start();
         Squadre = await SquadraBambinoController.GetSquadreAsync();
-        Squadra1 = Squadre[0];
-        Squadra2 = Squadre[1];
-        Squadra3 = Squadre[2];
-        Squadra4 = Squadre[3];
-        SenzaSquadra = Squadre[^1];
+        IsReadOnly = ClientHolder.Client._roleId != RoleValues.Admin;
         LoadingOverlay?.Stop();
     }
 
-    private void EnableEditing()
+    private async Task OnBambinoMoved((int oldIndex, int newIndex, int? from, int? to) indices)
     {
-        isEditing = true;
+        int fromId = indices.from ?? 0;
+        int toId = indices.to ?? 0;
 
-        // clone current state to allow cancel
-        OriginalSquadre = Squadre.Select(s => new Squadra
-        {
-            Id = s.Id,
-            Nome = s.Nome,
-            Color = s.Color,
-            Bambini = s.Bambini.Select(b => new Bambino
-            {
-                Id = b.Id,
-                Nome = b.Nome,
-                Cognome = b.Cognome,
-                Anno = b.Anno
-            }).ToList()
-        }).ToList();
-    }
+        var fromSquadra = Squadre.Single(x => x.Id == fromId);
+        var toSquadra = Squadre.Single(x => x.Id == toId);
+        var bambino = fromSquadra.Bambini[indices.oldIndex];
 
-    private void CancelEditing()
-    {
-        isEditing = false;
-
-        // restore original state
-        Squadre = OriginalSquadre.Select(s => new Squadra
-        {
-            Id = s.Id,
-            Nome = s.Nome,
-            Color = s.Color,
-            Bambini = s.Bambini.Select(b => new Bambino
-            {
-                Id = b.Id,
-                Nome = b.Nome,
-                Cognome = b.Cognome,
-                Anno = b.Anno
-            }).ToList()
-        }).ToList();
-    }
-
-    private void RidistriubisciSquadre()
-    {
-        if (!isEditing) return;
-
-        var tutti = Squadre.SelectMany(s => s.Bambini).ToList();
-        var targetSquadre = Squadre.Where(s => s.Id != null).ToList();
-
-        foreach (var s in targetSquadre)
-            s.Bambini.Clear();
-
-        var gruppiPerAnno = tutti.GroupBy(b => b.Anno).OrderBy(g => g.Key);
-        int index = 0;
-
-        foreach (var gruppo in gruppiPerAnno)
-        {
-            foreach (var bambino in gruppo.OrderBy(_ => Guid.NewGuid()))
-            {
-                targetSquadre[index % targetSquadre.Count].Bambini.Add(bambino);
-                index++;
-            }
-        }
-
-        foreach (var s in targetSquadre)
-        {
-            s.Bambini = s.Bambini
-                .OrderByDescending(x => x.Anno)
-                .ThenBy(x => $"{x.Cognome} {x.Nome}")
-                .ToList();
-        }
-    }
-
-    [JSInvokable]
-    private void OnRemoveJS((int oldIndex, int newIndex, int? from, int? to) indices)
-    {
-        if (!isEditing) return;
-
-        var squadra = Squadre.Single(x => x.Id == indices.from);
-        // If needed, persist the new order in database, or just call StateHasChanged
-        Squadre.Single(x => x.Id == indices.to).Bambini.Insert(indices.newIndex, squadra.Bambini[indices.oldIndex]);
-        squadra.Bambini.Remove(squadra.Bambini[indices.oldIndex]);
+        toSquadra.Bambini.Insert(indices.newIndex, bambino);
+        fromSquadra.Bambini.Remove(bambino);
         StateHasChanged();
+
+        isSaving = true;
+        StateHasChanged();
+        await SquadraBambinoController.SetSquadraAsync(bambino.Id, toId);
+        isSaving = false;
+        StateHasChanged();
+    }
+
+    private async Task RidistriubisciSquadre()
+    {
+        SquadraDistributor.Distribuisci(Squadre);
+        isSaving = true;
+        StateHasChanged();
+        await SquadraBambinoController.SaveAllAssignmentsAsync(Squadre);
+        isSaving = false;
+        StateHasChanged();
+    }
+
+    private void TornaIndietro()
+    {
+        Navigation.NavigateTo("", true);
     }
 
     private string GetTextColor(string hex)
@@ -199,6 +129,4 @@
         double luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
         return luminance > 0.5 ? "#000000" : "#FFFFFF";
     }
-
-    private void TornaIndietro() => Navigation.NavigateTo("", true);
 }

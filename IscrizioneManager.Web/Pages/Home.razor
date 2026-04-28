@@ -1,4 +1,5 @@
 ﻿@page "/home"
+@implements IDisposable
 @using IscrizioneManager.Core.Services
 @using IscrizioniManager.Core.Services
 @using IscrizioniManager.Models
@@ -41,6 +42,10 @@
         Lista iscritti
     </button>
 
+    <button class="main-button" @onclick="ListaSquadre_Clicked" style="@SquadreButtonStyle">
+        Lista squadre
+    </button>
+
     <button class="main-button green" style="display:@((ShowAdminButtons || ShowAnimatoreButtons) ? "block" : "none")">
         <a href="@ExcelLink" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; display:block;">
             Visualizza in Fogli Google
@@ -66,6 +71,11 @@
     private string RoleText = "";
     private bool ShowAdminButtons = false;
     private bool ShowAnimatoreButtons = false;
+
+    private List<string> SquadraColors = new();
+    private string SquadreButtonStyle = "";
+    private int _colorIndex = 0;
+    private System.Threading.Timer? _colorTimer;
 
     // protected override async Task OnInitializedAsync()
     // {
@@ -128,6 +138,23 @@
         ExcelLink = await GoogleSheetService.GetOrCreateUrlAsync(null, UrlTypes.GoogleSheet);
         DriveLink = await GoogleSheetService.GetOrCreateUrlAsync(null, UrlTypes.GoogleDrive);
 
+        var squadre = await SquadraBambinoController.GetSquadreAsync();
+        SquadraColors = squadre
+            .Where(s => s.Id != 0 && !string.IsNullOrWhiteSpace(s.Color))
+            .Select(s => s.Color)
+            .Distinct()
+            .ToList();
+
+        if (SquadraColors.Count > 0)
+        {
+            SquadreButtonStyle = $"background-color:{SquadraColors[0]};color:white;text-shadow:0 1px 2px rgba(0,0,0,0.5);transition:background-color 2s ease;";
+            _colorTimer = new System.Threading.Timer(async _ =>
+            {
+                _colorIndex = (_colorIndex + 1) % SquadraColors.Count;
+                SquadreButtonStyle = $"background-color:{SquadraColors[_colorIndex]};color:white;text-shadow:0 1px 2px rgba(0,0,0,0.5);transition:background-color 2s ease;";
+                await InvokeAsync(StateHasChanged);
+            }, null, 3000, 3000);
+        }
 
         ShowAdminButtons = isAdmin;
         ShowAnimatoreButtons = isAnimatore;
@@ -159,6 +186,16 @@
     private void ListaIscritti_Clicked()
     {
         Navigation.NavigateTo("iscritti");
+    }
+
+    private void ListaSquadre_Clicked()
+    {
+        Navigation.NavigateTo("squadre");
+    }
+
+    public void Dispose()
+    {
+        _colorTimer?.Dispose();
     }
 
     private async Task ApriGoogleSheets_Clicked()
